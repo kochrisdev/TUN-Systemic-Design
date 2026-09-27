@@ -33,19 +33,20 @@ test('keyboard focus remains visible and submission works', async ({ page }) => 
   await page.keyboard.press('Enter');
   await expect(page.getByRole('button', { name: 'Reject action' })).toBeVisible();
 });
-test('320px layout has no horizontal overflow', async ({ page }) => {
+test('320px layout has no horizontal overflow', async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 320, height: 900 });
   await page.getByRole('button', { name: 'Prepare proposal' }).click();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   await expect(page.getByRole('button', { name: 'Reject action' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Simulate publish' })).toBeVisible();
+  await page.screenshot({ path: testInfo.outputPath('mobile.png'), fullPage: true });
 });
 test('reduced motion disables component transitions', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   expect(await page.getByRole('button', { name: 'Prepare proposal' }).evaluate(el => getComputedStyle(el).transitionDuration)).toBe('0s');
 });
 for (const theme of ['light', 'dark']) {
-  test(`${theme} theme passes the automated accessibility sample`, async ({ page }) => {
+  test(`${theme} theme passes the automated accessibility sample`, async ({ page }, testInfo) => {
     await page.getByLabel('Theme').selectOption(theme);
     await expect(page.locator('html')).toHaveAttribute('data-tun-theme', theme);
     await page.getByRole('button', { name: 'Prepare proposal' }).click();
@@ -57,5 +58,6 @@ for (const theme of ['light', 'dark']) {
       return (await engine.run()).violations;
     });
     expect(violations).toEqual([]);
+    await page.screenshot({ path: testInfo.outputPath(`${theme}.png`), fullPage: true });
   });
 }
