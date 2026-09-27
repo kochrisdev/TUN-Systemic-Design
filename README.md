@@ -43,6 +43,11 @@ TUN systems should be:
 
 - [Concept Note](docs/CONCEPT-NOTE.md)
 - [Manifesto v0.1](docs/MANIFESTO-v0.1.md)
+- [Specification v0.1](docs/SPECIFICATION-v0.1.md)
+
+## Specification Highlights
+
+TUN v0.1 defines normative `MUST / SHOULD / MAY` rules, autonomy and consequence levels, approval gates, agent anatomy, memory, uncertainty, action receipts, human override, recovery patterns, and initial conformance requirements.
 
 ## Direction
 
