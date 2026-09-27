@@ -44,6 +44,7 @@ TUN systems should be:
 - [Concept Note](docs/CONCEPT-NOTE.md)
 - [Manifesto v0.1](docs/MANIFESTO-v0.1.md)
 - [Specification v0.1](docs/SPECIFICATION-v0.1.md)
+- [Components v0.1](docs/COMPONENTS-v0.1.md)
 
 ## Specification Highlights
 
