@@ -52,9 +52,22 @@ Application source, package manifests, lockfile, existing React CI, tokens, gene
 
 The offline checker covers the Markdown subset used here: inline and reference-style local links, quoted HTML href/src links, ordinary ATX heading/explicit HTML-ID fragments in Markdown targets, and fenced-code balance. It skips remote/custom-scheme URLs and does not execute examples. It is not a full CommonMark parser, external-link monitor, general HTML checker, runtime API validator, or factual-accuracy checker. Complex nested/escaped link syntax and non-Markdown fragments need manual review.
 
-Eighteen isolated regression tests passed in the local authoring environment. A full repository check runs in the new `TUN documentation checks` workflow after the branch is committed. Its result must be inspected before merge; this text does not predeclare a successful CI run.
+## Observed validation results
 
-The existing `TUN React checks` workflow may also run because the package README and scripts paths changed. Any new results belong to that actual run, not the historical report. The old 88-test record is retained, not relabeled as a fresh run.
+**Tested change:** `5ddf2a4a39ba8f30266cf6ecfe0becf01168f626`. The following GitHub pull-request workflows completed successfully on September 27, 2026:
+
+| Check | Observed result | Evidence |
+|---|---|---|
+| Repository Markdown local links, fragments and fences | Passed | [Documentation run 36308092245](https://github.com/kochrisdev/TUN-Systemic-Design/actions/runs/36308092245), job 108588562238 |
+| Documentation checker regressions | All 18 tests passed locally; CI test step passed | Same documentation run |
+| Locked install and dependency audit | Passed | [React run 36308092255](https://github.com/kochrisdev/TUN-Systemic-Design/actions/runs/36308092255), job 108588562461 |
+| Token validation | Passed | Same React run |
+| Typecheck, contract/React tests, library/demo build and package checks | Passed | Same React run |
+| Chromium interaction and accessibility samples | Passed | Same React run |
+
+The repository comparison contains 17 changed files: six revised Markdown documents, eight new Markdown documents, and three documentation-tooling files. The full documentation set is now 18 Markdown files. Only documentation and its checker/workflow changed; the runtime and existing test sources were preserved.
+
+This evidence entry is added after those runs and changes only this audit document. The documentation workflow reruns for the evidence commit; inspect the PR checks for that final result. The historical 88-test report remains unchanged rather than being relabeled as a new run. Passing checks are snapshot-specific, not guarantees for later commits or dependency graphs.
 
 ## Reproduce
 
