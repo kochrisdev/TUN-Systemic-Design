@@ -78,16 +78,21 @@ The specimen's publishing flow is explicitly simulated. It does not call an AI m
 
 The [repository-local React package](packages/react) implements **Intent Composer, Agent Card, Approval Gate, and Action Receipt** with TypeScript contracts, the existing TUN themes, keyboard controls, and application-controlled action state.
 
+Use Node **22.23.2** (`.nvmrc`) and npm **12.1.0** for the pinned development toolchain. From the repository root:
+
 ```sh
-# Node 22.12+ and npm 10+, from the repository root
-npm install
+# Switch/install Node 22.23.2 with your preferred Node version manager first.
+npm install --global npm@12.1.0
+npm ci
 npm run check
 npm run dev
 ```
 
 The component lab runs at `http://127.0.0.1:4173`. It is a local simulation, not a connected AI product. Browser tests use `npx playwright install chromium` followed by `npm run test:browser`.
 
-**Validation is partial:** 37 contract tests passed locally; 21 React DOM tests and 8 browser tests are authored for execution on a connected runner. See the [validation report](docs/REACT-VALIDATION-v0.1.md) and the actual `TUN React checks` workflow run. No npm publication, hosted deployment, or accessibility certification is claimed. Review and commit the first generated `package-lock.json` before releasing.
+The committed `package-lock.json` fixes the dependency graph. CI uses `npm ci`, audits dependencies, checks the existing tokens, compiles TypeScript, runs contract and React tests, builds the demo, validates a local package archive, and runs browser/accessibility samples. See the [validation report](docs/REACT-VALIDATION-v0.1.md) for dated results and their limits.
+
+`npm run check` writes a local package archive and its inventory report under `artifacts/`. `npm run pack:react` is also available. Neither command publishes to npm. No hosted deployment or accessibility certification is claimed.
 
 The Approval Gate emits a version-bound decision request; it does not authorize or execute backend actions. The Action Receipt renders application-supplied verification records, not a success message inferred from clicking Approve.
 

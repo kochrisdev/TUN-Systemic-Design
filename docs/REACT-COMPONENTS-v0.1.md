@@ -1,6 +1,6 @@
 # TUN React Components v0.1
 
-**Status:** Draft reference implementation, first four components.  
+**Status:** Reference implementation, first four components.  
 **Package:** `@tun-systemic/react` v0.1.0, repository-local and not published.  
 **Date:** September 2026.
 
@@ -32,25 +32,30 @@ packages/react/
   scripts/copy-assets.mjs
   tsconfig.build.json
   package.json
-examples/react/           # Vite demonstration; local simulation only
-tests/contracts.test.mjs  # Node's built-in test runner
-tests/components.test.tsx # React Testing Library + Vitest
-tests/browser/flow.spec.ts # Playwright + axe sample checks
+examples/react/            # Vite demonstration; local simulation only
+tests/contracts.test.mjs   # Original Node contract tests
+tests/timestamps.test.mjs  # Calendar/expiry regression tests
+tests/components.test.tsx  # React Testing Library + Vitest
+tests/browser/flow.spec.ts # Playwright + axe samples and screenshots
+scripts/check-package.mjs  # Archive inventory and built public exports
+package-lock.json         # Reviewed, committed dependency graph
+.nvmrc                    # Pinned development Node version
 ```
 
 The library build emits ES modules, TypeScript declarations, component CSS, a copy of the generated TUN token CSS, and the existing license. React remains a peer dependency. Styling has no additional runtime library dependency.
 
 ## 3. Getting started
 
-Use Node 22.12+ and npm 10+. The root package uses npm workspaces.
+The development toolchain is pinned to **Node 22.23.2** and **npm 12.1.0**. Select Node using `.nvmrc` with a compatible version manager, or install that version manually. The root package uses npm workspaces.
 
 ```sh
-npm install
+npm install --global npm@12.1.0
+npm ci
 npm run check
 npm run dev
 ```
 
-The demo runs at `http://127.0.0.1:4173`. The first command requires access to the npm registry. `npm run check` typechecks the sources, builds the library, runs the contract and React tests, and builds the demo. Browser tests are separate:
+The demo runs at `http://127.0.0.1:4173`. Dependency installation requires npm registry access. `npm run check` typechecks the sources, builds the library, runs contract and React tests, builds the demo, and checks a local package archive. Browser tests are separate:
 
 ```sh
 npx playwright install chromium
@@ -59,7 +64,9 @@ npm run test:browser
 
 For Linux CI runners that need browser system packages, use `npx playwright install --with-deps chromium`.
 
-The initial authored scaffold does not contain a generated lockfile because registry access was unavailable in the authoring environment. The first successful connected installation generates `package-lock.json`; review and commit it before a reproducible release. The CI workflow uploads the lockfile it used as an artifact and switches to `npm ci` when one is committed. Do not infer that dependency ranges are fully locked.
+Use the committed lockfile for repeatable installation; CI deliberately has no fallback to an unlocked `npm install`. Dependency updates should be intentional, reviewed changes to both the manifest and lockfile. Vitest is on the patched 4.1.11 release line. The [validation report](REACT-VALIDATION-v0.1.md) records the tested graph, audit date, and remaining limits. The runtime peer range remains React 19.2–19.x; testing one locked version is not proof that every version in that range has been tested.
+
+CI has read-only repository permissions and stores reports, screenshots, the built demo, and the local package archive as temporary artifacts. The package check verifies archive inventory, built workspace exports, token CSS, and license copying; it does not claim a fresh installation into an independent consumer project.
 
 ## 4. Intent Composer
 
@@ -112,6 +119,8 @@ interface DecisionRequest {
 
 A server-issued ID and version should identify the canonical proposal. A version change means a new review, not automatic renewed consent. Material fields changed under the same version invalidate the local review. Missing proposal detail, invalid classification, malformed expiry, and elapsed expiry block decisions. The time is checked in the click handler as well as by a timer; the service must repeat it against a trusted clock.
 
+Timestamps use the TUN-supported subset `YYYY-MM-DDTHH:mm:ss[.fraction](Z|±HH:mm)`: valid calendar dates, mandatory seconds, and one to three fractional digits when present. Impossible dates such as February 30 are rejected rather than rolled forward. Hour 24, leap seconds, greater-than-millisecond precision, and the unknown-local-offset spelling `-00:00` are not supported. A non-finite approval clock blocks approval. These are explicit interface-contract restrictions, not a claim to accept every ISO-8601 or RFC-3339 spelling.
+
 | Local stage | Behavior |
 |---|---|
 | Awaiting review | Both explicit decision controls are available when valid |
@@ -132,7 +141,7 @@ Supply `receipt` and optional `className`. Records include ID, action, actor, ta
 
 No receipt is synthesized by the Approval Gate. The host creates a receipt only from its execution and verification records. `completed` or `reversed` without a verified state and nonempty verification detail is displayed as `pending-verification`. This is a defensive presentation rule, not proof that application-supplied evidence is genuine.
 
-Partial completion stays visibly partial. An invalid timestamp is shown as unavailable, never replaced with the current time. Valid timestamps are normalized to UTC for predictable rendering. `javascript:`, `data:`, protocol-relative URLs, credentials in URLs, and suspicious control/backslash characters are not rendered as audit links. These link checks are not a substitute for application URL policy.
+Partial completion stays visibly partial. An invalid timestamp is shown as unavailable, never replaced with the current time or silently moved to another calendar date. Valid timestamps are normalized to UTC for predictable rendering. `javascript:`, `data:`, protocol-relative URLs, credentials in URLs, and suspicious control/backslash characters are not rendered as audit links. These link checks are not a substitute for application URL policy.
 
 Recovery has four presentation categories: reversible, compensatable, irreversible, and unknown. Compensation is not described as true undo. This component does not provide a fake recovery button.
 
@@ -142,21 +151,21 @@ The UI is outside the trust boundary. A production service must bind consent to 
 
 Tool responses and retrieved content cannot grant authority. Treat them as data. Persistent memory must not silently expand permissions. Log only necessary audit metadata and do not expose credentials or sensitive tool payloads through props, receipts, exceptions, analytics, or console output.
 
-Keep execution status distinct from verification. After an uncertain network outcome, reconcile with the authoritative service rather than blindly repeating the action. Retain partial effects in the audit record. Long-running autonomous products additionally need real pause/stop/revocation behavior; none is implied by these four components.
+Keep execution status distinct from verification. After an uncertain network outcome, reconcile with the authoritative service rather than blindly repeating the action. Retain partial effects in the audit record. Long-running autonomous products additionally need real pause/stop/revocation behavior; none is implied by these four components. Runtime props are typed contracts, not complete validation of untrusted JSON. Validate external data before rendering.
 
 ## 9. Visual and accessibility behavior
 
 The stylesheet consumes the existing tokens rather than maintaining a separate color palette. Light/dark selection belongs on the root HTML element. Removing the theme attribute uses the system setting. No theme or personal preference is persisted by the library.
 
-The components use native labels, buttons, textarea, details/summary, definition lists, status text, and focus indicators. IDs are generated with React `useId` so multiple instances do not reuse fixed field IDs. Critical state is textual as well as colored. Styles include reduced-motion and forced-colors rules and narrow-screen layouts. These implementation choices do not constitute a completed accessibility audit.
+The components use native labels, buttons, textarea, details/summary, definition lists, status text, and focus indicators. IDs are generated with React `useId` so multiple instances do not reuse fixed field IDs. Critical state is textual as well as colored. Styles include reduced-motion and forced-colors rules and narrow-screen layouts. These implementation choices and automated checks do not constitute a completed accessibility audit.
 
 Approval is an inline review, not a dialog. A host that adds a modal must supply and test focus containment, dismissal behavior, and focus restoration. A host that removes or replaces components after a decision must manage focus and announce the replacement appropriately. Internationalization currently requires adapting the English copy; a locale contract is not implemented yet.
 
 ## 10. Validation and release status
 
-See [React validation status](REACT-VALIDATION-v0.1.md) for what was actually executed. Authored tests are not counted as passed tests until run. The package is marked private and has not been published, deployed, or certified.
+See [React validation status](REACT-VALIDATION-v0.1.md) for what was actually executed and the run that produced the evidence. The package is marked private and has not been published, deployed, or certified.
 
-Before production adoption: run the complete check suite with a reviewed lockfile, inspect rendered desktop/mobile states, test with assistive technologies, review dependency advisories, and integrate a tested authorization/execution service. C0–C4 labels remain contextual design classifications, not a substitute for a domain-specific risk assessment.
+Before production adoption: repeat checks for your dependency graph, inspect rendered desktop/mobile states, test supported browsers and assistive technologies, review current dependency advisories, and integrate a tested authorization/execution service. C0–C4 labels remain contextual design classifications, not a substitute for a domain-specific risk assessment.
 
 ## References
 
@@ -165,6 +174,7 @@ The TUN contracts above are project design decisions. External implementation re
 - [React useId](https://react.dev/reference/react/useId): association of generated IDs with accessibility attributes.
 - [Vite getting started](https://vite.dev/guide/): development runtime requirements and tooling.
 - [Vitest guide](https://vitest.dev/guide/): test runner setup.
+- [npm ci](https://docs.npmjs.com/cli/commands/npm-ci/): installing a committed dependency graph.
 - [W3C WAI form notifications](https://www.w3.org/WAI/tutorials/forms/notifications/): communicating outcomes and errors.
 - [Playwright CI](https://playwright.dev/docs/ci-intro): browser-test workflow structure.
 

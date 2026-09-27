@@ -9,13 +9,18 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const output = join(root, 'artifacts');
 mkdirSync(output, { recursive: true });
 assert.ok(process.env.npm_execpath, 'Run this check through npm run test:package.');
-const records = JSON.parse(execFileSync(process.execPath, [process.env.npm_execpath,
+const raw = execFileSync(process.execPath, [process.env.npm_execpath,
   'pack', '--workspace', '@tun-systemic/react', '--json', '--ignore-scripts',
-  '--pack-destination', output], { cwd: root, encoding: 'utf8' }));
-assert.equal(records.length, 1);
-const archive = records[0];
+  '--pack-destination', output], { cwd: root, encoding: 'utf8' });
+writeFileSync(join(output, 'package-inventory.json'), raw);
+// npm 12 keys pack output by package name; it is not the old array format.
+const records = JSON.parse(raw);
+assert.ok(records && typeof records === 'object' && !Array.isArray(records));
+assert.deepEqual(Object.keys(records), ['@tun-systemic/react']);
+const archive = records['@tun-systemic/react'];
 assert.equal(archive.name, '@tun-systemic/react');
 assert.equal(archive.version, '0.1.0');
+assert.ok(Array.isArray(archive.files), 'Package inventory must contain a file list.');
 const paths = new Set(archive.files.map(file => file.path));
 for (const name of ['index', 'contracts', 'IntentComposer', 'AgentCard', 'ApprovalGate', 'ActionReceipt']) {
   for (const extension of ['js', 'd.ts']) assert.ok(paths.has(`dist/${name}.${extension}`), `Missing ${name}.${extension}`);
