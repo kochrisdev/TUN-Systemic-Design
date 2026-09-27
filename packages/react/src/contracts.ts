@@ -19,7 +19,7 @@ export interface ActionProposal {
   readonly effect: string;
   readonly authority: string;
   readonly recovery: Recovery;
-  /** Absolute ISO-8601 timestamp with a timezone. Checked again by the service. */
+  /** Explicit timezone; seconds required; at most millisecond precision. */
   readonly expiresAt?: string;
 }
 export interface DecisionRequest {
@@ -73,12 +73,25 @@ export function proposalFingerprint(p: ActionProposal): string {
     p.actor.type, p.consequence, p.effect, p.authority, p.recovery.kind,
     p.recovery.description, p.expiresAt ?? null]);
 }
+/** Strict calendar validation prevents Date.parse from rolling February 30 into March. */
 export function parseTimestamp(value: string): number | null {
-  if (!/^\d{4}-\d{2}-\d{2}T.+(?:Z|[+-]\d{2}:\d{2})$/.test(value)) return null;
+  if (typeof value !== 'string') return null;
+  const match = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?(Z|([+-])(\d{2}):(\d{2}))$/.exec(value);
+  if (!match) return null;
+  const year = Number(match[1]), month = Number(match[2]), day = Number(match[3]);
+  const hour = Number(match[4]), minute = Number(match[5]), second = Number(match[6]);
+  const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+  const monthDays = [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  if (year < 1 || month < 1 || month > 12 || day < 1 || day > monthDays[month - 1]! ||
+      hour > 23 || minute > 59 || second > 59) return null;
+  // TUN's supported subset excludes the unknown-local-offset form -00:00.
+  if (match[8] === '-00:00' || (match[8] !== 'Z' &&
+      (Number(match[10]) > 23 || Number(match[11]) > 59))) return null;
   const parsed = Date.parse(value);
   return Number.isFinite(parsed) ? parsed : null;
 }
 export function proposalBlockReason(p: ActionProposal, now: number): string | null {
+  if (!Number.isFinite(now)) return 'The approval clock is unavailable. Request a fresh proposal.';
   if (![p.id, p.version, p.action, p.target, p.actor.id, p.actor.name, p.effect,
     p.authority, p.recovery.description].every(s => typeof s === 'string' && s.trim())) {
     return 'Proposal details are incomplete. Request a fresh proposal.';
