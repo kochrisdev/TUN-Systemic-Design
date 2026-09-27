@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>TUN Systemic Design — Visual System v0.1</title>
+<link rel="stylesheet" href="../styles/tun.css">
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--tun-surface-canvas); color: var(--tun-text-primary); font: var(--tun-font-size-md)/var(--tun-font-line-height-normal) var(--tun-font-family-sans); }
+main, header, footer { width: min(calc(100% - 2rem), var(--tun-layout-page-max)); margin-inline: auto; }
+header { display: flex; justify-content: space-between; align-items: center; gap: var(--tun-space-4); flex-wrap: wrap; padding-block: var(--tun-space-6); border-bottom: var(--tun-border-thin) solid var(--tun-border-subtle); }
+.brand { font-size: var(--tun-font-size-xl); font-weight: var(--tun-font-weight-bold); letter-spacing: -.03em; }
+.eyebrow, code { font-family: var(--tun-font-family-mono); font-size: var(--tun-font-size-sm); overflow-wrap: anywhere; }
+.eyebrow { color: var(--tun-text-secondary); }
+.hero { padding-block: var(--tun-space-12) var(--tun-space-8); max-width: var(--tun-layout-reading-max); }
+h1 { font-size: clamp(2rem, 5vw, var(--tun-font-size-display)); line-height: var(--tun-font-line-height-compact); letter-spacing: -.035em; margin: var(--tun-space-4) 0; }
+h2 { font-size: var(--tun-font-size-xl); line-height: var(--tun-font-line-height-compact); margin: 0 0 var(--tun-space-4); }
+h3 { font-size: var(--tun-font-size-lg); margin: 0 0 var(--tun-space-2); }
+p { margin: 0 0 var(--tun-space-4); }
+p:last-child { margin-bottom: 0; }
+.lead { font-size: var(--tun-font-size-lg); color: var(--tun-text-secondary); }
+.grid { display: grid; gap: var(--tun-space-6); margin-block: var(--tun-space-6); }
+.grid > * { min-width: 0; }
+.card { background: var(--tun-surface-panel); border: var(--tun-border-thin) solid var(--tun-border-subtle); border-radius: var(--tun-radius-lg); padding: var(--tun-space-6); }
+.card.proposal { border: var(--tun-border-emphasis) dashed var(--tun-border-control); }
+.row { display: flex; align-items: center; justify-content: space-between; gap: var(--tun-space-3); flex-wrap: wrap; }
+.muted { color: var(--tun-text-muted); font-size: var(--tun-font-size-sm); }
+.stack > * + * { margin-top: var(--tun-space-4); }
+label { display: block; font-weight: var(--tun-font-weight-semibold); margin-bottom: var(--tun-space-2); }
+textarea, select, button { font: inherit; border: var(--tun-border-thin) solid var(--tun-border-control); border-radius: var(--tun-radius-md); color: var(--tun-text-primary); background: var(--tun-surface-panel); }
+textarea { width: 100%; min-height: 8rem; padding: var(--tun-space-3); resize: vertical; }
+button, select { min-height: var(--tun-control-min-size); min-width: var(--tun-control-min-size); padding: var(--tun-space-2) var(--tun-space-4); }
+button { cursor: pointer; font-weight: var(--tun-font-weight-semibold); transition: background-color var(--tun-motion-duration-fast) var(--tun-motion-easing-standard); }
+button:disabled { cursor: not-allowed; background: var(--tun-surface-subtle); color: var(--tun-text-secondary); }
+button.primary { background: var(--tun-action-primary-bg); color: var(--tun-action-primary-fg); border-color: var(--tun-action-primary-bg); }
+button.primary:hover:not(:disabled) { background: var(--tun-action-primary-hover); }
+button.primary:disabled { background: var(--tun-surface-subtle); color: var(--tun-text-secondary); border-color: var(--tun-border-control); }
+:focus-visible { outline: var(--tun-focus-width) solid var(--tun-focus-ring); outline-offset: var(--tun-focus-offset); }
+.tone-neutral { --fg: var(--tun-status-neutral-fg); --bg: var(--tun-status-neutral-bg); --edge: var(--tun-status-neutral-border); }
+.tone-info { --fg: var(--tun-status-info-fg); --bg: var(--tun-status-info-bg); --edge: var(--tun-status-info-border); }
+.tone-success { --fg: var(--tun-status-success-fg); --bg: var(--tun-status-success-bg); --edge: var(--tun-status-success-border); }
+.tone-warning { --fg: var(--tun-status-warning-fg); --bg: var(--tun-status-warning-bg); --edge: var(--tun-status-warning-border); }
+.tone-danger { --fg: var(--tun-status-danger-fg); --bg: var(--tun-status-danger-bg); --edge: var(--tun-status-danger-border); }
+.badge { display: inline-flex; align-items: center; gap: var(--tun-space-2); border: var(--tun-border-thin) solid var(--edge); border-radius: var(--tun-radius-pill); padding: var(--tun-space-1) var(--tun-space-3); color: var(--fg); background: var(--bg); font-size: var(--tun-font-size-sm); font-weight: var(--tun-font-weight-semibold); }
+.notice { color: var(--fg); background: var(--bg); border-inline-start: var(--tun-border-emphasis) solid var(--edge); padding: var(--tun-space-4); border-radius: var(--tun-radius-sm); }
+.swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr)); gap: var(--tun-space-3); }
+.swatch { padding: var(--tun-space-4); color: var(--fg); background: var(--bg); border: var(--tun-border-thin) solid var(--edge); border-radius: var(--tun-radius-md); }
+.swatch strong { display: block; }
+dl { margin: 0; }
+dt { color: var(--tun-text-muted); font-size: var(--tun-font-size-sm); margin-top: var(--tun-space-3); }
+dd { margin: 0; overflow-wrap: anywhere; }
+details { border-top: var(--tun-border-thin) solid var(--tun-border-subtle); padding-top: var(--tun-space-4); }
+summary { cursor: pointer; min-height: var(--tun-control-min-size); font-weight: var(--tun-font-weight-semibold); }
+ol { padding-inline-start: var(--tun-space-6); }
+li { padding-bottom: var(--tun-space-2); }
+footer { padding-block: var(--tun-space-8); color: var(--tun-text-secondary); }
+[hidden] { display: none !important; }
+/* 48rem matches layout.breakpoint-medium; CSS variables are not media query conditions. */
+@media (min-width: 48rem) { .grid { grid-template-columns: 1fr 1fr; } }
+@media (forced-colors: active) {
+ .badge, .notice, .swatch { color: CanvasText; background: Canvas; border-color: CanvasText; }
+ button.primary { color: ButtonText; background: ButtonFace; border-color: ButtonText; }
+ :focus-visible { outline-color: Highlight; }
+}
+</style>
+</head>
+<body>
+<header>
+<div class="brand">TUN <span class="muted">/ SYSTEMIC DESIGN</span></div>
+<div><label for="theme">Appearance</label><select id="theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></div>
+</header>
+<main>
+<section class="hero" aria-labelledby="page-title">
+<div class="eyebrow">FOUNDATIONS / VISUAL SYSTEM / v0.1</div>
+<h1 id="page-title">Clear intent.<br>Visible intelligence.</h1>
+<p class="lead">A visual language for products people can understand, direct, and correct.</p>
+<p class="muted" id="demo-scope">Local specimen only. Theme selection and the approval demo are interactive. No AI model, external publishing service, or persistent storage is connected.</p>
+</section>
+<section class="card" aria-labelledby="tones-title">
+<div class="row"><h2 id="tones-title">Meaning before decoration.</h2><span class="eyebrow">FIVE SEMANTIC TONES</span></div>
+<div class="swatches">
+<div class="swatch tone-neutral"><strong>Neutral</strong>Context and structure</div>
+<div class="swatch tone-info"><strong>Information</strong>Active work</div>
+<div class="swatch tone-success"><strong>Success</strong>Execution completed</div>
+<div class="swatch tone-warning"><strong>Attention</strong>Review needed</div>
+<div class="swatch tone-danger"><strong>High consequence</strong>Explicit caution</div>
+</div>
+</section>
+<div class="grid">
+<section class="card stack" aria-labelledby="intent-title">
+<h2 id="intent-title">01 / Intent Composer</h2>
+<div><label for="intent">What outcome do you need?</label><textarea id="intent" aria-describedby="intent-help">Prepare a public launch update for TUN Systemic Design. Do not publish without approval.</textarea><p class="muted" id="intent-help">Editable specimen text only; it is not submitted or processed.</p></div>
+<div class="notice tone-neutral"><strong>M1 · Session context</strong><br>This demo resets on reload. No preference is saved.</div>
+<details><summary>Context Panel</summary><p>The local component specimen supplies the example content. No private sources are connected.</p><p class="muted">Source View: illustrative content, not verified external evidence.</p></details>
+</section>
+<section class="card stack" aria-labelledby="agent-title">
+<div class="row"><h2 id="agent-title">02 / Agent Card</h2><span id="agent-state" class="badge tone-warning">Waiting for approval</span></div>
+<h3>Documentation Agent · Demo</h3>
+<p>Prepares product release notes. This specimen has no tool credentials or execution authority.</p>
+<dl><dt>Autonomy</dt><dd>Level 2 · AI Proposes (illustrated)</dd><dt>Tool Activity</dt><dd>No external tool is running.</dd><dt>Human Override</dt><dd><button type="button" disabled>Stop · No active run</button></dd></dl>
+<details><summary>Plan View</summary><ol><li>Prepare a launch note.</li><li>Review the target and public consequence.</li><li>Ask for explicit authorization.</li><li>Verify the result before creating a receipt.</li></ol></details>
+</section>
+<section class="card proposal stack" aria-labelledby="proposal-title">
+<div class="row"><h2 id="proposal-title">03 / Proposed, not executed</h2><span class="badge tone-warning">C3 · External consequential</span></div>
+<h3>Publish the TUN launch note</h3>
+<dl><dt>Target</dt><dd>Public product page · example only</dd><dt>Acting system</dt><dd>Documentation Agent · Demo</dd><dt>Effect</dt><dd>A real implementation would make the note public.</dd><dt>Reversibility</dt><dd>The original could be edited later; third-party copies might remain.</dd></dl>
+<div class="notice tone-warning"><strong>U2 · Inferred</strong><br>Audience and publication assumptions need review. A completed task would not verify these assumptions.</div>
+<div><h3>Approval Gate</h3><div class="row"><button type="button" class="primary" id="approve" aria-describedby="demo-scope">Simulate publishing</button><button type="button" id="reject">Reject proposal</button></div></div>
+</section>
+<section class="card stack" aria-labelledby="receipt-title">
+<h2 id="receipt-title">04 / Action Receipt</h2>
+<div id="outcome" role="status" aria-live="polite" aria-atomic="true"><p>No action has been executed.</p></div>
+<dl id="receipt-details" hidden><dt>Actor</dt><dd>Local browser simulation</dd><dt>Target</dt><dd>Demo-only public page</dd><dt>Timestamp</dt><dd><code id="timestamp"></code></dd><dt>Evidence</dt><dd>A local UI event only; not publication or delivery verification.</dd></dl>
+<div><h3>Recovery Control</h3><p class="muted">Reset returns the specimen to its initial state. It does not undo an external action.</p><button type="button" id="reset">Reset demo</button></div>
+</section>
+</div>
+<section class="card stack" aria-labelledby="tokens-title">
+<h2 id="tokens-title">One system. Two themes.</h2>
+<p>Both themes share semantic names. Components consume meaning rather than hardcoded palette values.</p>
+<code>--tun-surface-panel<br>--tun-text-primary<br>--tun-action-primary-bg<br>--tun-state-agent-acting<br>--tun-state-consequence-c4<br>--tun-state-uncertainty-u2</code>
+<p class="muted">Keyboard focus remains visible. Reduced-motion preferences remove token-based transitions. Color is always accompanied by text.</p>
+</section>
+</main>
+<footer>Human Intent. Machine Intelligence. Systemic Design.</footer>
+<script>
+'use strict';
+const theme = document.getElementById('theme');
+const approve = document.getElementById('approve');
+const reject = document.getElementById('reject');
+const outcome = document.getElementById('outcome');
+const state = document.getElementById('agent-state');
+const details = document.getElementById('receipt-details');
+theme.addEventListener('change', () => {
+  if (theme.value === 'system') document.documentElement.removeAttribute('data-tun-theme');
+  else document.documentElement.setAttribute('data-tun-theme', theme.value);
+});
+function finish(published) {
+  approve.disabled = true;
+  reject.disabled = true;
+  state.className = 'badge ' + (published ? 'tone-success' : 'tone-neutral');
+  state.textContent = published ? 'Demo completed' : 'Proposal rejected';
+  outcome.textContent = published ? 'Simulated publishing completed. No external action occurred.' : 'Proposal rejected. No publication was attempted.';
+  details.hidden = !published;
+  document.getElementById('timestamp').textContent = published ? new Date().toISOString() : '';
+  document.getElementById('reset').focus();
+}
+approve.addEventListener('click', () => finish(true));
+reject.addEventListener('click', () => finish(false));
+document.getElementById('reset').addEventListener('click', () => {
+  approve.disabled = false;
+  reject.disabled = false;
+  state.className = 'badge tone-warning';
+  state.textContent = 'Waiting for approval';
+  details.hidden = true;
+  document.getElementById('timestamp').textContent = '';
+  outcome.textContent = 'Demo reset. No action has been executed.';
+  approve.focus();
+});
+</script>
+</body>
+</html>

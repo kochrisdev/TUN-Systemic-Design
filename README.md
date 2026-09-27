@@ -45,10 +45,32 @@ TUN systems should be:
 - [Manifesto v0.1](docs/MANIFESTO-v0.1.md)
 - [Specification v0.1](docs/SPECIFICATION-v0.1.md)
 - [Components v0.1](docs/COMPONENTS-v0.1.md)
+- [Design Tokens + Visual System v0.1](docs/DESIGN-TOKENS-AND-VISUAL-SYSTEM-v0.1.md)
+- [Token Validation v0.1](docs/TOKEN-VALIDATION-v0.1.md)
 
 ## Specification Highlights
 
 TUN v0.1 defines normative `MUST / SHOULD / MAY` rules, autonomy and consequence levels, approval gates, agent anatomy, memory, uncertainty, action receipts, human override, recovery patterns, and initial conformance requirements.
+
+## Visual System v0.1
+
+The initial implementation includes a machine-readable [token source](tokens/tokens.json), generated [CSS variables](styles/tun.css), and an interactive [browser specimen](examples/visual-system.html).
+
+It covers typography, spacing, layout, controls, borders, radius, motion, light/dark themes, and semantic AI states. Consequence, uncertainty, authority, and completion remain separate concepts. Tokens describe presentation; application services must enforce permissions and verify real actions.
+
+### Build, validate, and preview
+
+Python 3.10+ is required for the build tool. No third-party Python packages or external fonts are required.
+
+```sh
+python scripts/tokens.py build
+python scripts/tokens.py check
+python -m http.server 8000 --bind 127.0.0.1
+```
+
+Open `http://127.0.0.1:8000/examples/visual-system.html` in your browser. The GitHub file viewer shows HTML source, not the running preview.
+
+The specimen's publishing flow is explicitly simulated. It does not call an AI model, publish content, or save persistent preferences. The token checks are not a full accessibility audit or certification. React, Tailwind, and Figma adapters are not included yet.
 
 ## Direction
 
@@ -61,7 +83,7 @@ Planned areas include:
 - TUN Components
 - TUN Patterns
 - TUN Safety & Trust
-- TUN Tokens
+- Additional TUN Tokens and theme adapters
 - TUN SDK
 
 ## Philosophy
