@@ -4,115 +4,87 @@
 
 > Human Intent. Machine Intelligence. Systemic Design.
 
-TUN Systemic Design is an open design framework for building intelligent products around the complete relationship between humans, AI, agents, data, tools, decisions, actions, and learning.
+TUN designs the relationship between people, AI, agents, context, decisions, and actions—not only the screens around them. Its guiding philosophy is **Simplicity with Boldness. Consistency with Conciseness. Clarity with Confidence.**
 
-Traditional design systems primarily standardize interfaces. TUN goes further by defining how intelligent systems should behave, communicate, request authority, expose agency, handle uncertainty, and remain understandable to humans.
+## What exists today
 
-## Core Model
+This repository contains a **draft design specification**, a **14-component design catalog**, a **machine-readable visual system**, and a **four-component React reference implementation**. A specified component is not necessarily implemented.
 
-```text
-HUMAN → INTENT → AI → REASON → ACT → OBSERVE → LEARN → HUMAN
-```
+| Layer | Available | Boundary |
+|---|---|---|
+| Philosophy | Concept note and manifesto | Founding propositions, not implementation or certification claims |
+| Behavioral design | Specification and 14 component definitions | Draft project requirements; not an external standard |
+| Visual system | Typed tokens, generated light/dark CSS, validator, HTML specimen | Limited token format and document-level themes |
+| React | `IntentComposer`, `AgentCard`, `ApprovalGate`, `ActionReceipt` | Repository-local package; not published to npm |
+| Validation | Contract, React, browser, build, package, and token checks | Dated evidence, not a production or accessibility guarantee |
 
-## Interaction Model
+There is no model runtime, production authorization service, persistent-memory service, Figma kit, Tailwind adapter, hosted application, or certification program in this increment. See the [complete implementation matrix and roadmap](docs/STATUS-AND-ROADMAP.md).
 
-```text
-ASK → THINK → PROPOSE → ACT → LEARN
-```
+## Start here
 
-For consequential actions:
+| Your goal | Read |
+|---|---|
+| Understand TUN | [Concept Note](docs/CONCEPT-NOTE.md) and [Manifesto](docs/MANIFESTO-v0.1.md) |
+| Run the examples | [Getting Started](docs/GETTING-STARTED.md) |
+| Design a product | [Specification](docs/SPECIFICATION-v0.1.md), [Components](docs/COMPONENTS-v0.1.md), and [Visual System](docs/DESIGN-TOKENS-AND-VISUAL-SYSTEM-v0.1.md) |
+| Implement React | [React API and behavior](docs/REACT-COMPONENTS-v0.1.md) and [architecture](docs/ARCHITECTURE.md) |
+| Adopt safely | [Integration checklist](docs/INTEGRATION-CHECKLIST.md) and [validation evidence](docs/REACT-VALIDATION-v0.1.md) |
+| Contribute | [Contributing](CONTRIBUTING.md) |
 
-```text
-ASK → THINK → PROPOSE → APPROVE → ACT → VERIFY → LEARN
-```
+The [documentation index](docs/README.md) explains which documents are normative, informative, generated, or historical.
 
-## Principles
+## Run the React component lab
 
-TUN systems should be:
-
-- Transparent
-- User Sovereign
-- Natural
-- Systemic
-- Adaptive
-- Reversible
-- Composable
-- Calm
-
-## Documentation
-
-- [Concept Note](docs/CONCEPT-NOTE.md)
-- [Manifesto v0.1](docs/MANIFESTO-v0.1.md)
-- [Specification v0.1](docs/SPECIFICATION-v0.1.md)
-- [Components v0.1](docs/COMPONENTS-v0.1.md)
-- [Design Tokens + Visual System v0.1](docs/DESIGN-TOKENS-AND-VISUAL-SYSTEM-v0.1.md)
-- [Token Validation v0.1](docs/TOKEN-VALIDATION-v0.1.md)
-- [React Components v0.1](docs/REACT-COMPONENTS-v0.1.md)
-- [React Validation v0.1](docs/REACT-VALIDATION-v0.1.md)
-
-## Specification Highlights
-
-TUN v0.1 defines normative `MUST / SHOULD / MAY` rules, autonomy and consequence levels, approval gates, agent anatomy, memory, uncertainty, action receipts, human override, recovery patterns, and initial conformance requirements.
-
-## Visual System v0.1
-
-The initial implementation includes a machine-readable [token source](tokens/tokens.json), generated [CSS variables](styles/tun.css), and an interactive [browser specimen](examples/visual-system.html).
-
-It covers typography, spacing, layout, controls, borders, radius, motion, light/dark themes, and semantic AI states. Consequence, uncertainty, authority, and completion remain separate concepts. Tokens describe presentation; application services must enforce permissions and verify real actions.
-
-### Build, validate, and preview
-
-Python 3.10+ is required for the build tool. No third-party Python packages or external fonts are required.
+Use the reference toolchain: **Node 22.23.2** from `.nvmrc` and **npm 12.1.0**. Install/select that Node version before running these commands from the repository root:
 
 ```sh
-python scripts/tokens.py build
-python scripts/tokens.py check
-python -m http.server 8000 --bind 127.0.0.1
-```
-
-Open `http://127.0.0.1:8000/examples/visual-system.html` in your browser. The GitHub file viewer shows HTML source, not the running preview.
-
-The specimen's publishing flow is explicitly simulated. It does not call an AI model, publish content, or save persistent preferences. The token checks are not a full accessibility audit or certification. Tailwind and Figma adapters are not included yet.
-
-## React Components v0.1
-
-The [repository-local React package](packages/react) implements **Intent Composer, Agent Card, Approval Gate, and Action Receipt** with TypeScript contracts, the existing TUN themes, keyboard controls, and application-controlled action state.
-
-Use Node **22.23.2** (`.nvmrc`) and npm **12.1.0** for the pinned development toolchain. From the repository root:
-
-```sh
-# Switch/install Node 22.23.2 with your preferred Node version manager first.
 npm install --global npm@12.1.0
 npm ci
 npm run check
 npm run dev
 ```
 
-The component lab runs at `http://127.0.0.1:4173`. It is a local simulation, not a connected AI product. Browser tests use `npx playwright install chromium` followed by `npm run test:browser`.
+Open `http://127.0.0.1:4173`. The lab is explicitly simulated: no model calls, messages, publications, or external state changes occur. `npm run dev` builds the library once; library source edits require rebuilding. Detailed setup, troubleshooting, browser tests, and local-package installation are in [Getting Started](docs/GETTING-STARTED.md).
 
-The committed `package-lock.json` fixes the dependency graph. CI uses `npm ci`, audits dependencies, checks the existing tokens, compiles TypeScript, runs contract and React tests, builds the demo, validates a local package archive, and runs browser/accessibility samples. See the [validation report](docs/REACT-VALIDATION-v0.1.md) for dated results and their limits.
+`npm run check` includes typechecking, contract/React tests, builds, and package checks. It does **not** include browser tests, dependency audits, token checks, or documentation checks; the [full verification commands](docs/GETTING-STARTED.md#verification) cover those separately.
 
-`npm run check` writes a local package archive and its inventory report under `artifacts/`. `npm run pack:react` is also available. Neither command publishes to npm. No hosted deployment or accessibility certification is claimed.
+## Use only the visual system
 
-The Approval Gate emits a version-bound decision request; it does not authorize or execute backend actions. The Action Receipt renders application-supplied verification records, not a success message inferred from clicking Approve.
+Python 3.10+ is sufficient; no npm install or external font service is needed:
 
-## Direction
+```sh
+python scripts/tokens.py check
+python -m http.server 8000 --bind 127.0.0.1
+```
 
-Planned areas include:
+Open `http://127.0.0.1:8000/examples/visual-system.html`. Edit [tokens/tokens.json](tokens/tokens.json), then run `python scripts/tokens.py build` to regenerate [styles/tun.css](styles/tun.css) and the [token report](docs/TOKEN-VALIDATION-v0.1.md). Do not hand-edit generated outputs.
 
-- TUN Foundations
-- TUN Intelligence
-- TUN Interaction
-- TUN Agents
-- Remaining TUN React components and reference patterns
-- TUN Safety & Trust
-- Additional TUN Tokens and theme adapters
-- TUN SDK
+## The interaction model
 
-## Philosophy
+```text
+ASK → THINK → PROPOSE → ACT → LEARN
+```
 
-**Simplicity with Boldness.**  
-**Consistency with Conciseness.**  
-**Clarity with Confidence.**
+For an action requiring human review:
 
-TUN Systemic Design exists to help define how humans and increasingly capable intelligent systems work together.
+```text
+ASK → THINK → PROPOSE → APPROVE → ACT → VERIFY → LEARN
+```
+
+These are conceptual stages, not the library's runtime state machine. A task may omit stages that are unnecessary. THINK communicates a useful plan or rationale, not hidden chain-of-thought; LEARN does not imply automatic model training or permission to retain information.
+
+TUN's eight principles are **Transparent, User Sovereign, Natural, Systemic, Adaptive, Reversible, Composable, and Calm**.
+
+## Trust boundary
+
+**An approval button is not an authorization service.** Components display application-supplied information and emit requests. The host authenticates, checks scope and expiry, deduplicates, executes, verifies, and records actions. Approval is not execution; execution is not verification; compensation is not undo. A network error does not prove that nothing happened.
+
+## Evidence and project history
+
+The [React validation record](docs/REACT-VALIDATION-v0.1.md) records 59 contract, 21 React, and 8 Chromium tests for a specific source snapshot, plus build, package, token, and dated audit results. Those results are not automatically claims about another commit or dependency graph. The [documentation audit](docs/DOCUMENTATION-AUDIT-v0.1.md) records this documentation review; [CHANGELOG.md](CHANGELOG.md) separates merged milestones from unreleased work.
+
+## License
+
+The repository retains its existing [CC0-1.0 license](LICENSE). Dependency licenses remain separate. The package's `private` flag prevents accidental npm publication; it is not an access restriction on this public repository.
+
+**Design intelligence around humanity.**
