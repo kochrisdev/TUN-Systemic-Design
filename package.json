@@ -1,0 +1,38 @@
+{
+  "name": "tun-systemic-design",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": ["packages/react", "examples/react"],
+  "engines": { "node": ">=22.12.0", "npm": ">=10" },
+  "scripts": {
+    "build:library": "npm run build --workspace @tun-systemic/react",
+    "build:demo": "npm run build --workspace tun-react-demo",
+    "build": "npm run build:library && npm run build:demo",
+    "dev": "npm run build:library && npm run dev:demo",
+    "dev:demo": "npm run dev --workspace tun-react-demo",
+    "typecheck": "tsc --noEmit",
+    "test:contracts": "node --test tests/contracts.test.mjs",
+    "test:react": "vitest run",
+    "test": "npm run build:library && npm run test:contracts && npm run test:react",
+    "test:browser": "playwright test",
+    "check": "npm run typecheck && npm test && npm run build:demo",
+    "pack:react": "npm run build:library && npm pack --workspace @tun-systemic/react"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "axe-core": "^4.10.3",
+    "jsdom": "^26.1.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "typescript": "~5.8.3",
+    "vite": "^7.1.7",
+    "vitest": "^3.2.4"
+  }
+}

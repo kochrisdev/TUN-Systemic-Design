@@ -1,0 +1,44 @@
+name: TUN React checks
+on:
+  push:
+    paths: ['packages/react/**', 'examples/react/**', 'tests/**', 'styles/**', 'tokens/**', 'scripts/**', 'package*.json', '*config*.json', '*config*.ts', '.github/workflows/react.yml']
+  pull_request:
+    paths: ['packages/react/**', 'examples/react/**', 'tests/**', 'styles/**', 'tokens/**', 'scripts/**', 'package*.json', '*config*.json', '*config*.ts', '.github/workflows/react.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: tun-react-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install --no-fund; fi
+      - name: Validate existing design tokens
+        run: python3 scripts/tokens.py check
+      - name: Typecheck, contract tests, React tests, and production build
+        run: npm run check
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Browser interaction and accessibility samples
+        run: npm run test:browser
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: tun-react-check-artifacts
+          path: |
+            playwright-report/
+            test-results/
+            package-lock.json
+          retention-days: 7

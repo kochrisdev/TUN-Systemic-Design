@@ -47,6 +47,8 @@ TUN systems should be:
 - [Components v0.1](docs/COMPONENTS-v0.1.md)
 - [Design Tokens + Visual System v0.1](docs/DESIGN-TOKENS-AND-VISUAL-SYSTEM-v0.1.md)
 - [Token Validation v0.1](docs/TOKEN-VALIDATION-v0.1.md)
+- [React Components v0.1](docs/REACT-COMPONENTS-v0.1.md)
+- [React Validation v0.1](docs/REACT-VALIDATION-v0.1.md)
 
 ## Specification Highlights
 
@@ -70,7 +72,24 @@ python -m http.server 8000 --bind 127.0.0.1
 
 Open `http://127.0.0.1:8000/examples/visual-system.html` in your browser. The GitHub file viewer shows HTML source, not the running preview.
 
-The specimen's publishing flow is explicitly simulated. It does not call an AI model, publish content, or save persistent preferences. The token checks are not a full accessibility audit or certification. React, Tailwind, and Figma adapters are not included yet.
+The specimen's publishing flow is explicitly simulated. It does not call an AI model, publish content, or save persistent preferences. The token checks are not a full accessibility audit or certification. Tailwind and Figma adapters are not included yet.
+
+## React Components v0.1
+
+The [repository-local React package](packages/react) implements **Intent Composer, Agent Card, Approval Gate, and Action Receipt** with TypeScript contracts, the existing TUN themes, keyboard controls, and application-controlled action state.
+
+```sh
+# Node 22.12+ and npm 10+, from the repository root
+npm install
+npm run check
+npm run dev
+```
+
+The component lab runs at `http://127.0.0.1:4173`. It is a local simulation, not a connected AI product. Browser tests use `npx playwright install chromium` followed by `npm run test:browser`.
+
+**Validation is partial:** 37 contract tests passed locally; 21 React DOM tests and 8 browser tests are authored for execution on a connected runner. See the [validation report](docs/REACT-VALIDATION-v0.1.md) and the actual `TUN React checks` workflow run. No npm publication, hosted deployment, or accessibility certification is claimed. Review and commit the first generated `package-lock.json` before releasing.
+
+The Approval Gate emits a version-bound decision request; it does not authorize or execute backend actions. The Action Receipt renders application-supplied verification records, not a success message inferred from clicking Approve.
 
 ## Direction
 
@@ -80,8 +99,7 @@ Planned areas include:
 - TUN Intelligence
 - TUN Interaction
 - TUN Agents
-- TUN Components
-- TUN Patterns
+- Remaining TUN React components and reference patterns
 - TUN Safety & Trust
 - Additional TUN Tokens and theme adapters
 - TUN SDK
