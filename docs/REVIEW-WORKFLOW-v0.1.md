@@ -1,14 +1,14 @@
 # Context, plan, and proposal review workflow v0.1
 
-**Status:** Reference implementation on the review-workflow branch; check PR status before assuming it is merged.  
+**Status:** Seven-component reference implementation; PR history records acceptance of each revision.  
 **Revision:** September 28, 2026.  
-**Package:** `@tun-systemic/react` 0.1.0, repository-local and unpublished. Use a commit SHA to distinguish this increment from the earlier four-component archive.
+**Package:** @tun-systemic/react 0.1.0, repository-local and unpublished. Identify builds by source commit and archive digest.
 
-[Documentation index](README.md) · [Core React API](REACT-COMPONENTS-v0.1.md) · [Implementation matrix](STATUS-AND-ROADMAP.md) · [Validation](REVIEW-VALIDATION-v0.1.md)
+[Documentation index](README.md) · [Core React API](REACT-COMPONENTS-v0.1.md) · [Implementation matrix](STATUS-AND-ROADMAP.md) · [Workflow evidence](REVIEW-VALIDATION-v0.1.md) · [Consumer validation](CONSUMER-VALIDATION-v0.1.md)
 
 ## 1. Scope
 
-This increment adds `ContextPanel`, `PlanView`, and `ProposalCard`, bringing the package to seven canonical exports. It extends `ActionProposal` with optional review-basis references and a plain-text content preview. It does not change the meanings of approval, authority, execution, or verification, introduce a model runtime, or implement the remaining seven components.
+ContextPanel, PlanView, and ProposalCard bring the library to seven canonical exports. ActionProposal gains optional review-basis references and plain-text content preview. Approval, authority, execution, and verification retain their separate meanings. No model runtime or remaining seven components is supplied.
 
 ```text
 IntentComposer → ContextPanel → PlanView → ProposalCard
@@ -22,64 +22,62 @@ IntentComposer → ContextPanel → PlanView → ProposalCard
 AgentCard identifies the actor and its declared authority alongside the flow.
 ```
 
-The components are reusable presentation contracts. The demonstration orchestrates them locally; it is not an exported workflow engine or production authorization service.
+These are reusable presentation contracts. The lab orchestrates them locally, not through an exported workflow engine or production authorization service.
 
 ## 2. Context Panel
 
 | Prop | Required | Contract |
 |---|---|---|
-| `context` | Yes | `ContextSnapshot`: id, version, scope, sources, optional changeSummary |
-| `title` | No | Default: Task context |
-| `className` | No | Additional class |
+| context | Yes | ContextSnapshot: id, version, scope, sources, optional changeSummary |
+| title | No | Task context |
+| className | No | Additional class |
 
-A source has `id`, `label`, `kind` (file/note/memory/tool/other), `scope`, `persistence`, and `provenance` (provided/retrieved/inferred). Persistence values are `task`, `session`, `persistent`, and `operational`; they describe context use, not storage/deletion/training policy or a replacement for the specification's M0–M3 vocabulary.
-
-Availability and usage are independent facts:
+A source has id, label, kind (file/note/memory/tool/other), scope, persistence, and provenance (provided/retrieved/inferred). Persistence is task, session, persistent, or operational: context use, not storage/deletion/training policy or replacement for M0–M3.
 
 | Availability | Permitted typed fields | Display |
 |---|---|---|
-| available | usage; optional summary, detailsUrl, observedAt | Available, plus Used / Not used / Usage not confirmed |
-| stale | Same as available | Freshness warning, independently reported usage |
-| missing | usage: not-used; no content/link fields | Missing; source content unavailable |
-| restricted | usage: not-used; no content/link fields | Restricted; source content unavailable |
+| available | usage; optional summary, detailsUrl, observedAt | Available plus Used / Not used / Usage not confirmed |
+| stale | Same as available | Freshness warning and independently reported usage |
+| missing | usage: not-used; no content/link fields | Missing; content unavailable |
+| restricted | usage: not-used; no content/link fields | Restricted; content unavailable |
 
-The component derives No / Active / Partial / Missing / Restricted context from the source list. It does not infer that available sources were used. Optional summaries use native disclosures; links pass through the existing limited URL helper; malformed timestamps display Time unavailable.
+The component derives No / Active / Partial / Missing / Restricted context. Availability never implies usage. Optional summaries use native disclosures, links use the limited URL helper, and malformed timestamps display Time unavailable.
 
-Missing/restricted source content and links are not rendered, including unexpected extra fields. This is defense in depth, **not access control**: the host must remove unauthorized content and sensitive metadata before sending props to a browser. A label itself can be sensitive. A restricted source can be represented only when disclosing its existence is permitted. The component performs no data retrieval, freshness calculation, or permission change.
+Missing/restricted content and links are not rendered, including unexpected extra fields. This is defense in depth, not access control. The host removes unauthorized content and sensitive metadata before sending props. Even disclosing a source label or existence requires permission. The component does no retrieval, freshness calculation, or permission changes.
 
 ## 3. Plan View
 
 | Prop | Required | Contract |
 |---|---|---|
-| `plan` | Yes | `TaskPlan` with id/version, context reference, objective, status, steps, expectedOutputs |
-| `title` | No | Default: Proposed approach |
-| `className` | No | Additional class |
+| plan | Yes | TaskPlan: id/version, context reference, objective, status, steps, expectedOutputs |
+| title | No | Proposed approach |
+| className | No | Additional class |
 
-Optional plan fields are `changeSummary`, `blockers`, and `completionEvidence`. Each step has `id`, `title`, `detail`, and `status`; optional fields are `dependsOn`, `approvalRequired`, `owner`, and `completionEvidence`.
+Optional plan fields: changeSummary, blockers, completionEvidence. Steps require id, title, detail, status; optional fields are dependsOn, approvalRequired, owner, completionEvidence.
 
-Plan states are proposed, approved, in-progress, changed, blocked, and completed. **Approved is displayed as Approach reviewed — not action authorization.** Steps use pending, in-progress, waiting-approval, blocked, completed, and skipped. An approval checkpoint is visibly labeled as requiring separate action approval.
+Plan states: proposed, approved, in-progress, changed, blocked, completed. Approved displays as **Approach reviewed — not action authorization**. Steps use pending, in-progress, waiting-approval, blocked, completed, skipped. Approval checkpoints explicitly require separate action approval.
 
-`planIssues` identifies incomplete metadata, missing outputs/steps, duplicate IDs, unknown dependencies, cycles, and a changed plan without a change summary. Invalid plans are presented as blocked. It is a bounded check for typed metadata, not validation of arbitrary JSON, operational feasibility, or permission.
+planIssues detects incomplete metadata, missing outputs/steps, duplicate IDs, unknown dependencies, cycles, and changed plans without a change summary. Invalid plans display blocked. These bounded metadata checks do not validate arbitrary JSON, feasibility, or permission.
 
-Material structure is fingerprinted for the mounted id/version: objective, context reference, outputs, and step definitions/dependencies/approval flags/owners. Same-version changes warn that review is stale. Ordinary progress and evidence updates are not material-plan revisions. New material content needs a new plan version and an appropriate `changeSummary`; the host must invalidate dependent proposals and approvals. The UI cannot detect changes made before mount or to hidden data.
+The mounted id/version fingerprints objective, context reference, outputs, and step definitions/dependencies/approval flags/owners. Same-version material changes warn of stale review. Progress and evidence updates alone are not material revisions. Changed material needs a new version and meaningful changeSummary; the host invalidates dependent proposals/approvals. The UI cannot detect edits made before mounting or changes to hidden data.
 
-A completed step without nonempty application evidence is shown as Completion not verified. A completed plan needs overall evidence and no unfinished/unverified steps. These rules do not authenticate the supplied evidence. The view has no plan-approval or execution callback, fabricates no progress percentage, and is not an internal reasoning transcript.
+Completed steps need nonempty application evidence. Completed plans need overall evidence and no unfinished/unverified steps. These rules do not authenticate evidence. PlanView has no plan-approval/execution callback, fabricates no progress percentage, and is not an internal reasoning transcript.
 
 ## 4. Proposal Card
 
 | Prop | Required | Contract |
 |---|---|---|
-| `proposal` | Yes | Existing `ActionProposal`, optionally with reviewBasis and contentPreview |
-| `status` | Yes | draft, ready, modified, approved, rejected, expired, superseded |
-| `rationale` | No | Plain-text explanatory material |
-| `assumptions` | No | Plain-text array of assumptions/limitations |
-| `onReview` | No | Synchronous navigation request, never approval or execution |
-| `blockedReason` | No | User-safe reason to block opening an actionable review |
-| `className` | No | Additional class |
+| proposal | Yes | ActionProposal, optionally with reviewBasis/contentPreview |
+| status | Yes | draft, ready, modified, approved, rejected, expired, superseded |
+| rationale | No | Plain-text explanatory material |
+| assumptions | No | Plain-text limitations array |
+| onReview | No | Synchronous navigation request; never consent or execution |
+| blockedReason | No | User-safe reason blocking actionable review |
+| className | No | Additional class |
 
-The card shows the actor, exact target, consequence, effect, authority requested, recovery limits, supplied expiry, optional content, and review references. It is labeled Proposal — not executed, not styled as a successful action receipt. Text is rendered as text, not HTML.
+The card shows actor, exact target, consequence, effect, authority, recovery, expiry, and optional content/references. It distinguishes a proposal from an action receipt. Approved proposals say execution is tracked separately; approval does not imply success. Text is not treated as HTML.
 
-`Review action` appears only when an `onReview` handler is provided. It is enabled only for valid ready/modified proposals. Draft, approved, rejected, expired, or superseded proposals cannot reopen actionable review through this control. Expiry is checked by timer and again on activation. Same-version material changes block review.
+Review action appears only with onReview. It is enabled only for valid ready/modified proposals. Draft, approved, rejected, expired, or superseded proposals cannot reopen actionable review. Expiry is checked by timer and on activation. Same-version material changes block review.
 
 ```ts
 interface ReviewRequest {
@@ -88,11 +86,9 @@ interface ReviewRequest {
 }
 ```
 
-Opening review is not consent. `onReview` should navigate or reveal the current Approval Gate; it must not execute, approve, silently renew a proposal, or persist blanket permission. The host should handle navigation failures and focus. The card emits no decision on mount, scrolling, or ordinary inspection.
+onReview should navigate to the current Approval Gate. It must not approve, execute, silently renew a proposal, or persist blanket permission. The host handles navigation failures/focus. No decision is emitted by mounting, scrolling, or inspection.
 
 ## 5. Binding context, plan, and content
-
-The existing proposal contract has two additive optional fields:
 
 ```ts
 interface RevisionRef { readonly id: string; readonly version: string }
@@ -100,16 +96,16 @@ interface ReviewBasis {
   readonly context: RevisionRef;
   readonly plan: RevisionRef;
 }
-// ActionProposal additions:
+// Additive ActionProposal fields:
 // readonly reviewBasis?: ReviewBasis;
 // readonly contentPreview?: string;
 ```
 
-Both fields are included in `proposalFingerprint` and displayed by the Approval Gate at the final decision. Empty supplied previews or incomplete supplied references block review. Legacy callers may omit both fields; that does not establish evidence-bound review for those callers.
+Both fields are fingerprinted and displayed by ApprovalGate. Empty supplied previews or incomplete references block review. Legacy callers can omit them, without establishing evidence-bound review.
 
-`reviewBasisMatches(proposal, context, plan)` compares the supplied IDs and versions, including the plan's context reference. It does not hash source bytes, check source freshness, compare plan fingerprints, authenticate origin, or enforce version immutability. A production service must own immutable canonical revisions, bind full action parameters/content to the authenticated principal, and revalidate policy, revocation, and expiry immediately before execution. Supplementary rationale or assumptions are not separately fingerprinted; when they materially change a decision, the host must issue a new proposal version rather than silently edit them.
+reviewBasisMatches compares supplied IDs/versions and the plan's context reference. It does not hash source bytes, verify freshness, compare plan fingerprints, authenticate origin, or enforce immutable revisions. Production services own canonical revisions, bind content/parameters to authenticated principals, and revalidate policy/revocation/expiry immediately before effects.
 
-A reference match does not turn a reviewed plan into authority. The existing `onDecision` callback still carries only proposalId, proposalVersion, and approve/reject. Completion still comes from a separate supplied action record, never from the review callback.
+Supplementary rationale and assumptions are not separately fingerprinted. If they materially change a decision, the host issues a new proposal version. Reference matches do not turn approach review into authority. onDecision still carries only proposalId, proposalVersion, and approve/reject. Completion comes from a separate action record.
 
 ## 6. Minimal presentation example
 
@@ -132,35 +128,35 @@ export function ReviewSummary({ context, plan, proposal, openReview }: {
 }
 ```
 
-This only presents host-supplied records and forwards navigation. Add appropriate host validation and an Approval Gate separately. Do not wire `openReview` directly to publication.
+This displays records and forwards navigation only. Add host validation and ApprovalGate separately. Never wire openReview directly to publication.
 
 ## 7. Walk through the local lab
 
-Follow [Getting Started](GETTING-STARTED.md) and open the lab on port 4173. The lab is deterministic and uses a supplied fixture note rather than model-generated research.
+Follow [Getting Started](GETTING-STARTED.md), then open port 4173. The lab uses deterministic fixture notes, not model-generated research.
 
-1. Inspect Task context: the note is Available but initially Not used.
-2. Select Prepare plan. The local template reads the note and its usage is marked Used for this task.
-3. Select Review approach. This records local plan review, not publication approval.
-4. Select Create proposal. Inspect the exact content, context/plan versions, target, and recovery limits.
-5. Select Review action. Focus moves to the separate approval area; nothing has executed.
-6. Select Reject action, or explicitly select Simulate publish. Only a verified local record creates the receipt.
+1. Inspect Task context: Available initially means Not used.
+2. Prepare plan reads the local note and marks it Used for this task.
+3. Review approach records plan review, not publication approval.
+4. Create proposal exposes exact content, revisions, target, and recovery limits.
+5. Review action moves focus to the approval area; nothing executes.
+6. Reject action or explicitly Simulate publish. Only a verified local record creates a receipt.
 
-Changing Notes availability to Missing, Restricted, or Stale invalidates the earlier review and blocks generation until current available notes are restored. Revise plan adds a scope-reminder step, requires approach review again, and produces a new proposal/content version. The host checks versions and expiry at both decision time and immediately before the simulated write.
+Missing, Restricted, or Stale notes invalidate earlier reviews and block generation until current available notes are restored. Revise plan adds a scope reminder, clears approach approval, and produces a new proposal/content version. The host checks revisions/expiry at decision time and again immediately before its simulated write.
 
-With Simulate an unconfirmed response enabled, the demo writes its in-memory action record but loses the acknowledgement. It blocks further proposals and mutations. Check simulated action record reads that record; it does not repeat publication. A missing record remains unknown rather than being treated as proof of failure. Previously verified receipts are retained when later context changes; the lab displays the latest retained receipt and a count, not a full history browser.
+An unconfirmed-response scenario writes an in-memory record but loses acknowledgement. New proposals and mutations stay blocked. Check simulated action record reads the record instead of repeating publication. Missing evidence remains unknown, not proof of failure. Earlier verified receipts survive subsequent context changes; the UI displays the latest and a count, not a complete history browser.
 
-The ledger and de-duplication are confined to the page's memory, not a durable or trusted backend. Refresh clears the demo and does not undo real-world actions. The lab does not call an AI model, connect accounts, write persistent memory, publish, or send anything externally.
+Ledger and deduplication live only in page memory. Refresh clears the demonstration; it does not undo real-world actions. The lab makes no model calls, connections, persistent writes, publications, or external sends.
 
 ## 8. Accessibility and verification
 
-Components use native structure, labels, disclosures, textual states, semantic tokens, wrapping content, and visible focus. The demo moves focus to the approval region and verified receipt. It keeps material details visible on narrow layouts and does not depend on animation timing for state changes.
+Native structure, labels, disclosures, textual states, semantic tokens, wrapping content, and visible focus are used. The lab moves focus to approval and verified receipt regions. Material details remain visible on narrow layouts. State transitions do not depend on animation timing.
 
-The added tests cover source availability/usage, missing and restricted content, safe links, stale context, plan dependency issues and revisions, completion evidence, proposal status/expiry/content changes, explicit review versus approval, duplicate decisions, reconciliation, and retained receipts. The Chromium suite checks keyboard navigation and native disclosure activation, 320px layouts, long unbroken content, reduced motion, and automated accessibility samples in both themes. Read the [dated validation record](REVIEW-VALIDATION-v0.1.md) for observed results; authored tests are not automatically passed tests.
+Tests cover availability/usage, restricted content, safe links, stale context, dependencies/revisions, evidence, status/expiry/content changes, review versus consent, duplicate decisions, reconciliation, and retained receipts. Chromium checks keyboard/disclosure behavior, 320px/long-text layouts, reduced motion, color-state transitions, and light/dark accessibility samples. Read the [workflow record](REVIEW-VALIDATION-v0.1.md) for named results, and [consumer validation](CONSUMER-VALIDATION-v0.1.md) for installed-package testing. Authored tests are not automatically passed tests.
 
 ## 9. Remaining acceptance and adoption work
 
-The planned isolated fresh-consumer install check is **not included or completed**. A bulk tool write containing that installer and CI changes was blocked, so those changes were omitted. Existing read-only workflow permissions and dependency versions remain unchanged. Archive inventory and workspace-export checks do not replace independent installation testing.
+The former isolated-install gap is closed by the offline consumer test: fresh installation outside the workspace, own-lockfile reinstall, declaration compilation, seven static renders, and package/CSS-path resolution. It uses already-locked local dependencies without lifecycle scripts, network fallback, or new workflow permissions. See [Consumer validation](CONSUMER-VALIDATION-v0.1.md) for the exact source and limits.
 
-Cross-browser, manual assistive-technology, localization, full runtime-schema, framework hydration, RSC, production authorization, durable idempotency, revocation, real recovery, and full conformance work remain outside this increment. No certification, npm release, or hosted deployment is claimed.
+Static rendering does not exercise hydration or CSS bundlers. Cross-browser, manual assistive-technology, localization, complete runtime schemas, framework/server-component boundaries, registry distribution, production authorization, durable idempotency, revocation, real recovery, and complete conformance remain adoption work. No certification, npm release, or deployment is claimed.
 
 **Human Intent. Machine Intelligence. Systemic Design.**
