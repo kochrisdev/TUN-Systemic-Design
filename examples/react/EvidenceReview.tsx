@@ -15,17 +15,18 @@ export function EvidenceReview({ context }: { context: ContextSnapshot }) {
         relationshipExplanation: source.usage === 'used'
           ? 'This note was used to prepare the local template. It establishes nothing about an external deployment.'
           : 'The note has not been used for the current task. Availability alone does not substantiate the output.' };
-      if (source.availability === 'restricted' || source.availability === 'missing') return {
-        ...base, access: source.availability === 'restricted' ? 'restricted' : 'unavailable',
-        reason: 'The current context reports no readable source content.',
-      };
-      const checked = source.availability === 'available' && source.usage === 'used' &&
-        Boolean(source.summary?.includes('All actions in this lab are simulated.'));
-      return { ...base, access: 'available',
-        excerpt: source.summary ? { kind: 'quote', text: source.summary, location: 'Supplied local fixture' } : undefined,
-        verification: { state: checked ? 'verified' : 'unverified', detail: checked
-          ? 'The local fixture contains the quoted simulation statement. No external research or independent audit was performed.'
-          : source.availability === 'stale' ? 'The source is marked stale in the current context.' : 'The source has not substantiated a current task output.' } };
+      // Positive discrimination keeps inaccessible variants out of the readable branch.
+      if (source.availability === 'available' || source.availability === 'stale') {
+        const checked = source.availability === 'available' && source.usage === 'used' &&
+          Boolean(source.summary?.includes('All actions in this lab are simulated.'));
+        return { ...base, access: 'available',
+          excerpt: source.summary ? { kind: 'quote', text: source.summary, location: 'Supplied local fixture' } : undefined,
+          verification: { state: checked ? 'verified' : 'unverified', detail: checked
+            ? 'The local fixture contains the quoted simulation statement. No external research or independent audit was performed.'
+            : source.availability === 'stale' ? 'The source is marked stale in the current context.' : 'The source has not substantiated a current task output.' } };
+      }
+      return { ...base, access: source.availability === 'restricted' ? 'restricted' : 'unavailable',
+        reason: 'The current context reports no readable source content.' };
     }),
   };
   return <section aria-label="Evidence for the current task">
