@@ -153,7 +153,7 @@ Both controls are disabled for invalid/expired/blocked reviews. Supply an indepe
 
 ### Timestamp contract
 
-Supported: YYYY-MM-DDTHH:mm:ss[.fraction](Z|±HH:mm), valid calendar dates, mandatory seconds/timezone, one to three fractional digits. Year zero, February 30, hour 24, leap seconds, precision beyond milliseconds, and unknown-local-offset -00:00 are rejected. This is not full ISO-8601/RFC-3339 support.
+Supported: `YYYY-MM-DDTHH:mm:ss[.fraction](Z|±HH:mm)`, valid calendar dates, mandatory seconds/timezone, one to three fractional digits. Year zero, February 30, hour 24, leap seconds, precision beyond milliseconds, and unknown-local-offset `-00:00` are rejected. This is not full ISO-8601/RFC-3339 support.
 
 A non-finite clock blocks approval. Expiry is rechecked in the handler, not only by timer. Client time is not trusted server time; the host repeats expiry and policy checks before execution.
 
