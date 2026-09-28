@@ -2,6 +2,16 @@
 
 This records repository work, not published npm releases. Private package version 0.1.0 and document version 0.1 do not imply a stable public API, release tag, deployment, or certification. PR history records merge state for an exact revision.
 
+## September 28, 2026 — evidence and memory components
+
+[PR 5](https://github.com/kochrisdev/TUN-Systemic-Design/pull/5) adds MemoryIndicator, SourceView, and UncertaintySignal, bringing the implementation to ten canonical components. New root-exported types and helpers describe M0–M3 memory use, claim-to-source relationships, quoted/paraphrased/generated text, access restrictions, application-reported checks, and scoped qualitative uncertainty.
+
+Memory inspection requests navigation only. Inaccessible evidence never renders supplied content or source URLs. Generated interpretations cannot produce a checked-source summary; missing uncertainty support falls back to Unknown. These are presentation safeguards, not verified source authenticity, runtime schemas, storage, or authority.
+
+The existing review workflow gains a read-only contextual evidence section and a clearly separate synthetic state explorer. Added Vitest and Chromium tests and extended package inventory and isolated-consumer acceptance to ten components and four negative declaration cases. The first CI attempt exposed a TypeScript narrowing issue in the demo adapter; the readable branch was made explicit rather than relaxing types or access boundaries. PR history records final checks and remaining limits.
+
+Updated implementation/API/setup documentation, package README, catalog, architecture, and roadmap. Core approval/execution logic, dependency versions, lockfile, generated tokens, license, historical validation records, and workflow permissions are preserved. This increment does not publish to npm, deploy a service, or implement the four remaining supervision/recovery patterns.
+
 ## September 28, 2026 — review workflow and package acceptance
 
 [PR 4](https://github.com/kochrisdev/TUN-Systemic-Design/pull/4) adds ContextPanel, PlanView, and ProposalCard, bringing the implementation to seven canonical React components. Source availability and usage are separate; plans show revisions, dependencies, and approval checkpoints; proposal inspection is navigation, not consent.

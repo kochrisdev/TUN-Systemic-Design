@@ -1,13 +1,13 @@
 # Implementation status and roadmap
 
-**Revision:** September 28, 2026, review-workflow acceptance.  
-**Scope:** Contents of the revision being viewed. A package build is not a registry publication, hosted service, or certification.
+**Revision:** September 28, 2026, evidence and memory increment.  
+**Scope:** Contents of the revision being viewed. A package build is not a registry publication, hosted service, or certification. Check the PR's exact head and validation evidence before assuming acceptance.
 
-[Documentation index](README.md) · [Public exports](../packages/react/src/index.ts) · [Review workflow](REVIEW-WORKFLOW-v0.1.md) · [Consumer validation](CONSUMER-VALIDATION-v0.1.md)
+[Documentation index](README.md) · [Public exports](../packages/react/src/index.ts) · [Review workflow](REVIEW-WORKFLOW-v0.1.md) · [Evidence and memory](EVIDENCE-AND-MEMORY-v0.1.md)
 
 ## Canonical component matrix
 
-All fourteen patterns are defined in [Components v0.1](COMPONENTS-v0.1.md). Seven have public React exports. Names without source links remain planned, not importable symbols.
+All fourteen patterns are defined in [Components v0.1](COMPONENTS-v0.1.md). Ten have public React exports. Names without source links remain planned, not importable symbols.
 
 | Design component | React symbol | Implementation |
 |---|---|---|
@@ -18,15 +18,15 @@ All fourteen patterns are defined in [Components v0.1](COMPONENTS-v0.1.md). Seve
 | Proposal Card | `ProposalCard` | [Implemented](../packages/react/src/ProposalCard.tsx) |
 | Approval Gate | `ApprovalGate` | [Implemented](../packages/react/src/ApprovalGate.tsx) |
 | Action Receipt | `ActionReceipt` | [Implemented](../packages/react/src/ActionReceipt.tsx) |
-| Memory Indicator | `MemoryIndicator` | Specified only |
-| Source View | `SourceView` | Specified only |
-| Uncertainty Signal | `UncertaintySignal` | Specified only |
+| Memory Indicator | `MemoryIndicator` | [Implemented](../packages/react/src/MemoryIndicator.tsx) |
+| Source View | `SourceView` | [Implemented](../packages/react/src/SourceView.tsx) |
+| Uncertainty Signal | `UncertaintySignal` | [Implemented](../packages/react/src/UncertaintySignal.tsx) |
 | Tool Activity | `ToolActivity` | Specified only |
 | Agent Activity | `AgentActivity` | Specified only |
 | Human Override | `HumanOverride` | Specified only |
 | Recovery Control | `RecoveryControl` | Specified only |
 
-Context metadata is not a Source View or memory service. Plan review is not action authorization. Recovery descriptions and the demo's reconciliation button are not a reusable Recovery Control. Agent state labels are not an autonomous runtime. AI-state tokens are presentation, not execution services.
+Context availability, actual use, memory influence, claim-to-source relationship, source checks, and scoped uncertainty are separate facts. None grants authority. The Memory Indicator is not a memory service, and Source View does not independently verify evidence. Recovery descriptions and the demo's reconciliation button are not a reusable Recovery Control. Agent state labels are not an autonomous runtime.
 
 ## Other deliverables
 
@@ -36,31 +36,31 @@ Context metadata is not a Source View or memory service. Plan review is not acti
 | Behavioral specification | Draft project requirements |
 | Tokens and CSS | 212 typed tokens; generated light/dark themes; limited DTCG-style exporter |
 | HTML visual specimen | Local simulation, separate from the React lab |
-| React component lab | Seven-component deterministic context-to-receipt simulation |
-| TypeScript contracts | Core and review contracts exported; not complete untrusted-JSON validation |
-| CI and lockfile | Read-only workflows and locked graph; evidence remains commit-specific |
-| Isolated consumer acceptance | Offline fresh install and lockfile reinstall, types, exports, static rendering, and CSS-path checks implemented and validated for the named graph |
+| React component lab | Ten components: review workflow, read-only contextual evidence, and separately labeled synthetic evidence/memory examples |
+| TypeScript contracts | Core/review contracts plus root-exported evidence/memory contracts; not complete untrusted-JSON validation |
+| CI and lockfile | Existing read-only workflows and locked graph; results remain commit-specific |
+| Isolated consumer acceptance | Offline install/reinstall, types, ten static renders, and package/CSS resolution are test targets for this increment |
 | Figma, Tailwind, native adapters | Not implemented |
 | Runtime JSON Schema and design linter | Not implemented; documentation checker is not a design linter |
-| Model/agent/backend services | Not implemented |
+| Model, agent, memory, evidence-verification, or backend services | Not implemented |
 | Registry release or hosted deployment | Not included |
 | Formal certification | Not implemented |
 
 ## Acceptance boundary
 
-The three new components, exports, connected example, tests, and API documentation exist. The [consumer validation record](CONSUMER-VALIDATION-v0.1.md) closes the isolated-install gap previously recorded in [Review validation](REVIEW-VALIDATION-v0.1.md). It uses only local archives and the locked installed graph, with no lifecycle scripts, network fallback, or new CI permissions. The older report is preserved as historical evidence, not a current assertion that the test is absent.
+The three evidence/memory components, exports, examples, tests, and API documentation exist. See [PR 5](https://github.com/kochrisdev/TUN-Systemic-Design/pull/5) for final-head checks, review, and merge state. Authored tests do not imply successful execution.
 
-Passing a fresh offline installation is not validation of registry distribution, independently selected peer versions, bundler CSS integration, hydration, or every consumer framework. See PR history for the final reviewed head and merge result; a branch name alone does not prove acceptance.
+The existing isolated-consumer installer is unchanged. Its fixtures and package checker now cover ten components, four negative declaration cases, generated-text presentation, and unsupported-confidence fallback. Consumer installation is offline using the same locked graph, with lifecycle scripts disabled and no additional workflow permissions.
+
+Earlier [consumer](CONSUMER-VALIDATION-v0.1.md) and [review](REVIEW-VALIDATION-v0.1.md) reports retain their historical source and test counts. Passing one isolated installation does not certify registry distribution, independently selected peers, CSS bundlers, hydration, or every framework.
 
 ## Proposed increments
 
 These are sequencing recommendations, not dated commitments.
 
-**Next components — evidence and memory.** Implement Memory Indicator, Source View, and Uncertainty Signal. Cover session versus persistent context, inaccessible/conflicting sources, unsupported claims, and qualitative uncertainty. Never derive truth or permission from a badge. This brings the planned implementation count to ten, not fourteen.
+**Next — supervision and recovery.** Implement Tool Activity, Agent Activity, Human Override, and Recovery Control. Distinguish stop requested from stopped, partial effects from total failure, compensation from undo, and reconciliation from blind retry. Define real host contracts before exposing controls. This would complete the fourteen-component implementation set, not a production agent runtime or automatic conformance.
 
-**Then — supervision and recovery.** Implement Tool Activity, Agent Activity, Human Override, and Recovery Control. Distinguish stop requested from stopped, partial effects from total failure, compensation from undo, and reconciliation from blind retry. These require real host contracts, not decorative controls.
-
-**Adoption hardening.** Broaden browser and assistive-technology coverage, add localization and consumer-framework/bundler checks, and separately test production authorization/execution before publication. Preserve the offline install check as a regression gate rather than replacing it with a workspace import.
+**Adoption hardening.** Broaden browser and assistive-technology coverage, add localization, runtime schemas, framework/bundler/hydration checks, and separately validate production authorization/execution. Keep offline consumer installation as a regression gate. Evidence and memory adapters require access control, provenance, retention policy, and permission checks in the host.
 
 **Later — adapters and governance.** Consider Figma/Tailwind adapters, machine-readable behavior schemas, conformance tooling, and an intentional release process. Promise compatibility, publication, or certification only after evaluation.
 
