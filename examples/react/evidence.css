@@ -1,0 +1,6 @@
+/* Local example layout only. Component tokens and production authority are unchanged. */
+.evidence-examples { margin-block-start: var(--tun-space-6); }
+.evidence-selectors { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: var(--tun-space-4); margin-block: var(--tun-space-4); }
+.evidence-selectors .theme-picker { display: flex; flex-direction: column; align-items: stretch; gap: var(--tun-space-2); min-inline-size: 0; }
+.evidence-selectors select { inline-size: 100%; max-inline-size: 100%; min-inline-size: 0; }
+.evidence-example-stack { display: grid; gap: var(--tun-space-4); }

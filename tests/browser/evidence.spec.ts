@@ -62,6 +62,21 @@ for (const theme of ['light', 'dark']) {
     expect(violations).toEqual([]);
     await page.setViewportSize({ width: 320, height: 900 });
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    // A no-overflow assertion alone missed labels compressed to one letter per line.
+    for (const name of ['Example evidence', 'Example memory']) {
+      const label = examples.locator('.evidence-selectors label').filter({ has: page.getByRole('combobox', { name, exact: true }) });
+      const dimensions = await label.evaluate(element => {
+        const text = element.querySelector('span')!.getBoundingClientRect();
+        const control = element.querySelector('select')!.getBoundingClientRect();
+        const parent = element.getBoundingClientRect();
+        return { textHeight: text.height, textWidth: text.width, inside: control.left >= parent.left && control.right <= parent.right + 1 };
+      });
+      expect(dimensions.textHeight).toBeLessThanOrEqual(50);
+      expect(dimensions.textWidth).toBeGreaterThanOrEqual(150);
+      expect(dimensions.inside).toBe(true);
+    }
+    const mobileViolations = await page.evaluate(async () => (await (window as any).axe.run()).violations);
+    expect(mobileViolations).toEqual([]);
     await examples.scrollIntoViewIfNeeded();
     await page.screenshot({ path: testInfo.outputPath(`evidence-${theme}-320.png`), fullPage: true });
   });

@@ -3,9 +3,9 @@
 
 **Status:** Draft project component catalog.  
 **Version:** 0.1; documentation revision September 28, 2026.  
-**Implementation:** Seven of fourteen patterns have React exports in the review-workflow increment; check the branch/PR status.
+**Implementation:** Ten of fourteen patterns have React exports in the evidence/memory increment; check the PR's exact validation and merge state.
 
-[Documentation index](README.md) · [Specification](SPECIFICATION-v0.1.md) · [Implementation matrix](STATUS-AND-ROADMAP.md) · [React API](REACT-COMPONENTS-v0.1.md) · [Review workflow](REVIEW-WORKFLOW-v0.1.md)
+[Documentation index](README.md) · [Specification](SPECIFICATION-v0.1.md) · [Implementation matrix](STATUS-AND-ROADMAP.md) · [React API](REACT-COMPONENTS-v0.1.md) · [Review workflow](REVIEW-WORKFLOW-v0.1.md) · [Evidence and memory](EVIDENCE-AND-MEMORY-v0.1.md)
 
 # 1. Purpose
 
@@ -26,9 +26,9 @@ Components SHOULD be outcome-first, visibly attributable, honest about uncertain
 | Proposal Card | Implemented as `ProposalCard` |
 | Approval Gate | Implemented as `ApprovalGate` |
 | Action Receipt | Implemented as `ActionReceipt` |
-| Memory Indicator | Specified only |
-| Source View | Specified only |
-| Uncertainty Signal | Specified only |
+| Memory Indicator | Implemented as `MemoryIndicator` |
+| Source View | Implemented as `SourceView` |
+| Uncertainty Signal | Implemented as `UncertaintySignal` |
 | Tool Activity | Specified only |
 | Agent Activity | Specified only |
 | Human Override | Specified only |
@@ -136,7 +136,9 @@ Only symbols exported by [index.ts](../packages/react/src/index.ts) are availabl
 
 **Behavior:** Distinguish M0–M3 as memory-use categories, not retention guarantees or maturity levels. The indicator SHOULD remain quiet when irrelevant. Remembered preference is not new authority. Do not claim all data is deleted when logs or backups remain.
 
-**Accessibility and anti-patterns:** A readable label and named management controls replace color-only badges. Avoid surprise personalization, fake persistence, and misleading privacy promises. Specified only.
+**Accessibility and anti-patterns:** A readable label and named management controls replace color-only badges. Avoid surprise personalization, fake persistence, and misleading privacy promises.
+
+**Reference implementation:** `MemoryRecord` with id/version, type M0–M3, active/inactive/unavailable state, scope, influence, and optional retention notice. Inconsistent metadata displays unavailable. `onInspect` emits a version-bound navigation request only for valid active memory. No memory mutation, persistence, or permissions are implemented. Announcements are opt-in. See [Evidence and Memory](EVIDENCE-AND-MEMORY-v0.1.md#2-memory-indicator).
 
 # 12. Source View
 
@@ -148,7 +150,9 @@ Only symbols exported by [index.ts](../packages/react/src/index.ts) are availabl
 
 **Behavior:** Source material and generated synthesis MUST be distinct. Quotes MUST be distinguishable from paraphrases. Where sources cannot be opened, identify that limitation rather than provide fake links. Preserve material contradictory evidence.
 
-**Accessibility and anti-patterns:** Meaningful link names and structured excerpts; no fabricated citations, unauthorized excerpts, or source-like generated text. Specified only.
+**Accessibility and anti-patterns:** Meaningful link names and structured excerpts; no fabricated citations, unauthorized excerpts, or source-like generated text.
+
+**Reference implementation:** `EvidenceCollection` groups sources around a specific claim. Quotes, paraphrases, and generated interpretations are labeled separately. Restricted/unavailable records omit readable content and links. Declared contradictions remain visible. A checked summary requires supporting non-generated source material and described application checks, but does not authenticate truth. Hosts filter private data before transmission. See [Evidence and Memory](EVIDENCE-AND-MEMORY-v0.1.md#3-source-view).
 
 # 13. Uncertainty Signal
 
@@ -160,7 +164,9 @@ Only symbols exported by [index.ts](../packages/react/src/index.ts) are availabl
 
 **Behavior:** Show uncertainty when it affects safety, decisions, resources, identity, external communication, or irreversible effects. Do not infer truth from green styling or a model's unsupported confidence statement.
 
-**Accessibility and anti-patterns:** Use text and context rather than color alone. Avoid fake numeric precision, decorative certainty badges, unnecessary warnings, and hidden known limitations. Specified only.
+**Accessibility and anti-patterns:** Use text and context rather than color alone. Avoid fake numeric precision, decorative certainty badges, unnecessary warnings, and hidden known limitations.
+
+**Reference implementation:** `UncertaintyAssessment` with scope, level, explanation, supporting basis, and optional next step. U0/U1 wording explicitly limits the claim to its scope. Invalid or unsupported metadata falls back to U3 Unknown with a correction notice. A label is neither independent verification nor authorization. See [Evidence and Memory](EVIDENCE-AND-MEMORY-v0.1.md#4-uncertainty-signal).
 
 # 14. Tool Activity
 
@@ -220,7 +226,7 @@ Patterns are design recipes, not exported workflow engines.
 | Memory-Aware Assistant | Intent Composer → Memory Indicator → Context Panel → host result |
 | Recovery | Action Receipt → host failure/unknown-state explanation → Recovery Control → updated receipt |
 
-The React lab exercises the seven implemented components through an in-memory proposed-action flow. It is not an implementation of every recipe or a trusted backend.
+The React lab exercises ten components through a proposed-action flow, read-only contextual evidence, and separately labeled memory/evidence fixtures. It is not an implementation of every recipe, a persistent-memory service, or a trusted backend.
 
 # 19. Component Priority by Consequence
 
@@ -286,6 +292,6 @@ What human problem is solved? Who acts? Under what authority? Is current state u
 
 # 27. Direction for v0.2
 
-The visual tokens and seven React components exist in this increment. Remaining work includes seven component implementations, independent-consumer installation testing, detailed state matrices, visual anatomy examples, localization, broader browser/accessibility validation, design-tool adapters, and scoped conformance evidence. See the [roadmap](STATUS-AND-ROADMAP.md) rather than treating this list as delivered functionality.
+The visual tokens and ten React components exist in this increment. Remaining work includes the four supervision/recovery implementations, detailed state matrices, visual anatomy examples, localization, broader browser/accessibility validation, runtime schemas, design-tool adapters, and scoped conformance evidence. The isolated offline consumer test already exists and is expanded alongside exports; broader framework/hydration validation remains outstanding. See the [roadmap](STATUS-AND-ROADMAP.md) rather than treating this list as delivered functionality.
 
 **Human Intent. Machine Intelligence. Systemic Design.**
