@@ -1,12 +1,12 @@
 # @tun-systemic/react — v0.1.0
 
-Ten reference React components for **TUN Systemic Design**: `IntentComposer`, `AgentCard`, `ContextPanel`, `PlanView`, `ProposalCard`, `ApprovalGate`, `ActionReceipt`, `MemoryIndicator`, `SourceView`, and `UncertaintySignal`.
+Reference React components for **TUN Systemic Design**. All fourteen canonical patterns have public implementations: IntentComposer, AgentCard, ContextPanel, PlanView, ProposalCard, ApprovalGate, ActionReceipt, MemoryIndicator, SourceView, UncertaintySignal, ToolActivity, AgentActivity, HumanOverride, and RecoveryControl.
 
-The package is repository-local and **not published to npm**. Tool Activity, Agent Activity, Human Override, and Recovery Control remain specified only. The private flag prevents accidental publication; it does not restrict access to the public repository. Use source commit and archive digest to distinguish builds sharing version 0.1.0.
+The package remains repository-local and **not published to npm**. The private flag prevents accidental publication; it is not an access restriction on the public repository. Source SHA and archive digest distinguish builds sharing private version 0.1.0. A complete export set does not establish full conformance or production readiness.
 
-## Build in the repository
+## Build and run in the repository
 
-Use Node **22.23.2** and npm **12.1.0** from the repository root:
+Select Node **22.23.2** and npm **12.1.0**, then run from the repository root:
 
 ```sh
 npm install --global npm@12.1.0
@@ -15,50 +15,54 @@ npm run check
 npm run dev
 ```
 
-`npm run check` typechecks, builds, runs contract/React/model tests, builds the demo, checks archive inventory, and performs an isolated offline consumer install/reinstall plus declaration and static-render checks. Browser, token, documentation, and dependency-audit checks are separate. The lab on port 4173 is an in-memory simulation, not an AI, persistent-memory, evidence-verification, or execution service.
+The component lab runs on port 4173. Every example is a local simulation, not an AI or action service. The new stepped supervision fixture is separate from the publication-review workflow.
+
+`npm run check` typechecks, builds, runs contract/React/model tests, builds the demo, checks archive inventory, and performs an isolated offline consumer install/reinstall plus declaration and static-render checks. Browser, token, documentation, and dependency audits are separate. Tests must be observed passing for the relevant source; an authored fixture is not automatically evidence.
 
 ## Consume a local archive
 
-Run `npm run pack:react` at the root to create `tun-systemic-react-0.1.0.tgz`. `npm run check` also creates a checked archive under artifacts/. Neither publishes anything.
+From the repository root, `npm run pack:react` creates tun-systemic-react-0.1.0.tgz. `npm run check` also places a checked archive under artifacts/. Neither command publishes to npm.
 
-In a compatible React application, replace this path:
+In a compatible React app, replace the path with the actual archive:
 
 ```sh
 npm install /absolute/path/to/tun-systemic-react-0.1.0.tgz
 ```
 
 ```tsx
-import { MemoryIndicator, SourceView, UncertaintySignal } from '@tun-systemic/react';
-import type { MemoryRecord, EvidenceCollection, UncertaintyAssessment } from '@tun-systemic/react';
+import { ToolActivity, AgentActivity, HumanOverride, RecoveryControl } from '@tun-systemic/react';
+import type { ActivityRecord, ToolActivityRecord, InterventionOperation, RecoveryOperation, ControlRequest } from '@tun-systemic/react';
 import '@tun-systemic/react/styles.css';
 ```
 
-The peer range is React/React DOM `>=19.2.0 <20`. The package exposes ESM JavaScript, declarations, `contracts`, `styles.css`, and `tokens.css`. There is no CommonJS require entry. Core/review types and helpers remain available through root and contracts entries; **new evidence/memory types and helpers are root exports only**. No review-contracts or evidence-contracts package subpath is declared.
+The declared peer range remains React/React DOM >=19.2.0 <20. The package is ESM with declarations. Root, contracts, styles.css, and tokens.css are declared entry points; there is no CommonJS require entry. Evidence/memory and supervision types/helpers are **root-only**. Existing core/review helpers remain available through contracts. Internal ControlAction is not a public export.
 
-The isolated consumer test installs real local archives outside the workspace, compiles declarations including four negative type cases, renders all ten components, and resolves styles. It covers one locked peer graph, not independently selected dependency versions, registry distribution, browser hydration, CSS bundlers, or every framework. Use an actual successful CI run for evidence, not this description alone.
+The isolated consumer installs real local archives outside the repository and tests all fourteen static renders, declarations, seven negative type cases, and CSS/token resolution. It covers one locked peer graph, not independently selected peers, registry distribution, browser hydration, CSS bundlers, or every framework.
 
-Import CSS once in the host's permitted global entry. It includes generated TUN tokens. Put `data-tun-theme="light"` or `"dark"` on html, or remove the attribute for system preference. Nested themes, remote fonts, and preference persistence are not implemented.
+Import CSS once in the host's permitted global entry. Tokens are included. Set data-tun-theme light/dark on html, or remove it for system preference. Nested theme islands, remote fonts, and preference persistence are not implemented.
 
 ## Contracts and limits
 
-Availability is not actual source usage. A reviewed plan does not authorize its actions. ProposalCard's onReview requests navigation; ApprovalGate's onDecision requests a particular decision. Optional reviewBasis and contentPreview are visible and fingerprinted. A receipt requires application-supplied verification.
+An approval or override button is not an authorization service. The host validates external input, authenticates principal/tenant, binds immutable canonical operation and run revisions, checks scope/expiry/revocation, deduplicates, executes, observes, verifies, and protects audit records.
 
-MemoryIndicator explains M0–M3 use; inspection navigates and does not mutate memory. Memory use does not establish retention or training policy. SourceView distinguishes quotations, paraphrases, generated interpretations, inaccessible evidence, and conflicts. Reported checks are not independent proof. UncertaintySignal uses scoped qualitative labels and falls back to Unknown when supporting metadata is missing.
+Availability is not source usage. Memory influence is not permission. A reviewed plan is not action authorization. Source checks are host declarations, not independent verification. Uncertainty is qualitative, not a calibrated probability.
 
-**An approval button is not an authorization service.** The host authenticates, validates input, binds immutable canonical authorization, rechecks expiry/revocation, deduplicates, executes, verifies, and protects audit records. A resolved callback is not completion. Never automatically retry an unconfirmed external effect. Remove unauthorized source content and metadata before sending props to the client.
+HumanOverride/RecoveryControl emit version-bound request identities only. Promise resolution is acknowledgement, not completion. Rejected requests remain unknown and locally latched against repetition. Terminal control labels require matching host evidence. Unknown original outcomes allow reconciliation, not effectful recovery. Compensation is not undo; stopped work can still have prior effects.
 
-The package implements no model calls, persistent-memory service, external tools, Human Override, or recovery services. UI checks cannot authenticate supplied evidence. TypeScript props and typed-metadata helpers are not complete runtime schemas for untrusted JSON.
+Local UI latches do not coordinate remounts, multiple controls, tabs, or distributed systems. Do not generate a new version to bypass an unresolved outcome. Route applicable consequential recovery through explicit action approval and revalidate immediately before execution. Filter unauthorized data before sending any props to the browser.
+
+No model runtime, source-verification service, memory storage, real tools, authorization, cancellation, or recovery backend is included. TypeScript interfaces are not complete hostile-JSON schemas. Broader framework, accessibility, localization, security, and production integration tests remain necessary.
 
 ## Documentation
 
-These repository links work outside an extracted archive. Main can evolve; use the source SHA for historical reproduction. While a feature PR is unmerged, its branch rather than main contains the new guide.
+These absolute links work when the README is extracted from an archive; use the source commit for historical reproduction:
 
-- [Getting started](https://github.com/kochrisdev/TUN-Systemic-Design/blob/main/docs/GETTING-STARTED.md)
+- [Getting Started](https://github.com/kochrisdev/TUN-Systemic-Design/blob/main/docs/GETTING-STARTED.md)
 - [Core React API](https://github.com/kochrisdev/TUN-Systemic-Design/blob/main/docs/REACT-COMPONENTS-v0.1.md)
-- [Review workflow](https://github.com/kochrisdev/TUN-Systemic-Design/blob/main/docs/REVIEW-WORKFLOW-v0.1.md)
-- [Evidence and memory API](https://github.com/kochrisdev/TUN-Systemic-Design/blob/main/docs/EVIDENCE-AND-MEMORY-v0.1.md)
-- [Implementation matrix](https://github.com/kochrisdev/TUN-Systemic-Design/blob/main/docs/STATUS-AND-ROADMAP.md)
-- [Evidence and memory PR](https://github.com/kochrisdev/TUN-Systemic-Design/pull/5)
-- [Historical consumer installation evidence](https://github.com/kochrisdev/TUN-Systemic-Design/blob/main/docs/CONSUMER-VALIDATION-v0.1.md)
+- [Review Workflow](https://github.com/kochrisdev/TUN-Systemic-Design/blob/main/docs/REVIEW-WORKFLOW-v0.1.md)
+- [Evidence and Memory](https://github.com/kochrisdev/TUN-Systemic-Design/blob/main/docs/EVIDENCE-AND-MEMORY-v0.1.md)
+- [Supervision and Recovery](https://github.com/kochrisdev/TUN-Systemic-Design/blob/main/docs/SUPERVISION-AND-RECOVERY-v0.1.md)
+- [Implementation Matrix](https://github.com/kochrisdev/TUN-Systemic-Design/blob/main/docs/STATUS-AND-ROADMAP.md)
+- [Fourteen-component acceptance PR](https://github.com/kochrisdev/TUN-Systemic-Design/pull/6)
 
-No hosted deployment, npm release, complete accessibility audit, or independent certification is included. The existing CC0-1.0 license is copied into the package at build time. Third-party dependencies retain their own licenses.
+No hosted deployment, npm release, complete accessibility audit, or independent certification is included. The existing CC0-1.0 license is copied at build time. Third-party dependencies retain their own licenses.

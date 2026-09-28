@@ -1,69 +1,67 @@
 # Implementation status and roadmap
 
-**Revision:** September 28, 2026, evidence and memory increment.  
-**Scope:** Contents of the revision being viewed. A package build is not a registry publication, hosted service, or certification. Check the PR's exact head and validation evidence before assuming acceptance.
+**Revision:** September 28, 2026, supervision and recovery increment.  
+**Scope:** The revision being viewed. Implemented does not mean published, production-ready, independently certified, or accepted on every platform. Check the exact PR head and validation evidence.
 
-[Documentation index](README.md) · [Public exports](../packages/react/src/index.ts) · [Review workflow](REVIEW-WORKFLOW-v0.1.md) · [Evidence and memory](EVIDENCE-AND-MEMORY-v0.1.md)
+[Documentation index](README.md) · [Public exports](../packages/react/src/index.ts) · [Supervision and recovery](SUPERVISION-AND-RECOVERY-v0.1.md)
 
 ## Canonical component matrix
 
-All fourteen patterns are defined in [Components v0.1](COMPONENTS-v0.1.md). Ten have public React exports. Names without source links remain planned, not importable symbols.
+All fourteen patterns defined in [Components v0.1](COMPONENTS-v0.1.md) now have reference React exports. Full behavior, conformance, and adoption are separate questions.
 
-| Design component | React symbol | Implementation |
+| Design component | React symbol | Source |
 |---|---|---|
-| Intent Composer | `IntentComposer` | [Implemented](../packages/react/src/IntentComposer.tsx) |
-| Agent Card | `AgentCard` | [Implemented](../packages/react/src/AgentCard.tsx) |
-| Context Panel | `ContextPanel` | [Implemented](../packages/react/src/ContextPanel.tsx) |
-| Plan View | `PlanView` | [Implemented](../packages/react/src/PlanView.tsx) |
-| Proposal Card | `ProposalCard` | [Implemented](../packages/react/src/ProposalCard.tsx) |
-| Approval Gate | `ApprovalGate` | [Implemented](../packages/react/src/ApprovalGate.tsx) |
-| Action Receipt | `ActionReceipt` | [Implemented](../packages/react/src/ActionReceipt.tsx) |
-| Memory Indicator | `MemoryIndicator` | [Implemented](../packages/react/src/MemoryIndicator.tsx) |
-| Source View | `SourceView` | [Implemented](../packages/react/src/SourceView.tsx) |
-| Uncertainty Signal | `UncertaintySignal` | [Implemented](../packages/react/src/UncertaintySignal.tsx) |
-| Tool Activity | `ToolActivity` | Specified only |
-| Agent Activity | `AgentActivity` | Specified only |
-| Human Override | `HumanOverride` | Specified only |
-| Recovery Control | `RecoveryControl` | Specified only |
+| Intent Composer | IntentComposer | [Implemented](../packages/react/src/IntentComposer.tsx) |
+| Agent Card | AgentCard | [Implemented](../packages/react/src/AgentCard.tsx) |
+| Context Panel | ContextPanel | [Implemented](../packages/react/src/ContextPanel.tsx) |
+| Plan View | PlanView | [Implemented](../packages/react/src/PlanView.tsx) |
+| Proposal Card | ProposalCard | [Implemented](../packages/react/src/ProposalCard.tsx) |
+| Approval Gate | ApprovalGate | [Implemented](../packages/react/src/ApprovalGate.tsx) |
+| Action Receipt | ActionReceipt | [Implemented](../packages/react/src/ActionReceipt.tsx) |
+| Memory Indicator | MemoryIndicator | [Implemented](../packages/react/src/MemoryIndicator.tsx) |
+| Source View | SourceView | [Implemented](../packages/react/src/SourceView.tsx) |
+| Uncertainty Signal | UncertaintySignal | [Implemented](../packages/react/src/UncertaintySignal.tsx) |
+| Tool Activity | ToolActivity | [Implemented](../packages/react/src/ToolActivity.tsx) |
+| Agent Activity | AgentActivity | [Implemented](../packages/react/src/AgentActivity.tsx) |
+| Human Override | HumanOverride | [Implemented](../packages/react/src/HumanOverride.tsx) |
+| Recovery Control | RecoveryControl | [Implemented](../packages/react/src/RecoveryControl.tsx) |
 
-Context availability, actual use, memory influence, claim-to-source relationship, source checks, and scoped uncertainty are separate facts. None grants authority. The Memory Indicator is not a memory service, and Source View does not independently verify evidence. Recovery descriptions and the demo's reconciliation button are not a reusable Recovery Control. Agent state labels are not an autonomous runtime.
+The internal shared ControlAction is not a fifteenth public component. Memory, evidence, activity, control, permission, and recovery are distinct contracts. No badge or callback grants authority. A stop request is not confirmation of stoppage, and compensation is not undo.
 
 ## Other deliverables
 
-| Area | Current status |
+| Area | Status |
 |---|---|
-| Concept note and manifesto | Founding documents retained |
-| Behavioral specification | Draft project requirements |
-| Tokens and CSS | 212 typed tokens; generated light/dark themes; limited DTCG-style exporter |
-| HTML visual specimen | Local simulation, separate from the React lab |
-| React component lab | Ten components: review workflow, read-only contextual evidence, and separately labeled synthetic evidence/memory examples |
-| TypeScript contracts | Core/review contracts plus root-exported evidence/memory contracts; not complete untrusted-JSON validation |
-| CI and lockfile | Existing read-only workflows and locked graph; results remain commit-specific |
-| Isolated consumer acceptance | Offline install/reinstall, types, ten static renders, and package/CSS resolution are test targets for this increment |
-| Figma, Tailwind, native adapters | Not implemented |
-| Runtime JSON Schema and design linter | Not implemented; documentation checker is not a design linter |
-| Model, agent, memory, evidence-verification, or backend services | Not implemented |
-| Registry release or hosted deployment | Not included |
+| Founding documents | Concept note and manifesto preserved |
+| Behavioral specification | Draft project requirements, not independent certification |
+| Tokens/CSS | 212 typed tokens, generated light/dark themes, limited DTCG-style exporter |
+| HTML visual specimen | Local visual simulation, separate from React |
+| React lab | Fourteen components across review, evidence/memory, and separately scoped supervision/recovery examples |
+| TypeScript contracts | Core/review contracts plus root-only evidence and supervision contracts; not complete runtime schemas |
+| CI/lockfile | Existing read-only workflows and locked graph preserved |
+| Isolated consumer acceptance | Offline fresh install/reinstall, declarations, fourteen static specimens, seven negative type cases, package/CSS paths are test targets |
+| Model, agent, memory, verification, authorization, cancellation, recovery services | Not supplied |
+| Figma/Tailwind/native adapters | Not supplied |
+| Runtime schemas/design linter | Not implemented; documentation checker is not a design linter |
+| npm publication/hosted deployment | Not included |
 | Formal certification | Not implemented |
 
 ## Acceptance boundary
 
-The three evidence/memory components, exports, examples, tests, and API documentation exist. See [PR 5](https://github.com/kochrisdev/TUN-Systemic-Design/pull/5) for final-head checks, review, and merge state. Authored tests do not imply successful execution.
+[PR 6](https://github.com/kochrisdev/TUN-Systemic-Design/pull/6) records final-head results and merge state for this increment. New tests and components being present is not a predeclared successful run. Package inventory and isolated installation have separate responsibilities; static rendering does not prove hydration, bundlers, or compatibility with every peer version.
 
-The existing isolated-consumer installer is unchanged. Its fixtures and package checker now cover ten components, four negative declaration cases, generated-text presentation, and unsupported-confidence fallback. Consumer installation is offline using the same locked graph, with lifecycle scripts disabled and no additional workflow permissions.
+The [evidence/memory](EVIDENCE-VALIDATION-v0.1.md), [consumer](CONSUMER-VALIDATION-v0.1.md), [review](REVIEW-VALIDATION-v0.1.md), and [original React](REACT-VALIDATION-v0.1.md) reports preserve historical results. Their earlier component counts are deliberately retained as dated evidence.
 
-Earlier [consumer](CONSUMER-VALIDATION-v0.1.md) and [review](REVIEW-VALIDATION-v0.1.md) reports retain their historical source and test counts. Passing one isolated installation does not certify registry distribution, independently selected peers, CSS bundlers, hydration, or every framework.
+## Next milestones
 
-## Proposed increments
+**Adoption and integration hardening.** Add a bounded pilot using an actual application's authorization, observation, stop, reconciliation, and recovery services. Begin with reversible local effects, explicit authority, and a genuine service record. Test lost acknowledgements, revoked permissions, conflicting revisions, partial completion, remounts, and multi-tab duplicates.
 
-These are sequencing recommendations, not dated commitments.
+**Portability and accessibility.** Expand Firefox/WebKit, assistive-technology, localization, CSS-bundler, framework-boundary, and hydration checks. Introduce validated runtime input schemas and component-state matrices. Preserve the isolated package regression gate.
 
-**Next — supervision and recovery.** Implement Tool Activity, Agent Activity, Human Override, and Recovery Control. Distinguish stop requested from stopped, partial effects from total failure, compensation from undo, and reconciliation from blind retry. Define real host contracts before exposing controls. This would complete the fourteen-component implementation set, not a production agent runtime or automatic conformance.
+**Developer and designer experience.** Consider a searchable component showcase, deliberate package versioning/release policy, Figma/token adapters, and examples tailored to real product workflows. Do not publish or deploy without intentional authorization and release checks.
 
-**Adoption hardening.** Broaden browser and assistive-technology coverage, add localization, runtime schemas, framework/bundler/hydration checks, and separately validate production authorization/execution. Keep offline consumer installation as a regression gate. Evidence and memory adapters require access control, provenance, retention policy, and permission checks in the host.
+**Conformance and governance.** Map implemented behavior to applicable normative rules, document exceptions, and develop scoped evaluation tooling. Fourteen exports do not automatically make a product TUN-conformant.
 
-**Later — adapters and governance.** Consider Figma/Tailwind adapters, machine-readable behavior schemas, conformance tooling, and an intentional release process. Promise compatibility, publication, or certification only after evaluation.
+## Maintaining status
 
-## Updating this page
-
-A component becomes Implemented only when source, public export, example, tests, and documentation exist. Validated means a named run passed. Preserve historical evidence and record new source/dependency graphs. [Contributing](../CONTRIBUTING.md) defines the review process.
+Mark a component Implemented only when source, export, example, tests, and API documentation exist. Mark checks Validated only after a named run passes. Record exact source and limitations, preserving historical evidence. Follow [Contributing](../CONTRIBUTING.md).

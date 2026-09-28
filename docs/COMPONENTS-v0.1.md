@@ -3,9 +3,9 @@
 
 **Status:** Draft project component catalog.  
 **Version:** 0.1; documentation revision September 28, 2026.  
-**Implementation:** Ten of fourteen patterns have React exports in the evidence/memory increment; check the PR's exact validation and merge state.
+**Implementation:** All fourteen patterns have reference React exports. Check the PR's exact validation and merge state; this is not full product conformance.
 
-[Documentation index](README.md) · [Specification](SPECIFICATION-v0.1.md) · [Implementation matrix](STATUS-AND-ROADMAP.md) · [React API](REACT-COMPONENTS-v0.1.md) · [Review workflow](REVIEW-WORKFLOW-v0.1.md) · [Evidence and memory](EVIDENCE-AND-MEMORY-v0.1.md)
+[Documentation index](README.md) · [Specification](SPECIFICATION-v0.1.md) · [Implementation matrix](STATUS-AND-ROADMAP.md) · [React API](REACT-COMPONENTS-v0.1.md) · [Review workflow](REVIEW-WORKFLOW-v0.1.md) · [Evidence and memory](EVIDENCE-AND-MEMORY-v0.1.md) · [Supervision and recovery](SUPERVISION-AND-RECOVERY-v0.1.md)
 
 # 1. Purpose
 
@@ -29,12 +29,12 @@ Components SHOULD be outcome-first, visibly attributable, honest about uncertain
 | Memory Indicator | Implemented as `MemoryIndicator` |
 | Source View | Implemented as `SourceView` |
 | Uncertainty Signal | Implemented as `UncertaintySignal` |
-| Tool Activity | Specified only |
-| Agent Activity | Specified only |
-| Human Override | Specified only |
-| Recovery Control | Specified only |
+| Tool Activity | Implemented as `ToolActivity` |
+| Agent Activity | Implemented as `AgentActivity` |
+| Human Override | Implemented as `HumanOverride` |
+| Recovery Control | Implemented as `RecoveryControl` |
 
-Only symbols exported by [index.ts](../packages/react/src/index.ts) are available to import. AI Result and Failure State in composition examples are host surfaces, not additional canonical exports.
+Only symbols exported by [index.ts](../packages/react/src/index.ts) are available to import. AI Result and Failure State in composition examples are host surfaces, not additional canonical exports. Internal ControlAction is not a fifteenth public component.
 
 # 4. Intent Composer
 
@@ -124,7 +124,7 @@ Only symbols exported by [index.ts](../packages/react/src/index.ts) are availabl
 
 **Behavior:** C2–C4 actions SHOULD have receipts or equivalent inspectable records. A receipt MUST represent actual known state, not intent. Do not infer execution from a click or promise resolution. Compensation is not necessarily reversal.
 
-**Reference implementation:** Host-supplied `ReceiptData`; successful-looking but unverified completion/reversal is downgraded to pending verification. Invalid timestamps are unavailable, not fabricated. Audit links receive limited URL checks. The host still validates provenance and permitted origins. No recovery button or external verification service is supplied.
+**Reference implementation:** Host-supplied `ReceiptData`; successful-looking but unverified completion/reversal is downgraded to pending verification. Invalid timestamps are unavailable, not fabricated. Audit links receive limited URL checks. The host still validates provenance and permitted origins. This component supplies no recovery button or external verification service; a separate RecoveryControl can be composed where the host supports it.
 
 # 11. Memory Indicator
 
@@ -178,7 +178,9 @@ Only symbols exported by [index.ts](../packages/react/src/index.ts) are availabl
 
 **Behavior:** Summarize low-level calls rather than flood the user. Activity and completion must reflect observed operations; a proposed tool call is not a completed one. Token states include idle, active, waiting, completed, and failed; they do not implement a tool service.
 
-**Accessibility and anti-patterns:** Throttled useful status announcements, no sensitive payload dumps or meaningless perpetual animation. Specified only.
+**Accessibility and anti-patterns:** Throttled useful status announcements, no sensitive payload dumps or meaningless perpetual animation.
+
+**Reference implementation:** ToolActivityRecord adds tool, category, target, and declared authority to a scoped ActivityRecord. It shows observation time, known effects, optional measured progress, blockers, and host evidence. Unsupported terminal claims display unverified. No polling or tool execution is implemented. See [Supervision and Recovery](SUPERVISION-AND-RECOVERY-v0.1.md#3-tool-activity).
 
 # 15. Agent Activity
 
@@ -188,7 +190,9 @@ Only symbols exported by [index.ts](../packages/react/src/index.ts) are availabl
 
 **Behavior:** Use factual language such as Reviewing 12 documents only when that work is actually observed. Distinguish waiting, acting, verification, and completion. Do not imply subjective experience or guaranteed progress.
 
-**Accessibility and anti-patterns:** Keep announcements calm and meaningful, not every streamed token. Avoid hidden blockers and fake progress percentages. Specified only; Agent Card state text is not a separate Agent Activity export.
+**Accessibility and anti-patterns:** Keep announcements calm and meaningful, not every streamed token. Avoid hidden blockers and fake progress percentages.
+
+**Reference implementation:** ActivityRecord supplies identity/version, actor, task, scope, observed status, effects, and timestamp. Optional progress is bounded metadata, not a completion guarantee. AgentActivity has its own observation contract, distinct from AgentCard's state labels. See [Supervision and Recovery](SUPERVISION-AND-RECOVERY-v0.1.md#2-agent-activity).
 
 # 16. Human Override
 
@@ -200,7 +204,9 @@ Only symbols exported by [index.ts](../packages/react/src/index.ts) are availabl
 
 **Behavior:** A stop request is not confirmation of stoppage. Explain in-flight or partial effects and what cannot be interrupted. Preserve audit history. A disabled review gate or page reset is not a Human Override.
 
-**Accessibility and anti-patterns:** A persistent, plainly named keyboard-operable control where applicable; no hidden stop buttons, fake cancellation, or unsupported guarantees. Specified only.
+**Accessibility and anti-patterns:** A persistent, plainly named keyboard-operable control where applicable; no hidden stop buttons, fake cancellation, or unsupported guarantees.
+
+**Reference implementation:** HumanOverride presents a version-bound InterventionOperation and emits identity-only onRequest. Pause/stop/cancel/take-control/revoke/escalate are supported request kinds; changing scope is host orchestration, not an additional built-in kind. The local latch separates pending/acknowledged/unknown from host-confirmed completion. ControlEvidence must match control and run revisions. Actual intervention and global control placement belong to the host. See [Supervision and Recovery](SUPERVISION-AND-RECOVERY-v0.1.md#5-human-override).
 
 # 17. Recovery Control
 
@@ -212,7 +218,9 @@ Only symbols exported by [index.ts](../packages/react/src/index.ts) are availabl
 
 **Behavior:** Controls MUST match actual capabilities and MUST NOT imply undo when impossible. Distinguish restoring prior state, compensating an effect, retrying work, and resetting a demo. Check authoritative state before retrying an unknown external action to avoid duplicate effects.
 
-**Accessibility and anti-patterns:** Explain the resulting effect and announce known outcomes. Avoid fake undo, unexplained duplicate-prone retries, or support-only recovery when a practical interface path exists. Specified only.
+**Accessibility and anti-patterns:** Explain the resulting effect and announce known outcomes. Avoid fake undo, unexplained duplicate-prone retries, or support-only recovery when a practical interface path exists.
+
+**Reference implementation:** RecoveryOperation adds originalOutcome and optional retrySafety. Unknown original outcomes permit only reconciliation; retry with a known outcome also requires a described host safeguard. Undo/retry/restore/rollback/compensate/revise/reconcile are request kinds, not recovery services. Reopen remains host orchestration. Bound host evidence is needed for terminal labels, and compensation is explicitly not undo. See [Supervision and Recovery](SUPERVISION-AND-RECOVERY-v0.1.md#6-recovery-control).
 
 # 18. Composition Patterns
 
@@ -226,7 +234,7 @@ Patterns are design recipes, not exported workflow engines.
 | Memory-Aware Assistant | Intent Composer → Memory Indicator → Context Panel → host result |
 | Recovery | Action Receipt → host failure/unknown-state explanation → Recovery Control → updated receipt |
 
-The React lab exercises ten components through a proposed-action flow, read-only contextual evidence, and separately labeled memory/evidence fixtures. It is not an implementation of every recipe, a persistent-memory service, or a trusted backend.
+The React lab exercises all fourteen reference components through review, contextual evidence, memory/evidence fixtures, and a separate stepped supervision/recovery simulation. It is not an implementation of every recipe, a persistent-memory service, or a trusted backend.
 
 # 19. Component Priority by Consequence
 
@@ -292,6 +300,6 @@ What human problem is solved? Who acts? Under what authority? Is current state u
 
 # 27. Direction for v0.2
 
-The visual tokens and ten React components exist in this increment. Remaining work includes the four supervision/recovery implementations, detailed state matrices, visual anatomy examples, localization, broader browser/accessibility validation, runtime schemas, design-tool adapters, and scoped conformance evidence. The isolated offline consumer test already exists and is expanded alongside exports; broader framework/hydration validation remains outstanding. See the [roadmap](STATUS-AND-ROADMAP.md) rather than treating this list as delivered functionality.
+The visual tokens and all fourteen reference React components exist. Remaining work includes real host integration, detailed state matrices, visual anatomy examples, localization, broader browser/accessibility validation, runtime schemas, design-tool adapters, and scoped conformance evidence. The isolated offline consumer test covers the canonical exports; broader framework/hydration validation remains outstanding. See the [roadmap](STATUS-AND-ROADMAP.md) rather than treating this list as delivered functionality.
 
 **Human Intent. Machine Intelligence. Systemic Design.**

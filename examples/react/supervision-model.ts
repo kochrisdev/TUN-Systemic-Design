@@ -26,9 +26,10 @@ export function stopOperation(s: SupervisionState): InterventionOperation {
     effect: 'Ask the simulated worker to stop future work.', limits: 'Acknowledgement is not stoppage. Earlier writes remain recorded.', knownEffects: effects };
 }
 export function recoveryOperation(s: SupervisionState): RecoveryOperation {
-  // A different action gets a different identity; an unresolved request is never relabeled.
+  // Different effects have distinct identities. A submitted operation remains an immutable review snapshot.
   return s.recoveryOperation ?? { ...stopOperation(s), id: s.phase === 'unknown' ? 'local-reconcile' : 'local-compensate', kind: s.phase === 'unknown' ? 'reconcile' : 'compensate',
     originalOutcome: s.phase === 'unknown' ? 'unknown' : 'known',
+    scope: s.phase === 'unknown' ? 'Inspect the existing stop record for this run only' : 'Compensate the prior local fixture effects only',
     effect: s.phase === 'unknown' ? 'Read the local stop record. Do not repeat any write.' : 'Record a separate compensating fixture action after confirmed stoppage.',
     limits: 'Compensation is not erasure or undo. This is not a real recovery service.' };
 }

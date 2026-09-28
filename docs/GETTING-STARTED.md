@@ -1,6 +1,6 @@
 # Getting started
 
-[Documentation index](README.md) · [Core React API](REACT-COMPONENTS-v0.1.md) · [Review workflow](REVIEW-WORKFLOW-v0.1.md) · [Evidence and memory](EVIDENCE-AND-MEMORY-v0.1.md) · [Historical consumer validation](CONSUMER-VALIDATION-v0.1.md)
+[Documentation index](README.md) · [Core React API](REACT-COMPONENTS-v0.1.md) · [Review workflow](REVIEW-WORKFLOW-v0.1.md) · [Evidence and memory](EVIDENCE-AND-MEMORY-v0.1.md) · [Supervision and recovery](SUPERVISION-AND-RECOVERY-v0.1.md)
 
 ## Choose a path
 
@@ -20,7 +20,7 @@ git switch main
 git pull --ff-only
 ```
 
-Do not discard local work to follow this guide. PR branches may contain unmerged work; check PR status before assuming main includes it. To reproduce a historical result, use its recorded commit rather than assuming a moving branch is unchanged.
+Do not discard local work. PR branches can contain unmerged work; check the actual PR status before assuming main contains it. Use a recorded commit to reproduce historical results rather than assuming a moving branch is unchanged.
 
 ## Toolchain
 
@@ -31,7 +31,7 @@ Do not discard local work to follow this guide. PR branches may contain unmerged
 | Python | 3.10+ for token/documentation tools | Standard-library scripts |
 | React/React DOM | Declared peer range: >=19.2.0 <20 | [Package manifest](../packages/react/package.json) |
 
-Select the reference Node version with your version manager or install it manually. The broader engine range does not prove every allowed runtime was tested. On Windows, Python may be `py -3`; on macOS/Linux it may be `python3`. Substitute your Python 3 command below. Run npm commands from the repository root unless stated otherwise.
+Select the reference Node version with a version manager or manual installation. The broader engine range does not prove every allowed runtime was tested. On Windows, Python may be `py -3`; on macOS/Linux it may be `python3`. Substitute your Python 3 command below. Run npm commands from the repository root unless stated otherwise.
 
 ## React component lab
 
@@ -46,15 +46,19 @@ npm run check
 npm run dev
 ```
 
-Open `http://127.0.0.1:4173`. Keep the development-server terminal open; Ctrl+C stops it. GitHub's file viewer shows source, not a running app.
+Open `http://127.0.0.1:4173`. Keep the server terminal open; Ctrl+C stops it. GitHub's file viewer shows source, not a running application.
 
-The lab follows **Prepare plan → Review approach → Create proposal → Review action → Simulate publish or Reject action → Verified receipt**. Approach review and opening review grant no action permission. Notes availability and Revise plan demonstrate invalidation. An unconfirmed response requires reconciliation rather than retry. See the [workflow walkthrough](REVIEW-WORKFLOW-v0.1.md#7-walk-through-the-local-lab).
+The lab presents all fourteen canonical reference components across separately scoped examples. **All effects are simulated.** No production worker, tool, memory store, model, or external action service is supplied.
 
-The ten-component lab also shows **Evidence for the current task**: memory influence, the supplied note and its application-reported check, and uncertainty about production readiness. Before preparing a plan, availability does not imply source use. Restricting the notes removes readable evidence and memory inspection. The **Explore evidence and memory states** disclosure uses separate synthetic fixtures to demonstrate conflicts, inaccessible sources, generated interpretation, and M0–M3/unavailable memory without changing the task, its approval, or stored memory. Read the [evidence and memory walkthrough](EVIDENCE-AND-MEMORY-v0.1.md#6-component-lab).
+The review workflow is **Prepare plan → Review approach → Create proposal → Review action → Simulate publish or Reject action → Verified receipt**. Approach review grants no execution permission. Notes availability and Revise plan invalidate reviews. An unconfirmed response requires reconciliation rather than repetition. See the [review walkthrough](REVIEW-WORKFLOW-v0.1.md#7-walk-through-the-local-lab).
+
+**Evidence for the current task** explains memory influence, source use and application-reported checks, and scoped uncertainty. Availability is not use. Restricted notes remove readable evidence and memory inspection. The separate **Explore evidence and memory states** disclosure demonstrates conflicts, inaccessible sources, generated interpretations, and M0–M3/unavailable memory without changing task authority or storing data. See [Evidence and Memory](EVIDENCE-AND-MEMORY-v0.1.md#6-component-lab).
+
+Use **Explore supervision and recovery** for the final four components. Request stop is acknowledged before any stop is confirmed; Advance simulated worker then supplies a local observation. Prior effects remain visible. The lost-acknowledgement scenario permits Check original action status rather than another write. Compensation creates a separate record without deleting the originals. These controls govern only the stepped fixture, **not the publication-review lab**. See the [supervision walkthrough](SUPERVISION-AND-RECOVERY-v0.1.md#8-working-local-example).
 
 ### Library changes during development
 
-`npm run dev` builds the library once before Vite. The demo imports the built package; changes to `packages/react/src` require `npm run build:library` or restarting through `npm run dev`. No library watch command is supplied. The demo model is local example code, not an exported workflow engine.
+`npm run dev` builds the library once before Vite. The demo imports built files, so changes to packages/react/src need `npm run build:library` or a restart through npm run dev. No library watch command is supplied. The demo models are local fixtures, not exported workflow engines.
 
 ## Visual specimen without npm
 
@@ -63,25 +67,25 @@ python scripts/tokens.py check
 python -m http.server 8000 --bind 127.0.0.1
 ```
 
-Open `http://127.0.0.1:8000/examples/visual-system.html`. This separate specimen needs the repository CSS. For token changes, edit tokens.json, run `python scripts/tokens.py build`, then `check`. Commit source, generated CSS, and generated report together.
+Open `http://127.0.0.1:8000/examples/visual-system.html`. The specimen needs repository CSS. Edit tokens.json, run `python scripts/tokens.py build`, then `check`. Commit token source, generated CSS, and report together.
 
 ## Verification
 
 | Command | Checks or produces | Does not include |
 |---|---|---|
 | npm run typecheck | TypeScript checking | Browser behavior |
-| npm test | Library build, Node contracts, React components, demo-model and evidence-metadata tests | Browser, tokens, docs, audit, isolated install |
-| npm run test:package | Archive inventory and workspace exports; requires a current library build | Independent installation |
-| npm run test:consumer | Offline isolated install/reinstall, consumer types, ten static renders, package/CSS resolution; requires current build and package report | Hydration, bundler integration, registry distribution |
-| npm run check | Typecheck, npm test, demo build, package inventory, and isolated consumer checks | Browser, tokens, docs, dependency audits |
+| npm test | Library build, Node contracts, React components, metadata and demo-model tests | Browser, tokens, docs, audit, isolated installation |
+| npm run test:package | Archive inventory and workspace exports; requires a current build | Independent installation |
+| npm run test:consumer | Offline fresh install/reinstall, declarations, fourteen static renders, seven negative type cases, package/CSS paths | Hydration, CSS bundlers, registry distribution |
+| npm run check | Typecheck, npm test, demo build, package inventory, isolated consumer checks | Browser, tokens, docs, audits |
 | npm run test:browser | Chromium browser suite | Firefox, WebKit, manual assistive-technology review |
 | python scripts/tokens.py check | Structure, declared contrast, generated-file drift | Every rendered combination |
 | python scripts/check_docs.py | Local Markdown links/fragments and fences | External URLs, code execution, factual correctness |
 | npm audit | Known advisories for the installed graph at run time | Proof of application security |
 
-Use actual runner output, not historical counts, for the current commit. [PR 5](https://github.com/kochrisdev/TUN-Systemic-Design/pull/5) records the evidence/memory increment. [Consumer validation](CONSUMER-VALIDATION-v0.1.md) and [Review validation](REVIEW-VALIDATION-v0.1.md) preserve earlier seven-component acceptance and findings.
+Use actual runner output for the current commit, not historical counts. [PR 6](https://github.com/kochrisdev/TUN-Systemic-Design/pull/6) tracks fourteen-component acceptance. Earlier [evidence](EVIDENCE-VALIDATION-v0.1.md), [consumer](CONSUMER-VALIDATION-v0.1.md), and [review](REVIEW-VALIDATION-v0.1.md) reports retain their dated scope.
 
-After npm ci, run the full set of checks:
+After npm ci, run the full set:
 
 ```sh
 python scripts/check_docs.py
@@ -94,7 +98,7 @@ npm audit
 npm audit --omit=dev
 ```
 
-Linux environments missing browser system libraries may use `npx playwright install --with-deps chromium`; review system-package privileges first. The [React workflow](../.github/workflows/react.yml) and [documentation workflow](../.github/workflows/docs.yml) define CI. Artifacts are temporary evidence, not durable release storage.
+Linux environments missing browser libraries may use `npx playwright install --with-deps chromium`; review system-package privileges first. [React CI](../.github/workflows/react.yml) and [documentation CI](../.github/workflows/docs.yml) define the existing workflows. Artifacts are temporary evidence, not durable releases.
 
 ### Isolated package acceptance only
 
@@ -104,7 +108,7 @@ npm run test:package
 npm run test:consumer
 ```
 
-The consumer test packs only installed lockfile-matched runtime/type packages and the built TUN library. It uses a new application and cache outside the repository, offline npm installation with lifecycle scripts disabled, its own lockfile reinstall, and real package resolution without workspace links. It records `artifacts/consumer-check.json` and removes only its temporary directory. The initial repository installation may need registry access; this acceptance test does not. A failure must be investigated, not bypassed by enabling scripts or adding a network fallback.
+The consumer test packs built TUN and installed lockfile-matched peers/type packages. It uses a new application and cache outside the repository, offline npm installation with lifecycle scripts disabled, its own lockfile reinstall, and real installed package paths without workspace links. It writes artifacts/consumer-check.json and removes only its temporary directory. Initial repository setup may need registry access; the acceptance test does not. Investigate failures rather than enabling scripts or adding network fallback.
 
 ## Build and consume a local package
 
@@ -112,9 +116,9 @@ The consumer test packs only installed lockfile-matched runtime/type packages an
 npm run pack:react
 ```
 
-This builds `tun-systemic-react-0.1.0.tgz` in the repository root. `npm run check` also creates a checked archive under artifacts/. Neither publishes to npm. The private version is unchanged between increments; record source SHA and digest when sharing an archive.
+This creates tun-systemic-react-0.1.0.tgz in the repository root; npm run check also creates a checked archive under artifacts/. Neither publishes to npm. Record source SHA and digest because repository-local builds share private version 0.1.0.
 
-In a compatible existing React app, replace the path with the actual archive:
+In a compatible existing React app, substitute the actual path:
 
 ```sh
 npm install /absolute/path/to/tun-systemic-react-0.1.0.tgz
@@ -122,37 +126,39 @@ npm install /absolute/path/to/tun-systemic-react-0.1.0.tgz
 
 ```tsx
 import { ContextPanel, PlanView, ProposalCard, ApprovalGate,
-  MemoryIndicator, SourceView, UncertaintySignal } from '@tun-systemic/react';
+  MemoryIndicator, SourceView, UncertaintySignal,
+  ToolActivity, AgentActivity, HumanOverride, RecoveryControl } from '@tun-systemic/react';
 import '@tun-systemic/react/styles.css';
 ```
 
-New evidence/memory types and helpers are root exports only, not additions to the existing contracts subpath. No evidence-contracts package subpath is declared. See the [API guide](EVIDENCE-AND-MEMORY-v0.1.md#1-scope-and-imports).
+Evidence/memory and supervision types/helpers are root-only exports. No evidence-contracts or supervision-contracts package subpath is declared. Core/review types remain available through the existing contracts subpath.
 
-Import CSS once in the permitted global entry; token CSS is included. The package is ESM with declarations and no CommonJS require export. The isolated smoke test validates one locked React graph and static rendering; validate CSS bundling, hydration, and framework boundaries in your actual consumer before adoption.
+Import CSS once in the host's permitted global entry; token CSS is included. The package is ESM with declarations, not CommonJS require. The isolated test covers one locked graph and static rendering. Validate CSS bundling, hydration, framework boundaries, and actual service integration in the consuming application.
 
-Set `data-tun-theme="light"` or `"dark"` on `<html>`; remove it for system preference. Nested themes and persisted preferences are not implemented.
+Set data-tun-theme light/dark on html, or remove it for system preference. Nested themes and persisted preferences are not implemented.
 
 ## Troubleshooting
 
 | Symptom | Check and response |
 |---|---|
 | Engine/install error | Confirm Node/npm versions and root directory. Keep the lockfile; do not force peer compatibility. |
-| Registry/DNS error on initial setup | Restore connectivity. Syntax-only checks are not a completed build. |
-| Consumer dependency mismatch | Restore the committed graph with npm ci; do not silently select a newer peer. |
-| Consumer archive/report mismatch | Rebuild the library, run test:package, then test:consumer. |
-| Missing dist or stale edits | Run npm run build:library; the demo imports built files. |
-| Missing evidence contract import | Import new evidence/memory contracts from the package root, not an invented subpath. |
+| Initial registry/DNS error | Restore connectivity. Syntax checks are not a completed build. |
+| Consumer dependency mismatch | Restore the committed graph with npm ci; do not silently choose newer peers. |
+| Consumer archive/report mismatch | Rebuild, run test:package, then test:consumer. |
+| Missing dist or stale edits | Run npm run build:library. |
+| Missing new contract import | Use the package root rather than inventing subpaths. |
 | Missing Chromium | Run npx playwright install chromium using the installed toolchain. |
 | Port 4173 unavailable | Stop a process you own or update demo/test URLs together. |
 | Unstyled components | Import package CSS and set the theme on html. |
-| Prepare plan disabled | Restore available notes; missing/restricted/stale or unresolved outcomes block the demo. |
-| Create proposal disabled | Review the current approach; revisions clear that review. |
-| Approval disabled | Inspect status, expiry, completeness, same-version changes, and pending/unknown outcomes. Never bypass a latch. |
-| Unknown publication outcome | Check the simulated action record; do not repeat publication. Missing evidence stays unknown. |
-| Receipt pending verification | Supply verified state and meaningful evidence; a click is insufficient. |
-| Uncertainty falls back to Unknown | Supply valid scope/explanation and a genuine supporting basis for U0–U2; do not invent evidence to obtain a preferred badge. |
-| Source summary stays Partial | Inspect actual support, access, excerpt type, and described source checks. Generated interpretation is not verified source material. |
-| Inspect memory is absent | Only valid active M1–M3 records with an onInspect handler offer inspection. No control means no promised mutation service. |
-| Local link checker failure | Move targets and links together. Remote URLs are not fetched. |
+| Prepare plan disabled | Restore current available notes; unresolved outcomes deliberately block work. |
+| Create proposal disabled | Review the current approach; revisions clear review. |
+| Approval/override/recovery disabled | Inspect scope, versions, expiry, policy, evidence and local pending/unknown latches. Never bypass a latch. |
+| Stop acknowledged but not confirmed | In the fixture, advance the simulated worker. In production, wait for genuine host observations. |
+| Recovery blocked on unknown outcome | Reconcile the original action first. A network failure is not proof of no effects. |
+| Completion stays unverified | Supply authentic evidence for the exact control/run revision; a click is insufficient. |
+| Uncertainty becomes Unknown | Provide valid scope, explanation and a genuine basis; never invent evidence for a preferred badge. |
+| Source summary stays Partial | Check support, access, excerpt type and source checks; generated text is not source evidence. |
+| Memory inspection absent | Only valid active M1–M3 records with onInspect offer navigation. No storage service is implied. |
+| Local link checker failure | Update targets and links together; remote URLs are not fetched. |
 
-For production, complete the [integration checklist](INTEGRATION-CHECKLIST.md). A local demo or passing smoke test implies no publication, hosted deployment, complete accessibility audit, or real backend execution.
+Before production use complete the [integration checklist](INTEGRATION-CHECKLIST.md). A demo or smoke test is not publication, deployment, full accessibility assessment, or authorization infrastructure.

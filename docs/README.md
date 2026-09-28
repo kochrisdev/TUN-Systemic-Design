@@ -6,49 +6,54 @@
 
 **Product and design:** Concept Note → Manifesto → Specification → Components → Visual System → Integration Checklist.
 
-**Engineering:** Getting Started → Architecture → React Components → Review Workflow → Evidence and Memory → Validation → Contributing.
+**Engineering:** Getting Started → Architecture → React Components → Review Workflow → Evidence and Memory → Supervision and Recovery → Validation → Contributing.
 
-**AI coding agents:** Read the implementation matrix, actual source contracts, and integration checklist before generating code. Do not assume catalog entries are exported, fabricate passed tests, edit generated tokens, or turn a UI callback, remembered preference, source check, or confidence label into permission to execute.
+**AI coding agents:** Check the implementation matrix, public exports and source contracts. All fourteen canonical components have reference exports; that supplies no model, authorization service, memory backend or real cancellation/recovery. Never fabricate validation, hand-edit generated tokens, or turn presentation callbacks into authority.
 
-## Document map
+## Current guidance
 
-| Document | Authority and purpose |
+| Document | Role |
 |---|---|
-| [Concept Note](CONCEPT-NOTE.md) | Informative founding proposal. Long-term outputs are aspirations. |
-| [Manifesto v0.1](MANIFESTO-v0.1.md) | Informative philosophy. IX is TUN terminology; the interface progression is conceptual. |
-| [Specification v0.1](SPECIFICATION-v0.1.md) | Draft behavioral requirements and conformance vocabulary. |
-| [Components v0.1](COMPONENTS-v0.1.md) | Fourteen design patterns and implementation status. |
-| [Design Tokens and Visual System v0.1](DESIGN-TOKENS-AND-VISUAL-SYSTEM-v0.1.md) | Visual profile and supported exporter behavior. |
-| [React Components v0.1](REACT-COMPONENTS-v0.1.md) | Public implementation overview, core APIs, and host responsibilities. |
-| [Review Workflow v0.1](REVIEW-WORKFLOW-v0.1.md) | Context Panel, Plan View, Proposal Card, approval bindings, walkthrough. |
-| [Evidence and Memory v0.1](EVIDENCE-AND-MEMORY-v0.1.md) | Memory Indicator, Source View, Uncertainty Signal; root exports, display safeguards, examples, and limits. |
-| [Evidence Validation v0.1](EVIDENCE-VALIDATION-v0.1.md) | Ten-component implementation evidence, isolated consumer checks, visual findings, corrections, and remaining limits. |
-| [Consumer Validation v0.1](CONSUMER-VALIDATION-v0.1.md) | Historical seven-component offline installation and static-render evidence. |
-| [Review Validation v0.1](REVIEW-VALIDATION-v0.1.md) | Historical workflow evidence and debugging. Its earlier open consumer item was subsequently resolved. |
-| [Getting Started](GETTING-STARTED.md) | Installation, commands, preview, packaging, troubleshooting. |
-| [Architecture](ARCHITECTURE.md) | Build/data flow, source ownership, and trust boundaries. |
-| [Status and Roadmap](STATUS-AND-ROADMAP.md) | Ten implemented versus four specified-only patterns and next increments. |
-| [Integration Checklist](INTEGRATION-CHECKLIST.md) | Adoption worksheet, not certification. |
-| [Token Validation v0.1](TOKEN-VALIDATION-v0.1.md) | Generated token evidence. |
-| [React Validation v0.1](REACT-VALIDATION-v0.1.md) | Historical four-component evidence. |
-| [Documentation Audit v0.1](DOCUMENTATION-AUDIT-v0.1.md) | Historical documentation review and limitations. |
-| [Contributing](../CONTRIBUTING.md) | Change, review, validation, and maintenance. |
-| [Changelog](../CHANGELOG.md) | Repository milestones, not npm releases. |
+| [Concept Note](CONCEPT-NOTE.md) | Founding proposal; long-term outputs are aspirations |
+| [Manifesto](MANIFESTO-v0.1.md) | Philosophy and TUN terminology, not an exclusive history |
+| [Specification](SPECIFICATION-v0.1.md) | Draft behavioral requirements and conformance vocabulary |
+| [Components](COMPONENTS-v0.1.md) | Fourteen design patterns and implementation boundaries |
+| [Visual System](DESIGN-TOKENS-AND-VISUAL-SYSTEM-v0.1.md) | Tokens, styling and exporter behavior |
+| [React Components](REACT-COMPONENTS-v0.1.md) | Package overview and core API |
+| [Review Workflow](REVIEW-WORKFLOW-v0.1.md) | Context/plan/proposal APIs and approval binding |
+| [Evidence and Memory](EVIDENCE-AND-MEMORY-v0.1.md) | Memory, sources and qualitative uncertainty |
+| [Supervision and Recovery](SUPERVISION-AND-RECOVERY-v0.1.md) | Observations, intervention/recovery requests, evidence and simulation |
+| [Getting Started](GETTING-STARTED.md) | Setup, commands, examples and package consumption |
+| [Architecture](ARCHITECTURE.md) | Data flow, source ownership and host services |
+| [Status and Roadmap](STATUS-AND-ROADMAP.md) | Implemented versus planned capabilities |
+| [Integration Checklist](INTEGRATION-CHECKLIST.md) | Adoption worksheet, not certification |
+| [Contributing](../CONTRIBUTING.md) | Change and review process |
+| [Changelog](../CHANGELOG.md) | Repository milestones, not npm releases |
+
+## Evidence and historical records
+
+| Record | Scope |
+|---|---|
+| [Supervision Validation](SUPERVISION-VALIDATION-v0.1.md) | Fourteen-component implementation checks, review finding, artifacts and limits; final-head acceptance in PR 6 |
+| [Token Validation](TOKEN-VALIDATION-v0.1.md) | Generated declared token/contrast checks |
+| [Evidence Validation](EVIDENCE-VALIDATION-v0.1.md) | Historical ten-component snapshot |
+| [Consumer Validation](CONSUMER-VALIDATION-v0.1.md) | Historical seven-component isolated installation acceptance |
+| [Review Validation](REVIEW-VALIDATION-v0.1.md) | Earlier workflow results and debugging history |
+| [React Validation](REACT-VALIDATION-v0.1.md) | Historical four-component snapshot |
+| [Documentation Audit](DOCUMENTATION-AUDIT-v0.1.md) | Earlier documentation review |
+
+[PR 6](https://github.com/kochrisdev/TUN-Systemic-Design/pull/6) records final-head checks and merge state. Older counts are deliberately preserved as dated evidence, not current implementation limits. Authored tests are not successful tests until a named run passes.
 
 ## Sources of truth
 
-For intended behavior, read Specification and Components together. For accepted props, inspect [contracts.ts](../packages/react/src/contracts.ts), [review-contracts.ts](../packages/react/src/review-contracts.ts), [evidence-contracts.ts](../packages/react/src/evidence-contracts.ts), [public exports](../packages/react/src/index.ts), and component source. Implementation can fall short of a requirement; code does not silently redefine the specification.
+Read Specification and Components for intended behavior. For accepted props and exports inspect [core contracts](../packages/react/src/contracts.ts), [review contracts](../packages/react/src/review-contracts.ts), [evidence contracts](../packages/react/src/evidence-contracts.ts), [supervision contracts](../packages/react/src/supervision-contracts.ts) and [index.ts](../packages/react/src/index.ts). An implementation may fall short; code does not silently redefine a requirement.
 
-New evidence/memory contracts are exported from the package root, not the existing contracts subpath. Do not invent a package subpath from an internal filename.
+Edit [tokens.json](../tokens/tokens.json) for visual values, not generated CSS/reports. Inspect [package.json](../package.json) for commands and [package-lock.json](../package-lock.json) for the dependency graph. Use named source/run evidence for tests and actual PR metadata for merge state.
 
-For visual values, edit [tokens.json](../tokens/tokens.json), not generated CSS/reports. For commands, inspect [package.json](../package.json); for installed dependencies, inspect [package-lock.json](../package-lock.json). A successful check needs a named source/run. A branch's contents do not establish merge or publication.
-
-Historical records remain unchanged when new acceptance work passes. Use [Evidence Validation](EVIDENCE-VALIDATION-v0.1.md) and [PR 5](https://github.com/kochrisdev/TUN-Systemic-Design/pull/5) for this increment's tested source and final-head checks rather than reusing the seven-component counts. Do not reinterpret failed runs as successes.
-
-Report conflicting sections and their scope. Do not weaken approval, privacy, or recovery requirements to resolve conflicts. Normative changes need a reviewed pull request explaining their effect.
+Report conflicting guidance with its scope. Do not weaken approval, privacy, evidence or recovery rules to resolve conflicts. Normative changes require explicit review. Historical validation records remain unchanged when new acceptance succeeds.
 
 ## Status vocabulary
 
-**Specified:** a design contract exists. **Implemented:** code is exported. **Validated:** a named check passed in a stated environment. **Published:** a package or release was intentionally distributed through a named channel. None means certified; there is no certification program here.
+**Specified:** a design contract exists. **Implemented:** reference code is exported. **Validated:** a named check passed in a stated environment. **Published:** intentional distribution through a named channel. None means certified; no certification program is supplied.
 
-Document version 0.1, private package version 0.1.0, commits, and deployment versions are different identifiers. Use commit and archive digest to reproduce an exact build.
+Document version 0.1, private package version 0.1.0, Git commits and deployment versions are distinct. Identify exact builds by source SHA and archive digest.
