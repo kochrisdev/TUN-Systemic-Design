@@ -37,7 +37,7 @@
 .tun-component dd { margin: 0; min-inline-size: 0; }
 .tun-component ul { margin-block: 0; padding-inline-start: var(--tun-space-5); }
 .tun-component .tun-notice { padding: var(--tun-space-3); background: var(--tun-surface-subtle); border-inline-start: var(--tun-border-emphasis) solid var(--tun-border-control); }
-.tun-component .tun-details summary { cursor: pointer; padding-block: var(--tun-space-3); min-block-size: var(--tun-control-min-size-size); }
+.tun-component .tun-details summary { cursor: pointer; padding-block: var(--tun-space-3); min-block-size: var(--tun-control-min-size); }
 .tun-component .tun-link { display: inline-flex; align-items: center; min-block-size: var(--tun-control-min-size); color: var(--tun-text-link); text-decoration: underline; }
 @media (max-width: 30rem) {
   .tun-component { padding: var(--tun-space-4); }
