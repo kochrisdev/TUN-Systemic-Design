@@ -23,9 +23,11 @@ describe('ContextPanel', () => {
   it('warns about stale sources', () => { render(<ContextPanel context={{ ...context, sources: [{ ...source, availability: 'stale', usage: 'used' }] }} />); expect(screen.getByText(/may be out of date/)).toBeVisible(); });
   it('separates context persistence from data retention', () => { render(<ContextPanel context={{ ...context, sources: [{ ...source, persistence: 'persistent' }] }} />); expect(screen.getByText('Persistent context')).toBeVisible(); expect(screen.getByText(/not a promise about logs/)).toBeVisible(); });
   it('rejects unsafe source links', () => { render(<ContextPanel context={{ ...context, sources: [{ ...source, availability: 'available', usage: 'unknown', detailsUrl: 'javascript:alert(1)' }] }} />); expect(screen.queryByRole('link')).not.toBeInTheDocument(); expect(screen.getByText('Usage not confirmed')).toBeVisible(); });
-  it('uses a keyboard-operable native disclosure', async () => {
-    render(<ContextPanel context={context} />); const summary = screen.getByText('Inspect Project notes'); summary.focus();
-    await userEvent.keyboard('{Enter}'); expect(summary.closest('details')).toHaveAttribute('open'); expect(screen.getByText('Notes to inspect')).toBeVisible();
+  it('uses an expandable native disclosure', async () => {
+    render(<ContextPanel context={context} />); const summary = screen.getByText('Inspect Project notes');
+    expect(summary.tagName).toBe('SUMMARY');
+    // Native Enter default behavior is covered by the real Chromium test.
+    await userEvent.click(summary); expect(summary.closest('details')).toHaveAttribute('open'); expect(screen.getByText('Notes to inspect')).toBeVisible();
   });
   it('keeps accessible region ids unique', () => { const { container } = render(<><ContextPanel context={context} /><ContextPanel context={context} /></>); const ids = [...container.querySelectorAll('[id]')].map(el => el.id); expect(new Set(ids).size).toBe(ids.length); });
 });
