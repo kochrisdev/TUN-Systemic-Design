@@ -42,7 +42,7 @@ function ProposalRevision({ proposal, status, rationale, assumptions, onReview, 
     onReview?.({ proposalId: proposal.id, proposalVersion: proposal.version });
   }
   return <section className={`tun-component tun-proposal ${className}`} aria-labelledby={`${id}-kind ${id}-title`}>
-    <p id={`${id}-kind`} className="tun-eyebrow">Proposal · not executed</p>
+    <p id={`${id}-kind`} className="tun-eyebrow">{status === 'approved' ? 'Proposal · execution tracked separately' : 'Proposal · not executed'}</p>
     <h2 id={`${id}-title`} className="tun-heading">{proposal.action}</h2>
     <p className="tun-badge" role="status">{reason || proposalStatusLabels[status]}</p>
     <dl className="tun-facts">
