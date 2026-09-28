@@ -22,6 +22,7 @@
 | [React Components v0.1](REACT-COMPONENTS-v0.1.md) | Public implementation overview, core APIs, and host responsibilities. |
 | [Review Workflow v0.1](REVIEW-WORKFLOW-v0.1.md) | Context Panel, Plan View, Proposal Card, approval bindings, walkthrough. |
 | [Evidence and Memory v0.1](EVIDENCE-AND-MEMORY-v0.1.md) | Memory Indicator, Source View, Uncertainty Signal; root exports, display safeguards, examples, and limits. |
+| [Evidence Validation v0.1](EVIDENCE-VALIDATION-v0.1.md) | Ten-component implementation evidence, isolated consumer checks, visual findings, corrections, and remaining limits. |
 | [Consumer Validation v0.1](CONSUMER-VALIDATION-v0.1.md) | Historical seven-component offline installation and static-render evidence. |
 | [Review Validation v0.1](REVIEW-VALIDATION-v0.1.md) | Historical workflow evidence and debugging. Its earlier open consumer item was subsequently resolved. |
 | [Getting Started](GETTING-STARTED.md) | Installation, commands, preview, packaging, troubleshooting. |
@@ -42,7 +43,7 @@ New evidence/memory contracts are exported from the package root, not the existi
 
 For visual values, edit [tokens.json](../tokens/tokens.json), not generated CSS/reports. For commands, inspect [package.json](../package.json); for installed dependencies, inspect [package-lock.json](../package-lock.json). A successful check needs a named source/run. A branch's contents do not establish merge or publication.
 
-Historical records remain unchanged when new acceptance work passes. Use [PR 5](https://github.com/kochrisdev/TUN-Systemic-Design/pull/5) for this increment's final-head checks rather than reusing the seven-component counts. Do not reinterpret failed runs as successes.
+Historical records remain unchanged when new acceptance work passes. Use [Evidence Validation](EVIDENCE-VALIDATION-v0.1.md) and [PR 5](https://github.com/kochrisdev/TUN-Systemic-Design/pull/5) for this increment's tested source and final-head checks rather than reusing the seven-component counts. Do not reinterpret failed runs as successes.
 
 Report conflicting sections and their scope. Do not weaken approval, privacy, or recovery requirements to resolve conflicts. Normative changes need a reviewed pull request explaining their effect.
 
