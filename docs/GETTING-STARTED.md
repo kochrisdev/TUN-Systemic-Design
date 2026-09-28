@@ -1,10 +1,10 @@
 # Getting started
 
-[Documentation index](README.md) · [React API](REACT-COMPONENTS-v0.1.md)
+[Documentation index](README.md) · [Core React API](REACT-COMPONENTS-v0.1.md) · [Review workflow](REVIEW-WORKFLOW-v0.1.md)
 
 ## Choose a path
 
-The HTML visual specimen needs only Python for its optional local server and token validation. The React component lab additionally needs Node, npm, and initial access to the npm registry. Neither example connects to an AI model or external execution service.
+The HTML visual specimen needs only Python for its optional local server and token validation. The React lab additionally needs Node, npm, and initial registry access. Neither connects to an AI model or external execution service.
 
 ## Obtain the repository
 
@@ -13,20 +13,27 @@ git clone https://github.com/kochrisdev/TUN-Systemic-Design.git
 cd TUN-Systemic-Design
 ```
 
-For an existing clean checkout, use `git pull --ff-only` on the branch you intend to update. Do not discard local work to follow this guide. To reproduce a historical result, use the exact commit recorded in its validation report rather than assuming today's `main` is identical.
+For an existing clean checkout, use `git pull --ff-only` on the intended branch. Do not discard local work to follow this guide. To inspect the unmerged review-workflow increment, fetch and switch to its branch:
+
+```sh
+git fetch origin
+git switch feat/context-plan-proposal-v0.1
+```
+
+Check the actual PR status; branch contents do not establish that main contains them. To reproduce a historical result, use its recorded commit rather than assuming main or a branch is unchanged.
 
 ## Toolchain
 
 | Tool | Reference setup | Source |
 |---|---|---|
 | Node | 22.23.2 | [.nvmrc](../.nvmrc) |
-| npm | 12.1.0 | [package.json](../package.json) `packageManager` |
-| Python | 3.10+ for token and documentation tools | Standard-library scripts |
-| React and React DOM | Declared package peer range: `>=19.2.0 <20` | [React package manifest](../packages/react/package.json) |
+| npm | 12.1.0 | [package.json](../package.json) packageManager |
+| Python | 3.10+ for token/documentation tools | Standard-library scripts |
+| React/React DOM | Declared peer range: >=19.2.0 <20 | [Package manifest](../packages/react/package.json) |
 
-Use your preferred Node version manager or install the reference version manually. The manifest's engine range is broader than the reference setup; it is not a promise that every allowed runtime has been tested. The historical React report identifies the exact resolved dependencies that were tested.
+Select the reference Node version with your preferred version manager or install it manually. The engine range is broader than the reference setup; it does not prove every allowed runtime was tested. Validation reports identify specific tested dependencies.
 
-On Windows, the Python launcher may be `py -3`; on macOS/Linux it may be `python3`. Substitute your available Python 3 command in the examples. Run npm commands from the repository root unless a step explicitly says otherwise.
+On Windows, Python may be `py -3`; on macOS/Linux it may be `python3`. Substitute your Python 3 command below. Run npm commands from the repository root unless stated otherwise.
 
 ## React component lab
 
@@ -41,13 +48,13 @@ npm run check
 npm run dev
 ```
 
-Open `http://127.0.0.1:4173`. Keep the development-server terminal open while using the lab; press Ctrl+C to stop it. GitHub's file viewer shows source, not a running application.
+Open `http://127.0.0.1:4173`. Keep the development-server terminal open; Ctrl+C stops it. GitHub's file viewer shows source, not a running app.
 
-The demo lets you prepare a proposal, approve or reject its simulated publication, and inspect a simulated receipt. Approval and receipt are distinct states. The unconfirmed-response option demonstrates a blocked retry without claiming that a real action ran.
+The seven-component lab follows **Prepare plan → Review approach → Create proposal → Review action → Simulate publish or Reject action → Verified receipt**. Approach review and opening action review grant no execution permission. Notes availability and Revise plan demonstrate invalidation. The unconfirmed-response option writes only an in-memory simulation record, then requires reconciliation rather than retry. See the [walkthrough](REVIEW-WORKFLOW-v0.1.md#7-walk-through-the-local-lab).
 
 ### Library changes during development
 
-`npm run dev` builds the library once before launching Vite. The demo consumes the built package, so source changes in `packages/react/src` need `npm run build:library` or a server restart through `npm run dev`. There is no library watch command in this increment. Edits to the Vite app follow its normal development reload behavior.
+`npm run dev` builds the library once before Vite. The demo imports the built package, so edits in `packages/react/src` require `npm run build:library` or restarting through `npm run dev`. No library watch command is supplied. The demo model is local example code, not an exported workflow engine.
 
 ## Visual specimen without npm
 
@@ -56,23 +63,23 @@ python scripts/tokens.py check
 python -m http.server 8000 --bind 127.0.0.1
 ```
 
-Open `http://127.0.0.1:8000/examples/visual-system.html`. It uses the adjacent repository stylesheet, so copying the HTML alone is not a substitute for copying its assets. For token changes, edit `tokens/tokens.json`, run `python scripts/tokens.py build`, then run `check` again. Commit the source, generated CSS, and generated validation report together.
+Open `http://127.0.0.1:8000/examples/visual-system.html`. This separate HTML specimen uses repository CSS; copying its HTML alone does not copy its assets. For token changes, edit tokens.json, run `python scripts/tokens.py build`, then `check`. Commit source, generated CSS, and generated report together.
 
 ## Verification
 
 | Command | Checks or produces | Does not include |
 |---|---|---|
-| `npm run typecheck` | TypeScript checking | Browser behavior |
-| `npm test` | Library build, 59 baseline contract tests, 21 baseline React tests | Browser, token, or dependency audits |
-| `npm run check` | Typecheck, `npm test`, production demo build, local package inventory/exports | Browser tests, tokens, docs, dependency audit |
-| `npm run test:browser` | Playwright Chromium suite | Firefox, WebKit, or a manual assistive-technology audit |
-| `python scripts/tokens.py check` | Token structure, declared contrast pairs, generated-file drift | Every possible rendered color combination |
-| `python scripts/check_docs.py` | Repository Markdown local links/fragments and fenced-code balance | External-link availability, code-example execution, or factual correctness |
-| `npm audit` | Current known advisories for the installed graph | Proof that the application is secure |
+| npm run typecheck | TypeScript checking | Browser behavior |
+| npm test | Library build, Node contracts, React components, demo-model tests | Browser, token, documentation, or audit checks |
+| npm run check | Typecheck, npm test, production demo build, package inventory/exports | Browser, tokens, docs, audit, independent-consumer installation |
+| npm run test:browser | Playwright Chromium suite | Firefox, WebKit, manual assistive-technology review |
+| python scripts/tokens.py check | Structure, declared contrast pairs, generated-file drift | Every rendered color combination |
+| python scripts/check_docs.py | Local Markdown links/fragments and fence balance | External URLs, example execution, factual correctness |
+| npm audit | Known advisories for the installed graph at run time | Proof of application security |
 
-The numeric test counts above describe the audited four-component baseline; use current runner output for subsequent changes.
+Use actual runner counts, not historical numbers, for the current commit. The [review validation record](REVIEW-VALIDATION-v0.1.md) tracks this increment; the earlier React report remains historical.
 
-For a full local verification pass after `npm ci`:
+After npm ci, run the separate checks:
 
 ```sh
 python scripts/check_docs.py
@@ -85,7 +92,7 @@ npm audit
 npm audit --omit=dev
 ```
 
-Linux environments missing browser system libraries can use `npx playwright install --with-deps chromium`; that command may require system-package privileges. Review the command and environment first. The [React workflow](../.github/workflows/react.yml) and [documentation workflow](../.github/workflows/docs.yml) define CI behavior. CI artifacts are temporary, not durable release storage.
+Linux environments missing browser system libraries may use `npx playwright install --with-deps chromium`; review its environment/system-package privileges first. The [React workflow](../.github/workflows/react.yml) and [documentation workflow](../.github/workflows/docs.yml) define CI. Artifacts are temporary evidence, not durable release storage.
 
 ## Build and consume a local package
 
@@ -93,35 +100,38 @@ Linux environments missing browser system libraries can use `npx playwright inst
 npm run pack:react
 ```
 
-This builds and creates `tun-systemic-react-0.1.0.tgz` in the repository root for the current manifest version. Separately, `npm run check` produces a checked archive under `artifacts/`. Neither command publishes to npm.
+This builds `tun-systemic-react-0.1.0.tgz` in the repository root. `npm run check` separately creates a checked archive under artifacts/. Neither publishes to npm. The private version is unchanged between increments: record source SHA and digest when sharing an archive.
 
-In an existing compatible React application, substitute the real path to the archive:
+In a compatible existing React app, replace the path with the actual archive:
 
 ```sh
 npm install /absolute/path/to/tun-systemic-react-0.1.0.tgz
 ```
 
 ```tsx
-import { IntentComposer } from '@tun-systemic/react';
+import { ContextPanel, PlanView, ProposalCard, ApprovalGate } from '@tun-systemic/react';
 import '@tun-systemic/react/styles.css';
 ```
 
-Import CSS once in the host's permitted global-style entry. The stylesheet includes token CSS. The package is ESM with TypeScript declarations; the manifest does not declare a CommonJS `require` export. The workspace package check is not a fresh independent-consumer installation test. Test that integration in your own toolchain before adoption.
+Import CSS once in the permitted global entry; token CSS is included. The package is ESM with declarations and no CommonJS require export. The workspace inventory check is **not a fresh independent-consumer installation test**. That planned test remains outstanding in this increment; no automated installer is supplied. Validate the archive in the actual consumer before adoption.
 
-Set `data-tun-theme="light"` or `data-tun-theme="dark"` on the document's `<html>` element. Remove the attribute to follow the system preference. Nested theme islands and persisted preferences are not implemented.
+Set `data-tun-theme="light"` or `"dark"` on `<html>`; remove it for system preference. Nested theme islands and persisted preferences are not implemented.
 
 ## Troubleshooting
 
 | Symptom | Check and response |
 |---|---|
-| Engine or install error | Confirm `node --version`, `npm --version`, and the root working directory. Keep the committed lockfile; do not bypass peer validation with force flags. |
-| Registry/DNS error | Dependency installation requires network access. Fix connectivity rather than treating syntax-only checks as a completed build. |
-| Missing `dist` or stale component changes | Run `npm run build:library`; the demo imports built package files. |
-| Browser executable missing | Run `npx playwright install chromium` using the installed project toolchain. |
-| Port 4173 unavailable | Stop the process you own using that port or configure the demo and browser-test URL together; do not silently test a different application. |
-| Unstyled components | Import package CSS and put the theme attribute on `<html>`. |
-| Approval buttons disabled | Inspect completeness, status, expiry, changed material fields under the same version, and unknown/pending outcomes. Do not bypass the latch to force execution. |
-| Receipt says pending verification | The host has not supplied a verified result and nonempty verification detail. Clicking Approve is not sufficient. |
-| Documentation link check fails | Update a moved local target and its links together. External links are not fetched by the checker. |
+| Engine/install error | Confirm Node/npm versions and repository-root directory. Keep the lockfile; do not bypass peer validation with force flags. |
+| Registry/DNS error | Fix connectivity; syntax-only checks are not a completed build. |
+| Missing dist or stale edits | Run npm run build:library; components are imported from built files. |
+| Missing Chromium | Run npx playwright install chromium with the installed toolchain. |
+| Port 4173 unavailable | Stop a process you own or update the demo and test URL together; do not test another app. |
+| Unstyled components | Import package CSS and put theme attributes on html. |
+| Prepare plan disabled | Restore available notes; missing, restricted, stale, or unresolved outcomes deliberately block the demo. |
+| Create proposal disabled | Review the current approach; a revision clears that review. |
+| Approval disabled | Inspect status, expiry, completeness, same-version changes, pending/unknown outcomes. Never bypass a latch. |
+| Unknown publication outcome | Check the simulated action record; do not retry. Missing evidence stays unknown. |
+| Receipt pending verification | The host must supply verified state and meaningful evidence; a click is insufficient. |
+| Local link checker failure | Move targets and their links together. Remote URLs are not fetched. |
 
-For production use, complete the [integration checklist](INTEGRATION-CHECKLIST.md). No npm publication, hosted deployment, full accessibility audit, or backend execution is implied by a successful local demo.
+For production, complete the [integration checklist](INTEGRATION-CHECKLIST.md). A successful local demo implies no npm publication, hosted deployment, full accessibility audit, or real backend execution.

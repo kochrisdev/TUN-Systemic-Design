@@ -8,17 +8,17 @@ TUN designs the relationship between people, AI, agents, context, decisions, and
 
 ## What exists today
 
-This repository contains a **draft design specification**, a **14-component design catalog**, a **machine-readable visual system**, and a **four-component React reference implementation**. A specified component is not necessarily implemented.
+This repository contains a **draft design specification**, a **14-component design catalog**, a **machine-readable visual system**, and a **seven-component React reference implementation** in this review-workflow increment. Check the branch and PR status before assuming an increment is merged. A specified component is not necessarily implemented.
 
 | Layer | Available | Boundary |
 |---|---|---|
 | Philosophy | Concept note and manifesto | Founding propositions, not implementation or certification claims |
 | Behavioral design | Specification and 14 component definitions | Draft project requirements; not an external standard |
 | Visual system | Typed tokens, generated light/dark CSS, validator, HTML specimen | Limited token format and document-level themes |
-| React | `IntentComposer`, `AgentCard`, `ApprovalGate`, `ActionReceipt` | Repository-local package; not published to npm |
-| Validation | Contract, React, browser, build, package, and token checks | Dated evidence, not a production or accessibility guarantee |
+| React | IntentComposer, AgentCard, ContextPanel, PlanView, ProposalCard, ApprovalGate, ActionReceipt | Repository-local package; not published to npm |
+| Validation | Contract, React, workflow-model, browser, build, package, and token checks | Commit-specific evidence, not a production or accessibility guarantee |
 
-There is no model runtime, production authorization service, persistent-memory service, Figma kit, Tailwind adapter, hosted application, or certification program in this increment. See the [complete implementation matrix and roadmap](docs/STATUS-AND-ROADMAP.md).
+There is no model runtime, production authorization service, persistent-memory service, Figma kit, Tailwind adapter, hosted application, or certification program in this increment. See the [implementation matrix and roadmap](docs/STATUS-AND-ROADMAP.md).
 
 ## Start here
 
@@ -27,8 +27,8 @@ There is no model runtime, production authorization service, persistent-memory s
 | Understand TUN | [Concept Note](docs/CONCEPT-NOTE.md) and [Manifesto](docs/MANIFESTO-v0.1.md) |
 | Run the examples | [Getting Started](docs/GETTING-STARTED.md) |
 | Design a product | [Specification](docs/SPECIFICATION-v0.1.md), [Components](docs/COMPONENTS-v0.1.md), and [Visual System](docs/DESIGN-TOKENS-AND-VISUAL-SYSTEM-v0.1.md) |
-| Implement React | [React API and behavior](docs/REACT-COMPONENTS-v0.1.md) and [architecture](docs/ARCHITECTURE.md) |
-| Adopt safely | [Integration checklist](docs/INTEGRATION-CHECKLIST.md) and [validation evidence](docs/REACT-VALIDATION-v0.1.md) |
+| Implement React | [Core React API](docs/REACT-COMPONENTS-v0.1.md), [review workflow API](docs/REVIEW-WORKFLOW-v0.1.md), and [architecture](docs/ARCHITECTURE.md) |
+| Adopt safely | [Integration checklist](docs/INTEGRATION-CHECKLIST.md) and [review-workflow validation](docs/REVIEW-VALIDATION-v0.1.md) |
 | Contribute | [Contributing](CONTRIBUTING.md) |
 
 The [documentation index](docs/README.md) explains which documents are normative, informative, generated, or historical.
@@ -44,9 +44,11 @@ npm run check
 npm run dev
 ```
 
-Open `http://127.0.0.1:4173`. The lab is explicitly simulated: no model calls, messages, publications, or external state changes occur. `npm run dev` builds the library once; library source edits require rebuilding. Detailed setup, troubleshooting, browser tests, and local-package installation are in [Getting Started](docs/GETTING-STARTED.md).
+Open `http://127.0.0.1:4173`. The lab is explicitly simulated: no model calls, messages, publications, or external state changes occur. The path is **Prepare plan → Review approach → Create proposal → Review action → Approve/reject → Verified receipt**. Context changes and plan revisions invalidate earlier reviews; unknown outcomes are reconciled rather than blindly retried.
 
-`npm run check` includes typechecking, contract/React tests, builds, and package checks. It does **not** include browser tests, dependency audits, token checks, or documentation checks; the [full verification commands](docs/GETTING-STARTED.md#verification) cover those separately.
+`npm run dev` builds the library once; library source edits require rebuilding. Detailed setup, troubleshooting, browser tests, and local-package guidance are in [Getting Started](docs/GETTING-STARTED.md).
+
+`npm run check` includes typechecking, contract/React/model tests, builds, and package inventory/export checks. It does **not** include browser tests, dependency audits, token checks, documentation checks, or a fresh independent-consumer installation; the [verification guide](docs/GETTING-STARTED.md#verification) explains the separate checks and remaining work.
 
 ## Use only the visual system
 
@@ -71,17 +73,17 @@ For an action requiring human review:
 ASK → THINK → PROPOSE → APPROVE → ACT → VERIFY → LEARN
 ```
 
-These are conceptual stages, not the library's runtime state machine. A task may omit stages that are unnecessary. THINK communicates a useful plan or rationale, not hidden chain-of-thought; LEARN does not imply automatic model training or permission to retain information.
+These are conceptual stages, not the library's runtime state machine. A task may omit unnecessary stages. THINK communicates a useful plan or rationale, not hidden chain-of-thought; LEARN does not imply automatic model training or permission to retain information.
 
 TUN's eight principles are **Transparent, User Sovereign, Natural, Systemic, Adaptive, Reversible, Composable, and Calm**.
 
 ## Trust boundary
 
-**An approval button is not an authorization service.** Components display application-supplied information and emit requests. The host authenticates, checks scope and expiry, deduplicates, executes, verifies, and records actions. Approval is not execution; execution is not verification; compensation is not undo. A network error does not prove that nothing happened.
+**An approval button is not an authorization service.** Components display application-supplied information and emit requests. The host authenticates, checks scope and expiry, binds immutable context/plan/content, deduplicates, executes, verifies, and records actions. Availability is not source usage; approach review is not action authorization; approval is not execution; execution is not verification; compensation is not undo. A network error does not prove that nothing happened.
 
 ## Evidence and project history
 
-The [React validation record](docs/REACT-VALIDATION-v0.1.md) records 59 contract, 21 React, and 8 Chromium tests for a specific source snapshot, plus build, package, token, and dated audit results. Those results are not automatically claims about another commit or dependency graph. The [documentation audit](docs/DOCUMENTATION-AUDIT-v0.1.md) records this documentation review; [CHANGELOG.md](CHANGELOG.md) separates merged milestones from unreleased work.
+The [review-workflow validation record](docs/REVIEW-VALIDATION-v0.1.md) records this increment's observed checks and open acceptance items. The [earlier React validation record](docs/REACT-VALIDATION-v0.1.md) preserves the historical four-component snapshot. Neither report automatically proves another commit or dependency graph. The [documentation audit](docs/DOCUMENTATION-AUDIT-v0.1.md) records the prior documentation review; [CHANGELOG.md](CHANGELOG.md) separates repository milestones from unreleased work.
 
 ## License
 

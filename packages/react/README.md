@@ -1,8 +1,8 @@
 # @tun-systemic/react — v0.1.0
 
-Reference React components for **TUN Systemic Design**: `IntentComposer`, `AgentCard`, `ApprovalGate`, and `ActionReceipt`.
+Reference React components for **TUN Systemic Design**: `IntentComposer`, `AgentCard`, `ContextPanel`, `PlanView`, `ProposalCard`, `ApprovalGate`, and `ActionReceipt`.
 
-The package is repository-local and **not published to npm**. The other ten canonical design patterns are not exported. The `private` manifest flag prevents accidental publication; it does not restrict access to the public repository.
+The package is repository-local and **not published to npm**. The other seven canonical design patterns are not exported. The `private` flag prevents accidental publication; it does not restrict access to the public repository. This private increment retains version 0.1.0; use its source commit and archive digest to distinguish it from the earlier four-component package.
 
 ## Build in the repository
 
@@ -15,7 +15,7 @@ npm run check
 npm run dev
 ```
 
-`npm run check` typechecks, builds, runs contract/React tests, builds the demo, and checks a local package archive. Browser, token, documentation, and dependency-audit checks are separate. The local lab at `http://127.0.0.1:4173` is a simulation, not an AI or execution service.
+`npm run check` typechecks, builds, runs contract/React/workflow-model tests, builds the demo, and checks a local package archive. Browser, token, documentation, and dependency-audit checks are separate. The local lab on port 4173 is an in-memory simulation, not an AI or execution service.
 
 ## Consume a local archive
 
@@ -28,31 +28,34 @@ npm install /absolute/path/to/tun-systemic-react-0.1.0.tgz
 ```
 
 ```tsx
-import { IntentComposer, ApprovalGate } from '@tun-systemic/react';
-import type { ActionProposal, DecisionRequest } from '@tun-systemic/react';
+import { ContextPanel, PlanView, ProposalCard, ApprovalGate } from '@tun-systemic/react';
+import type { ContextSnapshot, TaskPlan, ActionProposal, ReviewRequest, DecisionRequest } from '@tun-systemic/react';
 import '@tun-systemic/react/styles.css';
 ```
 
-The declared peer range is React/React DOM `>=19.2.0 <20`. The package exposes ESM JavaScript, TypeScript declarations, a `contracts` subpath, `styles.css`, and `tokens.css`; no CommonJS require entry is declared. The recorded validation used one locked dependency graph, not every allowed peer version. Fresh independent-consumer and host-framework validation remain adoption work.
+The peer range is React/React DOM `>=19.2.0 <20`. The package exposes ESM JavaScript, declarations, `contracts`, `styles.css`, and `tokens.css`; there is no CommonJS require entry or separate `review-contracts` subpath. Review types/helpers are available through the root and `contracts` entries. A tested locked graph does not establish every peer version or host-framework configuration.
 
-Import component CSS once in the host's permitted global-style entry. It includes generated TUN tokens. Put `data-tun-theme="light"` or `"dark"` on the document's `<html>` element, or remove the attribute for system preference. Nested theme islands, remote fonts, and preference persistence are not implemented.
+The proposed fresh independent-consumer installation smoke test remains outstanding. Inventory and workspace exports are not that test. Validate archive installation, styles, SSR/hydration, and framework boundaries in the actual consumer before adoption.
+
+Import component CSS once in the host's permitted global-style entry. It includes generated TUN tokens. Put `data-tun-theme="light"` or `"dark"` on `<html>`, or remove the attribute for the system preference. Nested theme islands, remote fonts, and preference persistence are not implemented.
 
 ## Contracts and limits
 
-Components render supplied state and emit requests. **An approval button is not an authorization service.** The host authenticates, validates input, binds authorization, rechecks expiry/revocation, deduplicates, executes, verifies, and stores protected audit records. A resolved callback is not a completed action. Never automatically retry an unconfirmed external effect.
+Availability is not actual source usage. A reviewed plan does not authorize its actions. ProposalCard's `onReview` requests navigation only; ApprovalGate's `onDecision` requests a particular decision. Optional `reviewBasis` and `contentPreview` are visible and included in proposal fingerprints. A receipt still requires application-supplied verification.
 
-The package does not implement model calls, persistent memory, external tool execution, Human Override, or recovery services. UI checks do not authenticate host-supplied evidence. TypeScript props are not a complete runtime schema for untrusted JSON.
+**An approval button is not an authorization service.** The host authenticates, validates input, binds immutable canonical authorization, rechecks expiry/revocation, deduplicates, executes, verifies, and protects audit records. A callback resolving is not a completed action. Never automatically retry an unconfirmed external effect. Remove unauthorized source content and metadata before sending props to the client.
+
+The package implements no model calls, persistent-memory service, external tool execution, Human Override, or recovery services. UI checks cannot authenticate supplied evidence. TypeScript props are not complete runtime schemas for untrusted JSON.
 
 ## Documentation
 
-These absolute repository links also work when this README is extracted from a package archive:
+Absolute repository links work when this README is extracted from an archive. While this increment is unmerged, use its branch or source commit in GitHub rather than assuming main contains the new guide.
 
-- [Getting started and troubleshooting](https://github.com/kochrisdev/TUN-Systemic-Design/blob/main/docs/GETTING-STARTED.md)
-- [React API and state behavior](https://github.com/kochrisdev/TUN-Systemic-Design/blob/main/docs/REACT-COMPONENTS-v0.1.md)
-- [Architecture and trust boundary](https://github.com/kochrisdev/TUN-Systemic-Design/blob/main/docs/ARCHITECTURE.md)
-- [Implementation matrix](https://github.com/kochrisdev/TUN-Systemic-Design/blob/main/docs/STATUS-AND-ROADMAP.md)
-- [Dated validation evidence](https://github.com/kochrisdev/TUN-Systemic-Design/blob/main/docs/REACT-VALIDATION-v0.1.md)
+- [Getting started](https://github.com/kochrisdev/TUN-Systemic-Design/blob/main/docs/GETTING-STARTED.md)
+- [Core React API](https://github.com/kochrisdev/TUN-Systemic-Design/blob/main/docs/REACT-COMPONENTS-v0.1.md)
+- [Review workflow PR](https://github.com/kochrisdev/TUN-Systemic-Design/pull/4)
+- [Review workflow guide on the implementation branch](https://github.com/kochrisdev/TUN-Systemic-Design/blob/feat/context-plan-proposal-v0.1/docs/REVIEW-WORKFLOW-v0.1.md)
+- [Implementation matrix](https://github.com/kochrisdev/TUN-Systemic-Design/blob/feat/context-plan-proposal-v0.1/docs/STATUS-AND-ROADMAP.md)
+- [Review validation](https://github.com/kochrisdev/TUN-Systemic-Design/blob/feat/context-plan-proposal-v0.1/docs/REVIEW-VALIDATION-v0.1.md)
 
-Links to main may evolve. Use the commit recorded in a validation report for exact historical reproduction. There is no hosted deployment, npm release, full accessibility audit, or independent conformance certification in this increment.
-
-License: the repository's existing CC0-1.0 license, copied into this package at build time. Third-party dependencies retain their own licenses.
+No hosted deployment, npm release, full accessibility audit, or independent conformance certification is included. The existing CC0-1.0 license is copied into the package at build time; third-party dependencies retain their own licenses.

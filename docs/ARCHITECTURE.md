@@ -1,31 +1,37 @@
 # TUN reference architecture
 
-**Scope:** The repository's four-component React implementation and visual foundation. The application-service boundary below describes required host responsibilities, not a backend supplied by TUN.
+**Scope:** The seven-component React reference implementation and visual foundation in this review-workflow increment. The application-service boundary describes host responsibilities, not a supplied backend.
 
-[Documentation index](README.md) · [React API](REACT-COMPONENTS-v0.1.md) · [Integration checklist](INTEGRATION-CHECKLIST.md)
+[Documentation index](README.md) · [Core React API](REACT-COMPONENTS-v0.1.md) · [Review workflow](REVIEW-WORKFLOW-v0.1.md) · [Integration checklist](INTEGRATION-CHECKLIST.md)
 
 ## Three separate contracts
 
-**Design intent:** the Specification and component catalog describe how people should understand and control intelligent products.
+**Design intent:** the Specification and catalog describe how people should understand and control intelligent products.
 
-**Presentation implementation:** React components receive typed props, render content and state, and emit callback requests. Tokens determine appearance, never authority.
+**Presentation implementation:** components receive typed props, display supplied content/state, and emit callback requests. Tokens determine appearance, never authority.
 
-**Application authority:** the host owns authenticated identity, policy, permissions, data validation, execution, verification, audit storage, and actual recovery.
+**Application authority:** the host owns authenticated identity, policy, permissions, data validation, immutable revisions, execution, verification, audit storage, and actual recovery.
 
 ```text
 Human intent
     ↓
-IntentComposer → host prepares canonical proposal
+IntentComposer → host prepares context snapshot and plan
     ↓
-ApprovalGate → version-bound decision request
+ContextPanel + PlanView → human understands sources and approach
     ↓
-Host authentication / authorization / expiry / idempotency checks
+Host prepares canonical action proposal
+    ↓
+ProposalCard → version-bound navigation request (not approval)
+    ↓
+ApprovalGate → version-bound explicit decision request
+    ↓
+Host authentication / authorization / revision / expiry / idempotency checks
     ↓
 Host tool execution → host verification → host action record
     ↓
 ActionReceipt renders supplied result
 
-AgentCard renders supplied identity, authority, and operational state.
+AgentCard identifies the actor, declared authority, and operational state.
 The repository demo simulates the host path locally; no external action occurs.
 ```
 
@@ -34,53 +40,58 @@ The repository demo simulates the host path locally; no external action occurs.
 | Source | Produced or consumed by | Owner of truth |
 |---|---|---|
 | [tokens/tokens.json](../tokens/tokens.json) | [scripts/tokens.py](../scripts/tokens.py) | Editable visual values and aliases |
-| [styles/tun.css](../styles/tun.css) | Token builder, React asset copy, HTML specimen | Generated output; do not edit directly |
-| [Token validation report](TOKEN-VALIDATION-v0.1.md) | Token builder | Generated evidence for declared checks |
-| [React source](../packages/react/src) | TypeScript library build | Component behavior and presentation contracts |
-| [React asset copy](../packages/react/scripts/copy-assets.mjs) | Library build | Copies CSS, generated tokens, and existing license |
-| [React entry point](../packages/react/src/index.ts) | Package consumers | Public component exports |
-| [Demo](../examples/react) | Vite | Simulated local integration; not a service |
-| [Root package manifest](../package.json) | npm workspaces | Commands and declared dependencies |
-| [Lockfile](../package-lock.json) | `npm ci` | Resolved graph for repeatable installs |
-| [Package checker](../scripts/check-package.mjs) | `npm run check` | Archive inventory and workspace-export checks |
+| [styles/tun.css](../styles/tun.css) | Token builder, React asset copy, HTML specimen | Generated output, not hand-edited |
+| [Token report](TOKEN-VALIDATION-v0.1.md) | Token builder | Generated declared-check evidence |
+| [React source](../packages/react/src) | TypeScript library build | Presentation contracts and behavior |
+| [Review contracts](../packages/react/src/review-contracts.ts) | Components and demo host | Context/plan metadata, dependencies, references; not authorization |
+| [React asset copy](../packages/react/scripts/copy-assets.mjs) | Library build | Copies CSS, generated tokens, and license |
+| [Public exports](../packages/react/src/index.ts) | Package consumers | Seven available components |
+| [Demo model](../examples/react/review-model.ts) | [Demo app](../examples/react/App.tsx) | In-memory simulation, not a service or exported engine |
+| [Root manifest](../package.json) | npm workspaces | Commands and declared dependencies |
+| [Lockfile](../package-lock.json) | npm ci | Resolved installation graph |
+| [Package checker](../scripts/check-package.mjs) | npm run check | Archive inventory and workspace-export checks |
 
-The build produces `packages/react/dist` with ESM JavaScript, declarations, styles, and tokens. The demo build produces `examples/react/dist`. The root `LICENSE` is copied into the package. Build outputs, dependency folders, and local artifacts are not source files to edit or commit unless a release process explicitly requires them.
+The build emits `packages/react/dist` with ESM JavaScript, declarations, styles, and tokens; Vite emits `examples/react/dist`. The root license is copied into the package. Generated output, dependencies, and local artifacts are not editable source. A package archive has no dependency on the demo's local state machine.
 
 ## State is not one universal enum
 
 | Concept | Example | Meaning |
 |---|---|---|
-| Interaction stage | THINK or ACT | Conceptual task phase, not a React prop enum |
-| Agent state | `planning`, `acting`, `failed` | Host-supplied operational state |
+| Interaction stage | THINK or ACT | Conceptual phase, not a React prop enum |
+| Agent state | planning, acting, failed | Host-supplied operational state |
 | Autonomy | 0–4 | Delegation arrangement, not consequence severity |
-| Consequence | C0–C4 | Contextual effect of an action, not its probability of error |
-| Approval state | `awaiting`, `approved`, `expired` | State of a particular review |
-| Local submission phase | pending, submitted, unknown | Client callback lifecycle, not completed execution |
-| Receipt verification | `verified`, `pending`, `unavailable` | Host-supplied evidence state |
-| Memory / uncertainty labels | M0–M3 / U0–U3 | Design classifications; no corresponding service is implemented |
+| Consequence | C0–C4 | Contextual action effect, not error probability |
+| Context availability | available, missing, restricted, stale | Whether the host reports a source is usable |
+| Context usage | used, not-used, unknown | Whether it influenced this task, independently of availability |
+| Plan state | proposed, approved, changed | Approach review/progress, not permission to execute actions |
+| Proposal state | ready, modified, superseded | Proposed-action lifecycle |
+| Approval state | awaiting, approved, expired | State of a particular explicit decision |
+| Local callback phase | pending, submitted, unknown | Submission lifecycle, not completed execution |
+| Receipt verification | verified, pending, unavailable | Host-supplied evidence state |
+| Memory/uncertainty classifications | M0–M3 / U0–U3 | Design vocabulary, not implemented backend services |
 
-The same product can use multiple autonomy levels and memory types in different scopes. Labels should describe the particular operation rather than a blanket promise about the whole system.
+The same product can use different autonomy and memory arrangements in different scopes. A context-persistence label is not a storage, deletion, backup, or training guarantee.
 
 ## Approval lifecycle
 
-The host supplies an `ActionProposal` with a stable ID and version. `proposalFingerprint` records the displayed material fields. A material change under the same version blocks that review; a new version starts a fresh review rather than inheriting consent.
+The host supplies a canonical `ActionProposal` with stable ID/version. Material fields, optional plain-text preview, and optional context/plan references are included in `proposalFingerprint`. A same-version material change blocks review; a new version starts a fresh review, not inherited consent. `reviewBasisMatches` only compares references; the host must bind them to immutable real content and policy.
 
-The gate checks completeness, consequence/recovery classification, status, and expiry. It rechecks time at the decision handler as well as through a timer. Its synchronous local latch prevents duplicate in-flight decisions within the mounted review. Successful callback resolution means the request was acknowledged; it does not prove execution. Callback rejection leaves the outcome unknown and does not trigger an automatic retry.
+The gate checks completeness, classification, status, and expiry, then rechecks time in the decision handler. A synchronous local latch prevents duplicate in-flight decisions within a mounted review. Successful callback resolution is acknowledgement, not proof of execution. Callback failure leaves the outcome unknown without automatic retry.
 
-The latch is not durable idempotency and does not coordinate tabs or survive arbitrary remounts. It is not a revocation, cancellation, or Human Override service. Expiry uses the client clock as a presentation safeguard; the backend must revalidate against trusted time.
+The latch is not durable idempotency, multi-tab coordination, revocation, cancellation, or Human Override. Client time is only a presentation safeguard. The backend rechecks authorization, expiry, current revisions, and revocation immediately before the effect.
 
 ## Receipt lifecycle
 
-The host supplies `ReceiptData`; the gate does not manufacture it. `completed` or `reversed` without verified, nonempty verification detail is displayed as pending verification. That downgrade prevents one misleading presentation path; it cannot authenticate evidence supplied by the host.
+The host supplies `ReceiptData`; the gate does not manufacture it. Completed/reversed without verified, nonempty detail displays as pending verification. This cannot authenticate supplied evidence. Supported timestamps are shown in UTC; malformed values are unavailable. Limited URL checks do not replace host access/origin policy.
 
-A timestamp is displayed only if it passes the supported parser. Unsafe link schemes and certain malformed URLs are excluded by the UI helper, but the host still needs an allowed-origin policy and must avoid putting sensitive query parameters into links.
+The demo keeps an in-memory ledger separate from displayed receipts. A simulated lost acknowledgement creates an unknown state; reconciliation reads the ledger rather than repeating the write. Previous receipts are retained during context changes. This is illustrative orchestration, not trusted or durable storage, and refreshing is not undo.
 
 ## Trust-boundary checklist
 
-Authenticate the principal and tenant; bind approval to exact canonical parameters and version; check permission, expiry and revocation immediately before effectful execution; deduplicate durably; reconcile uncertain outcomes; record partial effects; verify the result; and expose only privacy-appropriate evidence. The [integration checklist](INTEGRATION-CHECKLIST.md) expands these into review questions.
+Authenticate principal and tenant; filter private context before sending it to clients; validate external data; bind exact canonical content and version; invalidate dependent reviews after material changes; check permission, expiry, and revocation just before execution; deduplicate durably; reconcile unknown outcomes; record partial effects; verify results; expose only privacy-appropriate evidence. The [integration checklist](INTEGRATION-CHECKLIST.md) expands these questions.
 
-Never make authorization decisions from CSS classes, token colors, agent personas, remembered preferences, model-generated instructions, or a callback returning successfully.
+Never derive authorization from token colors, personas, remembered preferences, model instructions, a reviewed plan, a navigation callback, or successful promise resolution. TypeScript declarations and typed-metadata helpers are not complete validators for untrusted JSON.
 
 ## Styling and environments
 
-Component CSS consumes semantic token variables and includes the generated token stylesheet. Themes are document-level. No remote font loading or theme-persistence service is included. The public index is a client entry point; framework-specific SSR/hydration, server-component boundaries, style placement, and independent-consumer builds require testing in the host framework. No blanket framework certification is claimed.
+Component CSS consumes semantic tokens and includes the generated stylesheet. Themes are document-level; no remote fonts or persisted preferences are supplied. The public index is a client entry. Framework-specific SSR/hydration, server-component boundaries, global CSS placement, and independent-consumer installation remain adoption tests. No blanket framework certification is claimed.
