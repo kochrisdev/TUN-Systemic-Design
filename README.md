@@ -4,37 +4,39 @@
 
 > Human Intent. Machine Intelligence. Systemic Design.
 
-TUN designs the relationship between people, AI, agents, context, decisions, and actions—not only the screens around them. Its guiding philosophy is **Simplicity with Boldness. Consistency with Conciseness. Clarity with Confidence.**
+TUN designs the relationship between people, AI, agents, context, decisions, and actions—not only the screens around them. **Simplicity with Boldness. Consistency with Conciseness. Clarity with Confidence.**
 
 ## What exists today
 
-This repository contains a **draft design specification**, a **14-component design catalog**, a **machine-readable visual system**, and a **ten-component React reference implementation**. A specified component is not necessarily implemented. Use the source commit and PR history to identify a particular increment.
+A draft behavioral specification, a fourteen-pattern component catalog, machine-readable visual tokens, and **reference React implementations of all fourteen canonical components**. Implemented is not the same as production-ready, published, or independently certified. Use source commits and PR history to identify accepted increments.
 
-| Layer | Available | Boundary |
-|---|---|---|
-| Philosophy | Concept note and manifesto | Founding propositions, not implementation or certification claims |
-| Behavioral design | Specification and 14 component definitions | Draft project requirements; not an external standard |
-| Visual system | Typed tokens, generated light/dark CSS, validator, HTML specimen | Limited token format and document-level themes |
-| Review workflow | IntentComposer, AgentCard, ContextPanel, PlanView, ProposalCard, ApprovalGate, ActionReceipt | Repository-local React package; not published to npm |
-| Evidence and memory | MemoryIndicator, SourceView, UncertaintySignal | Supplied metadata, not storage, independent fact checking, or permissions |
-| Validation | Contract, React, workflow-model, browser, build, package, isolated-consumer, and token checks | Commit-specific evidence, not a production or accessibility guarantee |
+| Group | Reference components |
+|---|---|
+| Intent and identity | IntentComposer, AgentCard |
+| Review and accountability | ContextPanel, PlanView, ProposalCard, ApprovalGate, ActionReceipt |
+| Evidence and memory | MemoryIndicator, SourceView, UncertaintySignal |
+| Supervision and recovery | ToolActivity, AgentActivity, HumanOverride, RecoveryControl |
 
-There is no model runtime, production authorization service, persistent-memory service, Figma kit, Tailwind adapter, hosted application, or certification program in this increment. Four canonical patterns remain specified only. See the [implementation matrix and roadmap](docs/STATUS-AND-ROADMAP.md).
+The repository also includes generated light/dark CSS, a token validator, an HTML visual specimen, a React component lab, automated tests, and isolated offline package installation checks. It does not supply a model runtime, production authorization/cancellation/recovery services, persistent-memory backend, independent evidence verification, Figma kit, Tailwind adapter, hosted application, or certification program.
+
+See the [implementation matrix and roadmap](docs/STATUS-AND-ROADMAP.md) for exact scope.
 
 ## Start here
 
-| Your goal | Read |
+| Goal | Documentation |
 |---|---|
-| Understand TUN | [Concept Note](docs/CONCEPT-NOTE.md) and [Manifesto](docs/MANIFESTO-v0.1.md) |
+| Understand TUN | [Concept Note](docs/CONCEPT-NOTE.md), [Manifesto](docs/MANIFESTO-v0.1.md) |
 | Run the examples | [Getting Started](docs/GETTING-STARTED.md) |
-| Design a product | [Specification](docs/SPECIFICATION-v0.1.md), [Components](docs/COMPONENTS-v0.1.md), and [Visual System](docs/DESIGN-TOKENS-AND-VISUAL-SYSTEM-v0.1.md) |
-| Implement React | [Core React API](docs/REACT-COMPONENTS-v0.1.md), [review workflow](docs/REVIEW-WORKFLOW-v0.1.md), [evidence and memory](docs/EVIDENCE-AND-MEMORY-v0.1.md), and [architecture](docs/ARCHITECTURE.md) |
-| Adopt safely | [Integration checklist](docs/INTEGRATION-CHECKLIST.md) and the source-specific validation records in the [documentation index](docs/README.md) |
-| Contribute | [Contributing](CONTRIBUTING.md) |
+| Design a product | [Specification](docs/SPECIFICATION-v0.1.md), [Components](docs/COMPONENTS-v0.1.md), [Visual System](docs/DESIGN-TOKENS-AND-VISUAL-SYSTEM-v0.1.md) |
+| Implement React | [Core API](docs/REACT-COMPONENTS-v0.1.md), [Review Workflow](docs/REVIEW-WORKFLOW-v0.1.md), [Evidence and Memory](docs/EVIDENCE-AND-MEMORY-v0.1.md), [Supervision and Recovery](docs/SUPERVISION-AND-RECOVERY-v0.1.md) |
+| Adopt safely | [Architecture](docs/ARCHITECTURE.md), [Integration Checklist](docs/INTEGRATION-CHECKLIST.md) |
+| Contribute | [Contributing](CONTRIBUTING.md), [Changelog](CHANGELOG.md) |
+
+The [documentation index](docs/README.md) distinguishes current guidance, normative draft rules, generated outputs, and historical evidence.
 
 ## Run the React component lab
 
-Use the reference toolchain: **Node 22.23.2** from `.nvmrc` and **npm 12.1.0**. Install/select that Node version before running these commands from the repository root:
+Select the reference **Node 22.23.2** from .nvmrc and **npm 12.1.0**, then run from the repository root:
 
 ```sh
 npm install --global npm@12.1.0
@@ -43,53 +45,53 @@ npm run check
 npm run dev
 ```
 
-Open `http://127.0.0.1:4173`. The lab is explicitly simulated: no model calls, messages, publications, or external state changes occur. The path is **Prepare plan → Review approach → Create proposal → Review action → Approve/reject → Verified receipt**. Context changes and plan revisions invalidate earlier reviews; unknown outcomes are reconciled rather than blindly retried.
+Open `http://127.0.0.1:4173`. The review workflow is **Prepare plan → Review approach → Create proposal → Review action → Approve/reject → Verified receipt**. Read-only context/evidence and separate synthetic memory examples explain what influenced the task.
 
-The evidence section explains session-memory influence, source support, and production-readiness uncertainty. A separately labeled fixture explorer demonstrates M0–M3, unavailable memory, conflicting sources, missing evidence, and generated interpretations without changing task authority or storing persistent memory.
+Use **Explore supervision and recovery** to inspect the final four components. Request stop, advance the simulated worker, and inspect the difference between acknowledgement and confirmed stoppage. The unknown-response scenario permits reconciliation, not blind retry. Compensation adds a separate record rather than erasing original effects.
 
-`npm run dev` builds the library once; library source edits require rebuilding. Detailed setup, troubleshooting, browser tests, and local-package guidance are in [Getting Started](docs/GETTING-STARTED.md).
+**Every example is simulated.** No real worker is stopped, model called, account connected, message sent, or persistent data written. The supervision fixture is explicitly separate from the publication-review workflow. Refresh is not real-world undo.
 
-`npm run check` includes typechecking, contract/React/model tests, builds, package inventory/export checks, and a **fresh offline consumer install, lockfile reinstall, declaration check, and ten-component static-render smoke test**. It does not include browser tests, dependency audits, token checks, or documentation checks; the [verification guide](docs/GETTING-STARTED.md#verification) explains those separate checks. The consumer test checks one locked graph, not every framework or registry-install configuration.
+`npm run dev` builds the library once; rebuild after library-source edits. `npm run check` covers typechecking, contract/React/model tests, builds, archive inventory/exports, and an offline isolated consumer install/reinstall with declaration/static-render checks. Browser, token, documentation, and dependency-audit checks remain separate. A passing static consumer does not establish hydration, every bundler/framework, or registry distribution.
 
 ## Use only the visual system
 
-Python 3.10+ is sufficient; no npm install or external font service is needed:
+Python 3.10+ is sufficient for the token tools and optional local server:
 
 ```sh
 python scripts/tokens.py check
 python -m http.server 8000 --bind 127.0.0.1
 ```
 
-Open `http://127.0.0.1:8000/examples/visual-system.html`. Edit [tokens/tokens.json](tokens/tokens.json), then run `python scripts/tokens.py build` to regenerate [styles/tun.css](styles/tun.css) and the [token report](docs/TOKEN-VALIDATION-v0.1.md). Do not hand-edit generated outputs.
+Open `http://127.0.0.1:8000/examples/visual-system.html`. Edit [tokens.json](tokens/tokens.json), then run `python scripts/tokens.py build` to regenerate [CSS](styles/tun.css) and the [token report](docs/TOKEN-VALIDATION-v0.1.md). Do not hand-edit generated outputs.
 
-## The interaction model
+## Interaction model
 
 ```text
 ASK → THINK → PROPOSE → ACT → LEARN
 ```
 
-For an action requiring human review:
+For consequential work requiring review:
 
 ```text
 ASK → THINK → PROPOSE → APPROVE → ACT → VERIFY → LEARN
 ```
 
-These are conceptual stages, not the library's runtime state machine. A task may omit unnecessary stages. THINK communicates a useful plan or rationale, not hidden chain-of-thought; LEARN does not imply automatic model training or permission to retain information.
+These are conceptual phases, not one universal runtime enum. THINK communicates a useful plan, not hidden internal reasoning. LEARN does not imply automatic training or permission to retain information.
 
-TUN's eight principles are **Transparent, User Sovereign, Natural, Systemic, Adaptive, Reversible, Composable, and Calm**.
+The eight principles are **Transparent, User Sovereign, Natural, Systemic, Adaptive, Reversible, Composable, and Calm**.
 
 ## Trust boundary
 
-**An approval button is not an authorization service.** Components display application-supplied information and emit requests. The host authenticates, checks scope and expiry, binds immutable context/plan/content, deduplicates, executes, verifies, and records actions. Availability is not source usage; approach review is not action authorization; approval is not execution; execution is not verification; compensation is not undo. A network error does not prove that nothing happened.
+**An approval or override button is not an authorization service.** The host authenticates, validates inputs, checks scope and expiry, binds immutable revisions, deduplicates, executes, observes, verifies, and records effects. Availability is not source usage; plan review is not permission; acknowledgement is not completion; stoppage is not reversal; compensation is not undo. Network failure does not prove that nothing happened.
 
-Memory use is not retention policy or authority. A reported source check is not independent truth verification. An uncertainty label is qualitative and scoped, not a calibrated probability. The host must filter private records before sending them to a client.
+## Evidence and history
 
-## Evidence and project history
+[PR 6](https://github.com/kochrisdev/TUN-Systemic-Design/pull/6) tracks acceptance of the fourteen-component increment. Earlier [evidence/memory](docs/EVIDENCE-VALIDATION-v0.1.md), [consumer](docs/CONSUMER-VALIDATION-v0.1.md), [review-workflow](docs/REVIEW-VALIDATION-v0.1.md), [React](docs/REACT-VALIDATION-v0.1.md), and [documentation-audit](docs/DOCUMENTATION-AUDIT-v0.1.md) records retain their named source and results. Authored tests are not automatically passed tests.
 
-The [evidence and memory guide](docs/EVIDENCE-AND-MEMORY-v0.1.md) describes this increment's API and test scope. PR history records actual CI outcomes for each head. The [consumer validation record](docs/CONSUMER-VALIDATION-v0.1.md), [review-workflow record](docs/REVIEW-VALIDATION-v0.1.md), and [earlier React record](docs/REACT-VALIDATION-v0.1.md) preserve earlier snapshots; they do not automatically validate the ten-component library. The [documentation audit](docs/DOCUMENTATION-AUDIT-v0.1.md) records the prior review; [CHANGELOG.md](CHANGELOG.md) separates repository milestones from npm publication.
+The package remains private and unpublished at version 0.1.0. Use commit SHA and archive digest to distinguish repository-local builds sharing that version.
 
 ## License
 
-The repository retains its existing [CC0-1.0 license](LICENSE). Dependency licenses remain separate. The package's `private` flag prevents accidental npm publication; it is not an access restriction on this public repository.
+The existing [CC0-1.0 license](LICENSE) is preserved. Dependency licenses remain separate. The private package flag prevents accidental registry publication, not access to the public repository.
 
 **Design intelligence around humanity.**

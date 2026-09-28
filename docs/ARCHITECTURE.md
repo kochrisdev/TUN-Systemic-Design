@@ -1,119 +1,123 @@
 # TUN reference architecture
 
-**Scope:** Ten-component React reference implementation and visual foundation. The application-service boundary describes host responsibilities, not a supplied backend.
+**Scope:** Fourteen canonical React reference components and the visual foundation. Host services described here are responsibilities, not supplied implementations.
 
-[Documentation index](README.md) · [Core React API](REACT-COMPONENTS-v0.1.md) · [Review workflow](REVIEW-WORKFLOW-v0.1.md) · [Evidence and memory](EVIDENCE-AND-MEMORY-v0.1.md) · [Integration checklist](INTEGRATION-CHECKLIST.md)
+[Documentation index](README.md) · [Core API](REACT-COMPONENTS-v0.1.md) · [Review](REVIEW-WORKFLOW-v0.1.md) · [Evidence](EVIDENCE-AND-MEMORY-v0.1.md) · [Supervision](SUPERVISION-AND-RECOVERY-v0.1.md) · [Integration checklist](INTEGRATION-CHECKLIST.md)
 
 ## Three separate contracts
 
-**Design intent:** Specification and catalog describe how people understand and control intelligent products.
+**Design intent:** Specification and catalog describe how humans understand and control intelligence.
 
-**Presentation implementation:** Components receive typed props, display supplied content/state, and emit requests. Tokens determine appearance, never authority.
+**Presentation:** Components display typed host records and emit explicit requests. Tokens determine appearance, never authority.
 
-**Application authority:** The host owns authentication, policy, permissions, validation, immutable revisions, execution, verification, audit storage, memory retention, and recovery.
+**Application authority:** The host owns identity, policy, permissions, validation, canonical revisions, execution, observations, verification, audit storage, memory retention, cancellation and recovery.
 
 ```text
-Human intent
-    ↓
-IntentComposer → host prepares context snapshot and plan
-    ↓
-ContextPanel + PlanView → human understands sources and approach
-    ↓
-Host prepares canonical action proposal
-    ↓
-ProposalCard → version-bound navigation request (not approval)
-    ↓
-ApprovalGate → version-bound explicit decision request
-    ↓
-Host authentication / authorization / revision / expiry / idempotency
-    ↓
-Host tool execution → host verification → host action record
-    ↓
-ActionReceipt renders supplied result
+Human intent → IntentComposer → host prepares context and plan
+                               ↓
+                     ContextPanel + PlanView
+                               ↓
+                   host prepares canonical proposal
+                               ↓
+              ProposalCard → navigation, not authorization
+                               ↓
+               ApprovalGate → explicit decision request
+                               ↓
+             host permission / revision / expiry / idempotency
+                               ↓
+            host tool execution → verification → action record
+                               ↓
+                          ActionReceipt
 
-AgentCard identifies the actor, declared authority, and operational state.
-MemoryIndicator explains supplied memory use, not permissions or storage policy.
-SourceView presents claim-specific evidence, not independent truth verification.
-UncertaintySignal presents a scoped qualitative assessment, not a probability.
-The demo simulates the host path locally; no external action occurs.
+AgentCard: identity and declared authority.
+MemoryIndicator / SourceView / UncertaintySignal: contextual explanation.
+AgentActivity / ToolActivity: host observations and known effects.
+HumanOverride / RecoveryControl: requests → host service → bound evidence.
 ```
+
+The repository examples simulate these relationships. The supervision fixture and publication-review lab are explicitly separate; the fixture's stop button does not govern the other demo.
 
 ## Source and build ownership
 
-| Source | Produced or consumed by | Owner of truth |
+| Source | Consumer | Responsibility |
 |---|---|---|
-| [tokens.json](../tokens/tokens.json) | [Token builder](../scripts/tokens.py) | Editable values and aliases |
-| [tun.css](../styles/tun.css) | Builder, React copy, HTML specimen | Generated output |
-| [Token report](TOKEN-VALIDATION-v0.1.md) | Builder | Declared-check evidence |
-| [React source](../packages/react/src) | TypeScript build | Presentation behavior/contracts |
-| [Review contracts](../packages/react/src/review-contracts.ts) | Components and demo | Metadata and references, not authority |
-| [Evidence contracts](../packages/react/src/evidence-contracts.ts) | Evidence/memory components | Typed display records and bounded metadata checks |
-| [Asset copy](../packages/react/scripts/copy-assets.mjs) | Library build | Styles, generated tokens, license |
-| [Public exports](../packages/react/src/index.ts) | Consumers | Ten components; new evidence contracts are root-only exports |
-| [Demo model](../examples/react/review-model.ts) | [Demo app](../examples/react/App.tsx) | In-memory simulation, not a service |
-| [Evidence adapter](../examples/react/EvidenceReview.tsx) | Demo | Read-only explanation of its existing context |
-| [Evidence examples](../examples/react/evidence-examples.ts) | Separate fixture explorer | Synthetic specimens, never task authority or persistent records |
-| [Root manifest](../package.json) | npm workspaces | Commands/dependencies |
-| [Lockfile](../package-lock.json) | npm ci | Resolved graph |
-| [Package checker](../scripts/check-package.mjs) | npm run check | Inventory and workspace exports |
-| [Consumer checker](../scripts/check-consumer.mjs) | npm run check | Separate offline installation, types, static renders, resolution |
+| [tokens.json](../tokens/tokens.json) | [Token builder](../scripts/tokens.py) | Editable visual values |
+| [tun.css](../styles/tun.css) | React copy/HTML specimen | Generated stylesheet |
+| [Token report](TOKEN-VALIDATION-v0.1.md) | Review | Declared-check evidence |
+| [React source](../packages/react/src) | TypeScript build | Presentation and contracts |
+| [Review contracts](../packages/react/src/review-contracts.ts) | Review components/host | Context/plan metadata |
+| [Evidence contracts](../packages/react/src/evidence-contracts.ts) | Evidence/memory views | Scoped display records |
+| [Supervision contracts](../packages/react/src/supervision-contracts.ts) | Activity/control views | Observations, requests and evidence bindings |
+| [ControlAction](../packages/react/src/ControlAction.tsx) | Override/recovery wrappers | Internal local request lifecycle, not a public component |
+| [Asset copy](../packages/react/scripts/copy-assets.mjs) | Library build | Styles, tokens and license |
+| [Public exports](../packages/react/src/index.ts) | Consumers | Fourteen components; evidence/supervision helpers root-only |
+| [Review model](../examples/react/review-model.ts) | [App](../examples/react/App.tsx) | In-memory review simulation |
+| [Evidence adapter](../examples/react/EvidenceReview.tsx) | Demo | Read-only context explanation |
+| [Evidence fixtures](../examples/react/evidence-examples.ts) | Example explorer | Synthetic states, not task authority |
+| [Supervision model](../examples/react/supervision-model.ts) | [Supervision lab](../examples/react/SupervisionLab.tsx) | Separately stepped local worker fixture |
+| [Manifest](../package.json) / [lockfile](../package-lock.json) | npm | Commands and dependency graph |
+| [Package checker](../scripts/check-package.mjs) | npm run check | Archive inventory/workspace exports |
+| [Consumer checker](../scripts/check-consumer.mjs) | npm run check | Offline isolated installation and static consumption |
 
-The build emits packages/react/dist with ESM JavaScript, declarations, styles, and tokens. Vite emits examples/react/dist. The root license is copied into the package. Generated outputs, dependencies, and artifacts are not editable source. The package has no dependency on the demo state machine.
+The build emits packages/react/dist ESM/declarations/CSS; Vite emits examples/react/dist. The root license is copied into the package. Generated outputs are not editable source. The library has no dependency on demo state machines. Core/review helpers use root and contracts entries; evidence/supervision helpers are root-only. No CommonJS entry or new contract subpath is declared.
 
 ## State is not one universal enum
 
-| Concept | Example | Meaning |
+| Concept | Examples | Meaning |
 |---|---|---|
-| Interaction stage | THINK, ACT | Conceptual phase, not a prop enum |
-| Agent state | planning, acting, failed | Supplied operational state |
-| Autonomy | 0–4 | Delegation arrangement, not severity |
-| Consequence | C0–C4 | Contextual effect, not error probability |
-| Context availability | available, missing, restricted, stale | Reported source usability |
-| Context usage | used, not-used, unknown | Actual influence, separate from availability |
-| Plan state | proposed, approved, changed | Approach review/progress, not action permission |
-| Proposal state | ready, modified, superseded | Proposed-action lifecycle |
-| Approval state | awaiting, approved, expired | Particular explicit decision |
-| Callback phase | pending, submitted, unknown | Submission, not completion |
+| Interaction stage | THINK, ACT | Conceptual stage |
+| AgentCard state | planning, acting | Supplied operational label |
+| Autonomy / consequence | 0–4 / C0–C4 | Delegation arrangement / contextual effect |
+| Context availability / usage | available / used | Usability and influence are separate |
+| Plan / proposal / approval | reviewed / ready / approved | Approach, action and decision lifecycles |
+| Callback phase | pending, acknowledged, unknown | Request lifecycle, not execution |
 | Receipt verification | verified, pending, unavailable | Supplied outcome evidence |
-| Memory type/state | M0–M3; active, inactive, unavailable | Scope-specific memory use, not storage/deletion guarantees |
-| Evidence relationship | supports, contradicts, background | Reported relevance to a particular claim |
-| Source access/check | available/restricted/unavailable; verified/unverified | Readability and described application check, not independently proved truth |
-| Uncertainty | U0–U3 with scope/explanation/basis | Qualitative assessment, not numeric probability |
-
-Different scopes can have different autonomy/memory arrangements. Context lifetime is not a storage, deletion, backup, or training guarantee.
+| Memory | M0–M3; active/inactive/unavailable | Scope-specific use, not retention guarantees |
+| Evidence relationship | supports, contradicts, background | Relevance to a claim |
+| Source access/check | available, restricted / verified, unverified | Readability and host-described checks |
+| Uncertainty | U0–U3 with scope/basis | Qualitative assessment, not probability |
+| Activity observation | running, partial, unknown | Observed work, distinct from AgentCard state |
+| Control state | available, acknowledged, completed | Particular intervention/recovery request |
+| Original recovery outcome | known, unknown | Whether another effectful attempt can be considered |
 
 ## Approval lifecycle
 
-The host supplies a stable canonical ActionProposal ID/version. Material fields, preview, and context/plan references are fingerprinted. Same-version changes block review; a new version starts fresh rather than inheriting consent. reviewBasisMatches compares references only; the host binds immutable content and policy.
+The host supplies immutable canonical proposal identity/version and material parameters. Fingerprints include optional content and context/plan references. Same-version changes block review; a new version does not inherit consent. Reference matching does not authenticate underlying content.
 
-The gate checks completeness, classification, status, and expiry and rechecks time in the handler. A synchronous latch blocks duplicate in-flight decisions within a mounted review. Callback success is acknowledgement, not execution. Failure leaves the outcome unknown without automatic retry.
-
-The latch is not durable idempotency, multi-tab coordination, revocation, cancellation, or Human Override. Client time is a presentation safeguard; backend checks authorization, expiry, revisions, and revocation immediately before effects.
+The gate checks completeness/classification/expiry and rechecks time at activation. A synchronous local latch prevents duplicates in one mounted review. Callback success is acknowledgement, not execution; rejection leaves unknown without automatic retry. Durable idempotency, tabs, revocation and real cancellation require host services. Rejecting a proposal is not stopping an in-flight action.
 
 ## Evidence and memory boundaries
 
-New components are read-only except MemoryIndicator's inspection-navigation callback. They do not expand ActionProposal, infer permission from memory, automatically score model confidence, or fetch sources. SourceView excludes inaccessible contents and keeps generated material distinct; the host must remove unauthorized data before transmission and substantiate any claimed source check.
+Memory inspection is navigation, not mutation. SourceView separates source and generated text and excludes restricted contents from rendering; the host must remove unauthorized content before transmission. Scoped confidence cannot authenticate truth or grant permission. Material evidence changes must invalidate canonical approval, not silently repaint a badge.
 
-The task adapter explains the supplied local fixture. Separate scenario controls demonstrate edge states without modifying the approval workflow. In production, evidence changes material to a decision must invalidate dependent proposals and trigger new canonical review; a badge cannot enforce that relationship. See [Evidence and Memory](EVIDENCE-AND-MEMORY-v0.1.md).
+The task adapter explains its local context. Separate synthetic controls exercise edge states without modifying task authority or creating persistent memory. Storage, logs, backups, training, deletion and access policies remain independent host concerns.
+
+## Supervision and recovery lifecycle
+
+ActivityRecord contains task, actor, scope, observed status/time, effects and optional progress/evidence. A progress counter is not completion. Unsupported terminal claims display unverified. The UI does not continuously poll or determine observation freshness.
+
+InterventionOperation/RecoveryOperation bind control identity/version and run identity/version to a described effect, limits and known prior effects. ControlAction fingerprints material fields, checks expiry/policy hints, and latches a request before invoking onRequest. Requests carry identity references only; the host looks up canonical parameters.
+
+Acknowledgement and promise resolution do not confirm stoppage or recovery. Terminal status requires ControlEvidence for the same control and run revisions, with matching outcome, valid timestamp and nonempty explanation. These checks cannot authenticate host assertions. A new revision is not a way to escape unresolved results; the host coordinates remounts, tabs and other controls.
+
+Unknown original outcomes permit reconciliation only. A known-outcome retry additionally needs a host-described duplicate-effect safeguard. Compensation is explicitly separate from undo. Applicable high-consequence recovery still requires action-specific approval. Real worker interruption, authorization, durable deduplication, compensation and audit services are not supplied.
+
+The stepped fixture keeps prior writes after stoppage, records compensation separately, and reads rather than repeats a write after lost acknowledgement. Buttons advancing the worker simulate observed service events. Its in-memory history is not trusted or durable infrastructure.
 
 ## Receipt lifecycle
 
-The host supplies ReceiptData. Completed/reversed without verified, meaningful detail displays pending verification. This cannot authenticate evidence. Supported timestamps display UTC; malformed values are unavailable. URL checks do not replace host access/origin policy.
-
-The lab ledger is distinct from displayed receipts. Lost acknowledgement produces unknown state; reconciliation reads rather than repeating the write. Earlier receipts survive context changes. This is illustrative, non-durable orchestration; refresh is not undo.
+The host supplies ReceiptData; the gate creates none. Unverified completed/reversed claims display pending verification, invalid timestamps remain unavailable, and URL checks do not replace origin/access policy. Partial effects stay visible. The publication demo's ledger differs from displayed receipts; lost acknowledgement requires reconciliation. Refresh is not undo.
 
 ## Package acceptance boundary
 
-The inventory check and consumer test have different jobs. The consumer test packs built TUN and lockfile-matched installed peers into local archives, installs them in a new directory/cache outside the workspace, reinstalls from its own lockfile, compiles declarations, and renders ten static specimens. It verifies real package paths rather than workspace symlinks and compares the archive with the inventory integrity.
+The inventory check and consumer test are complementary. The consumer packs TUN and lockfile-matched installed peers, installs local archives in a new external directory/cache, reinstalls from its own lockfile, compiles declarations, and renders fourteen static specimens. It checks seven negative type cases, consumer-local paths, CSS/tokens, and archive integrity without workspace symlinks.
 
-Every consumer npm operation is offline with lifecycle scripts disabled. No additional workflow permissions or dependencies are required. Reports are placed in the existing artifacts folder. This detects missing exports, declarations, assets, and workspace-only assumptions; it does not prove registry distribution, hydration, or framework/bundler integration. The [consumer report](CONSUMER-VALIDATION-v0.1.md) records the earlier seven-component gate; use current PR evidence for the expanded test.
+Consumer npm operations remain offline with lifecycle scripts disabled. No new permissions or dependencies are needed. This detects packaging assumptions, not registry distribution, independently selected peers, hydration, every bundler or framework. Historical [consumer evidence](CONSUMER-VALIDATION-v0.1.md) retains its earlier seven-component scope; current acceptance belongs to [PR 6](https://github.com/kochrisdev/TUN-Systemic-Design/pull/6).
 
 ## Trust-boundary checklist
 
-Authenticate principal/tenant; filter private context before sending it; validate external data; bind canonical content/version; invalidate dependent reviews; recheck permission/expiry/revocation; deduplicate durably; reconcile unknown outcomes; retain partial effects; verify results; expose privacy-appropriate evidence. The [integration checklist](INTEGRATION-CHECKLIST.md) expands these requirements.
-
-Never derive authority from colors, personas, preferences, model instructions, plan review, navigation, confidence labels, source checks, or promise resolution. Types and metadata helpers are not full untrusted-JSON validators.
+Authenticate principal/tenant; validate hostile input; redact before transmission; bind immutable material records; invalidate stale reviews; recheck authority/expiry/revocation; deduplicate durably; reconcile unknown outcomes; retain partial effects; verify results; restrict evidence visibility. Never derive permission from colors, model instructions, memory, source checks, plan review, navigation or callback success. Complete the [integration checklist](INTEGRATION-CHECKLIST.md).
 
 ## Styling and environments
 
-CSS consumes semantic tokens and includes the generated stylesheet. Themes are document-level; no remote fonts or persistence are supplied. The public index is a client entry. The consumer smoke verifies one installed graph and non-interactive static rendering; SSR hydration, server-component boundaries, bundler CSS placement, and broader environments still need host testing. No blanket framework certification is claimed.
+Component CSS consumes semantic tokens and includes generated CSS. Themes are document-level without remote fonts or persistence. Public components are client entries. Static rendering and sampled Chromium tests do not establish SSR hydration, server-component boundaries, CSS placement, localization or full accessibility. Validate those in the actual host.

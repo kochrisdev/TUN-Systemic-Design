@@ -4,6 +4,7 @@ import { ActionReceipt, AgentCard, ApprovalGate, ContextPanel, IntentComposer, P
   type AgentProfile, type AgentState, type ContextAvailability, type DecisionRequest } from '@tun-systemic/react';
 import { EvidenceReview } from './EvidenceReview.js';
 import { EvidenceExamples } from './EvidenceExamples.js';
+import { SupervisionLab } from './SupervisionLab.js';
 import { beginDemoDecision, changeDemoContext, changeDemoIntent, createDemoProposal, demoLocked, demoSourceReady,
   initialDemo, openDemoReview, prepareDemo, reconcileDemo, recordDemoAction, reviewDemoPlan, reviseDemoPlan,
   type DemoState } from './review-model.js';
@@ -66,9 +67,10 @@ export function App() {
       </select></label>
     </header>
     <main id="main" className="lab-main">
-      <div className="lab-intro"><p className="lab-kicker">REACT COMPONENT LAB / EVIDENCE AND MEMORY</p>
+      <div className="lab-intro"><p className="lab-kicker">REACT COMPONENT LAB / FOURTEEN CANONICAL COMPONENTS</p>
         <h1>Understand first.<br />Authorize precisely.</h1>
-        <p className="lab-lede">Ten components. Visible context, evidence, memory, and accountable actions.</p>
+        <p className="lab-lede">Fourteen components. Context, evidence, memory, supervision, and recovery.</p>
+        <p><a href="#supervision">Explore supervision and recovery</a></p>
         <p className="simulation-notice"><strong>Local simulation only.</strong> No AI model, account connection, real publication, or persistent memory. Refreshing clears this demonstration, not real-world actions.</p>
       </div>
       <p className="simulation-notice" role="status">{state.notice || 'Start with the supplied notes and a clear outcome.'}</p>
@@ -130,6 +132,7 @@ export function App() {
       </div>
       <EvidenceReview key={state.context.version} context={state.context} />
       <EvidenceExamples />
+      <SupervisionLab />
       <footer className="lab-footer">Human Intent. Machine Intelligence. Systemic Design.<br />Reference implementation — not authorization infrastructure or accessibility certification.</footer>
     </main>
   </>;
