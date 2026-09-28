@@ -1,10 +1,10 @@
 # Getting started
 
-[Documentation index](README.md) · [Core React API](REACT-COMPONENTS-v0.1.md) · [Review workflow](REVIEW-WORKFLOW-v0.1.md) · [Evidence and memory](EVIDENCE-AND-MEMORY-v0.1.md) · [Supervision and recovery](SUPERVISION-AND-RECOVERY-v0.1.md)
+[Documentation index](README.md) · [Public showcase](PUBLIC-SHOWCASE-v0.1.md) · [Core React API](REACT-COMPONENTS-v0.1.md) · [Review workflow](REVIEW-WORKFLOW-v0.1.md) · [Evidence and memory](EVIDENCE-AND-MEMORY-v0.1.md) · [Supervision and recovery](SUPERVISION-AND-RECOVERY-v0.1.md)
 
 ## Choose a path
 
-The HTML visual specimen needs Python for its optional server and token validation. The React lab additionally needs Node, npm, and initial registry access. Neither connects to an AI model or external execution service.
+The HTML visual specimen needs Python for its optional server and token validation. The React showcase and technical lab additionally need Node, npm, and initial registry access. Neither connects to an AI model or external execution service. To explore without local installation, use the [public demo address](https://tun-systemic-design-demo.vercel.app/); verify the deployed commit separately when reproducing results.
 
 ## Obtain the repository
 
@@ -46,15 +46,23 @@ npm run check
 npm run dev
 ```
 
-Open `http://127.0.0.1:4173`. Keep the server terminal open; Ctrl+C stops it. GitHub's file viewer shows source, not a running application.
+Open `http://127.0.0.1:4173` for the public showcase. Keep the server terminal open; Ctrl+C stops it. GitHub's file viewer shows source, not a running application.
 
-The lab presents all fourteen canonical reference components across separately scoped examples. **All effects are simulated.** No production worker, tool, memory store, model, or external action service is supplied.
+### Public showcase
 
-The review workflow is **Prepare plan → Review approach → Create proposal → Review action → Simulate publish or Reject action → Verified receipt**. Approach review grants no execution permission. Notes availability and Revise plan invalidate reviews. An unconfirmed response requires reconciliation rather than repetition. See the [review walkthrough](REVIEW-WORKFLOW-v0.1.md#7-walk-through-the-local-lab).
+Select **Try the guided demo** for **Intent → Context → Plan → Proposal → Approval → Receipt**. Inspect context before Prepare plan, review the approach before Create proposal, and explicitly approve or reject the exact proposed action. Context/plan changes invalidate earlier reviews. Test an unconfirmed outcome at Approval, then check the record rather than repeat publication.
+
+**Components** provides fourteen real reference components with two representative read-only states each, search/group filtering, and API/source links. **Trust & control** provides separate evidence/memory and supervision/recovery fixtures. Showcase navigation preserves visited controllers and local records; it does not reset unknown outcomes, authorize work, or stop a worker. Refresh clears the simulation. Read [Public Showcase](PUBLIC-SHOWCASE-v0.1.md) for the complete visitor flow and boundaries.
+
+### Preserved technical lab
+
+Open `http://127.0.0.1:4173/?lab=1` for the original full technical lab. This is a separate page session. **All effects are simulated.** No production worker, tool, memory store, model, or external action service is supplied.
+
+Its review workflow remains **Prepare plan → Review approach → Create proposal → Review action → Simulate publish or Reject action → Verified receipt**. Approach review grants no execution permission. Notes availability and Revise plan invalidate reviews. An unconfirmed response requires reconciliation rather than repetition. See the [review walkthrough](REVIEW-WORKFLOW-v0.1.md#7-walk-through-the-local-lab).
 
 **Evidence for the current task** explains memory influence, source use and application-reported checks, and scoped uncertainty. Availability is not use. Restricted notes remove readable evidence and memory inspection. The separate **Explore evidence and memory states** disclosure demonstrates conflicts, inaccessible sources, generated interpretations, and M0–M3/unavailable memory without changing task authority or storing data. See [Evidence and Memory](EVIDENCE-AND-MEMORY-v0.1.md#6-component-lab).
 
-Use **Explore supervision and recovery** for the final four components. Request stop is acknowledged before any stop is confirmed; Advance simulated worker then supplies a local observation. Prior effects remain visible. The lost-acknowledgement scenario permits Check original action status rather than another write. Compensation creates a separate record without deleting the originals. These controls govern only the stepped fixture, **not the publication-review lab**. See the [supervision walkthrough](SUPERVISION-AND-RECOVERY-v0.1.md#8-working-local-example).
+Use **Explore supervision and recovery** for the final four components. Request stop is acknowledged before any stop is confirmed; Advance simulated worker then supplies a local observation. Prior effects remain visible. The lost-acknowledgement scenario permits Check original action status rather than another write. Compensation creates a separate record without deleting the originals. These controls govern only the stepped fixture, **not the publication-review lab or guided demo**. See the [supervision walkthrough](SUPERVISION-AND-RECOVERY-v0.1.md#8-working-local-example).
 
 ### Library changes during development
 
@@ -74,16 +82,16 @@ Open `http://127.0.0.1:8000/examples/visual-system.html`. The specimen needs rep
 | Command | Checks or produces | Does not include |
 |---|---|---|
 | npm run typecheck | TypeScript checking | Browser behavior |
-| npm test | Library build, Node contracts, React components, metadata and demo-model tests | Browser, tokens, docs, audit, isolated installation |
+| npm test | Library build, Node contracts, React components, metadata, demo-model and showcase tests | Browser, tokens, docs, audit, isolated installation |
 | npm run test:package | Archive inventory and workspace exports; requires a current build | Independent installation |
 | npm run test:consumer | Offline fresh install/reinstall, declarations, fourteen static renders, seven negative type cases, package/CSS paths | Hydration, CSS bundlers, registry distribution |
 | npm run check | Typecheck, npm test, demo build, package inventory, isolated consumer checks | Browser, tokens, docs, audits |
-| npm run test:browser | Chromium browser suite | Firefox, WebKit, manual assistive-technology review |
+| npm run test:browser | Chromium public showcase and preserved technical-lab suites | Firefox, WebKit, manual assistive-technology review |
 | python scripts/tokens.py check | Structure, declared contrast, generated-file drift | Every rendered combination |
 | python scripts/check_docs.py | Local Markdown links/fragments and fences | External URLs, code execution, factual correctness |
 | npm audit | Known advisories for the installed graph at run time | Proof of application security |
 
-Use actual runner output for the current commit, not historical counts. [PR 6](https://github.com/kochrisdev/TUN-Systemic-Design/pull/6) tracks fourteen-component acceptance. Earlier [evidence](EVIDENCE-VALIDATION-v0.1.md), [consumer](CONSUMER-VALIDATION-v0.1.md), and [review](REVIEW-VALIDATION-v0.1.md) reports retain their dated scope.
+Use actual runner output for the current commit, not historical counts. [PR 7](https://github.com/kochrisdev/TUN-Systemic-Design/pull/7) tracks public-showcase acceptance. [PR 6](https://github.com/kochrisdev/TUN-Systemic-Design/pull/6) and earlier [evidence](EVIDENCE-VALIDATION-v0.1.md), [consumer](CONSUMER-VALIDATION-v0.1.md), and [review](REVIEW-VALIDATION-v0.1.md) reports retain their dated scope.
 
 After npm ci, run the full set:
 
@@ -137,6 +145,12 @@ Import CSS once in the host's permitted global entry; token CSS is included. The
 
 Set data-tun-theme light/dark on html, or remove it for system preference. Nested themes and persisted preferences are not implemented.
 
+## Deploy on Vercel
+
+Keep the project root at the repository root and use the committed [vercel.json](../vercel.json). It pins the npm command, builds the component library before the demo, and sets output to `examples/react/dist`, avoiding the previously observed missing-root-dist error. No application environment variables are required. Node/runtime and production-branch selection remain project settings.
+
+The [Vercel guide](PUBLIC-SHOWCASE-v0.1.md#8-vercel-deployment) explains the exact commands and deployment boundaries. Confirm the source commit and deployed assets after a successful build; GitHub CI and Vercel deployment are distinct checks. Canonical/social-image metadata uses the configured production domain, so update it for a fork or custom domain.
+
 ## Troubleshooting
 
 | Symptom | Check and response |
@@ -145,14 +159,16 @@ Set data-tun-theme light/dark on html, or remove it for system preference. Neste
 | Initial registry/DNS error | Restore connectivity. Syntax checks are not a completed build. |
 | Consumer dependency mismatch | Restore the committed graph with npm ci; do not silently choose newer peers. |
 | Consumer archive/report mismatch | Rebuild, run test:package, then test:consumer. |
-| Missing dist or stale edits | Run npm run build:library. |
+| Missing dist or stale edits | Run npm run build:library. On Vercel set output to examples/react/dist. |
+| Old full-page lab not visible | Open /?lab=1. The default / page is now the public showcase. |
+| Returning to a view does not reset the task | This is intentional. Reconcile unknown outcomes rather than resetting a latch. Refresh is local-demo cleanup, not cancellation or undo. |
 | Missing new contract import | Use the package root rather than inventing subpaths. |
 | Missing Chromium | Run npx playwright install chromium using the installed toolchain. |
 | Port 4173 unavailable | Stop a process you own or update demo/test URLs together. |
 | Unstyled components | Import package CSS and set the theme on html. |
 | Prepare plan disabled | Restore current available notes; unresolved outcomes deliberately block work. |
 | Create proposal disabled | Review the current approach; revisions clear review. |
-| Approval/override/recovery disabled | Inspect scope, versions, expiry, policy, evidence and local pending/unknown latches. Never bypass a latch. |
+| Approval/override/recovery disabled | Inspect scope, versions, expiry, policy, evidence and local pending/unknown latches. Never bypass a latch. Explorer specimens deliberately disable requests. |
 | Stop acknowledged but not confirmed | In the fixture, advance the simulated worker. In production, wait for genuine host observations. |
 | Recovery blocked on unknown outcome | Reconcile the original action first. A network failure is not proof of no effects. |
 | Completion stays unverified | Supply authentic evidence for the exact control/run revision; a click is insufficient. |
@@ -161,4 +177,4 @@ Set data-tun-theme light/dark on html, or remove it for system preference. Neste
 | Memory inspection absent | Only valid active M1–M3 records with onInspect offer navigation. No storage service is implied. |
 | Local link checker failure | Update targets and links together; remote URLs are not fetched. |
 
-Before production use complete the [integration checklist](INTEGRATION-CHECKLIST.md). A demo or smoke test is not publication, deployment, full accessibility assessment, or authorization infrastructure.
+Before production integration complete the [integration checklist](INTEGRATION-CHECKLIST.md). Hosting the simulation does not imply production authorization, full accessibility assessment, npm publication, or a real AI runtime.

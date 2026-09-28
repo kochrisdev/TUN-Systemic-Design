@@ -1,0 +1,32 @@
+export interface CatalogEntry {
+  readonly symbol: string;
+  readonly name: string;
+  readonly group: 'Intent & identity' | 'Review & accountability' | 'Evidence & memory' | 'Supervision & recovery';
+  readonly question: string;
+  readonly purpose: string;
+  readonly boundary: string;
+  readonly guide: string;
+  readonly states: readonly [string, string];
+}
+/** Representative display specimens, not an exhaustive state or conformance matrix. */
+export const componentCatalog = [
+  { symbol: 'IntentComposer', name: 'Intent Composer', group: 'Intent & identity', question: 'What outcome do you want?', purpose: 'Capture intent with an understandable scope before work begins.', boundary: 'Submitting intent does not grant permission to execute.', guide: 'REACT-COMPONENTS-v0.1.md#4-intent-composer', states: ['Example intent', 'Missing context'] },
+  { symbol: 'AgentCard', name: 'Agent Card', group: 'Intent & identity', question: 'Who is acting, and with what authority?', purpose: 'Identify the agent, its purpose, capabilities, and delegated authority.', boundary: 'A persona or capability is not a permission.', guide: 'REACT-COMPONENTS-v0.1.md#5-agent-card', states: ['Planning', 'Blocked'] },
+  { symbol: 'ContextPanel', name: 'Context Panel', group: 'Review & accountability', question: 'What information is available?', purpose: 'Separate source availability, actual use, scope, and persistence.', boundary: 'Available information is not necessarily used information.', guide: 'REVIEW-WORKFLOW-v0.1.md#2-context-panel', states: ['Available, not used', 'Restricted context'] },
+  { symbol: 'PlanView', name: 'Plan View', group: 'Review & accountability', question: 'What is the proposed approach?', purpose: 'Present major steps, dependencies, revisions, and approval checkpoints.', boundary: 'Reviewing an approach is not action authorization or an internal reasoning transcript.', guide: 'REVIEW-WORKFLOW-v0.1.md#3-plan-view', states: ['Proposed approach', 'Blocked approach'] },
+  { symbol: 'ProposalCard', name: 'Proposal Card', group: 'Review & accountability', question: 'What exactly could happen next?', purpose: 'Show the action, actor, target, consequences, and recovery limits before approval.', boundary: 'A proposal describes a possibility, not a completed action.', guide: 'REVIEW-WORKFLOW-v0.1.md#4-proposal-card', states: ['Ready for review', 'Expired proposal'] },
+  { symbol: 'ApprovalGate', name: 'Approval Gate', group: 'Review & accountability', question: 'Do you authorize this particular action?', purpose: 'Collect an explicit, version-bound approve or reject decision.', boundary: 'The host must authorize and execute; the button is not a security service.', guide: 'REACT-COMPONENTS-v0.1.md#6-approval-gate', states: ['Awaiting decision (disabled specimen)', 'Expired approval'] },
+  { symbol: 'ActionReceipt', name: 'Action Receipt', group: 'Review & accountability', question: 'What actually happened?', purpose: 'Display application-supplied outcomes, verification, and recovery limitations.', boundary: 'A click or resolved callback is not verification.', guide: 'REACT-COMPONENTS-v0.1.md#7-action-receipt', states: ['Synthetic verified record', 'Pending verification'] },
+  { symbol: 'MemoryIndicator', name: 'Memory Indicator', group: 'Evidence & memory', question: 'What context persists or influences this task?', purpose: 'Make memory use, scope, influence, and inspection understandable.', boundary: 'Memory use is not a storage, deletion, training, or permission guarantee.', guide: 'EVIDENCE-AND-MEMORY-v0.1.md#2-memory-indicator', states: ['Session context', 'Memory unavailable'] },
+  { symbol: 'SourceView', name: 'Source View', group: 'Evidence & memory', question: 'What supports this claim?', purpose: 'Distinguish source material, generated interpretation, access, and contrary evidence.', boundary: 'An application-reported check is not independent proof of truth.', guide: 'EVIDENCE-AND-MEMORY-v0.1.md#3-source-view', states: ['Synthetic source quotation', 'Inaccessible evidence'] },
+  { symbol: 'UncertaintySignal', name: 'Uncertainty Signal', group: 'Evidence & memory', question: 'What is uncertain, and why?', purpose: 'Present a qualitative assessment with scope, explanation, and supporting basis.', boundary: 'Unsupported confidence falls back to Unknown; no calibrated probability is implied.', guide: 'EVIDENCE-AND-MEMORY-v0.1.md#4-uncertainty-signal', states: ['Scoped inference', 'Unsupported confidence'] },
+  { symbol: 'ToolActivity', name: 'Tool Activity', group: 'Supervision & recovery', question: 'Which tool is doing what?', purpose: 'Display observed operations, scope, targets, progress, and known effects.', boundary: 'A planned tool call is not an observed execution.', guide: 'SUPERVISION-AND-RECOVERY-v0.1.md', states: ['Observed work', 'Unverified completion'] },
+  { symbol: 'AgentActivity', name: 'Agent Activity', group: 'Supervision & recovery', question: 'What is the agent doing now?', purpose: 'Present operational state, blockers, measured progress, and known effects.', boundary: 'A full progress counter is not a verified outcome.', guide: 'SUPERVISION-AND-RECOVERY-v0.1.md', states: ['Observed work', 'Unverified completion'] },
+  { symbol: 'HumanOverride', name: 'Human Override', group: 'Supervision & recovery', question: 'How do I intervene?', purpose: 'Request an intervention bound to a particular control and run revision.', boundary: 'Stop requested or acknowledged does not mean stopped.', guide: 'SUPERVISION-AND-RECOVERY-v0.1.md', states: ['Stop request (disabled specimen)', 'Acknowledged, not stopped'] },
+  { symbol: 'RecoveryControl', name: 'Recovery Control', group: 'Supervision & recovery', question: 'How do I recover without making things worse?', purpose: 'Offer scoped recovery or reconciliation without erasing known effects.', boundary: 'Compensation is not undo. Unknown effects require checking before retrying.', guide: 'SUPERVISION-AND-RECOVERY-v0.1.md', states: ['Compensation (disabled specimen)', 'Unsafe retry blocked'] },
+] as const satisfies readonly CatalogEntry[];
+export type ComponentName = typeof componentCatalog[number]['symbol'];
+export function filterCatalog(query: string, group: string) {
+  const text = query.trim().toLowerCase();
+  return componentCatalog.filter(item => (group === 'All groups' || item.group === group) && `${item.name} ${item.symbol} ${item.question}`.toLowerCase().includes(text));
+}

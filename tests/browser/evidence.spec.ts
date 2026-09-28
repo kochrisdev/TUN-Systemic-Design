@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import axe from 'axe-core';
 
-test.beforeEach(async ({ page }) => { await page.goto('/'); });
+test.beforeEach(async ({ page }) => { await page.goto('/?lab=1'); });
 test('task memory and evidence reflect use without granting approval', async ({ page }) => {
   const region = page.getByRole('region', { name: 'Evidence for the current task', exact: true });
   await expect(region.locator('.tun-memory')).toContainText('not used for this task');

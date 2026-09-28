@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('button color pairs switch atomically when enabled in both themes', async ({ page }) => {
   for (const theme of ['light', 'dark']) {
-    await page.goto('/');
+    await page.goto('/?lab=1');
     await page.getByRole('combobox', { name: 'Theme', exact: true }).selectOption(theme);
     await page.getByRole('button', { name: 'Prepare plan', exact: true }).click();
     const create = page.getByRole('button', { name: 'Create proposal', exact: true });
