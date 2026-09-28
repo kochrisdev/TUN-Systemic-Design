@@ -1,0 +1,4 @@
+.lab-focus-region { min-inline-size: 0; }
+.lab-focus-region:focus-visible { outline: var(--tun-focus-width) solid var(--tun-focus-ring); outline-offset: var(--tun-focus-offset); border-radius: var(--tun-radius-lg); }
+.theme-picker select { max-inline-size: 100%; }
+@media (forced-colors: active) { .lab-focus-region:focus-visible { outline-color: Highlight; } }

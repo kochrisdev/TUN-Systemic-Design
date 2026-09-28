@@ -2,10 +2,10 @@
 ## Components v0.1
 
 **Status:** Draft project component catalog.  
-**Version:** 0.1; documentation revision September 27, 2026.  
-**Implementation:** Four of fourteen patterns have React exports.
+**Version:** 0.1; documentation revision September 28, 2026.  
+**Implementation:** Seven of fourteen patterns have React exports in the review-workflow increment; check the branch/PR status.
 
-[Documentation index](README.md) · [Specification](SPECIFICATION-v0.1.md) · [Implementation matrix](STATUS-AND-ROADMAP.md) · [React API](REACT-COMPONENTS-v0.1.md)
+[Documentation index](README.md) · [Specification](SPECIFICATION-v0.1.md) · [Implementation matrix](STATUS-AND-ROADMAP.md) · [React API](REACT-COMPONENTS-v0.1.md) · [Review workflow](REVIEW-WORKFLOW-v0.1.md)
 
 # 1. Purpose
 
@@ -21,9 +21,9 @@ Components SHOULD be outcome-first, visibly attributable, honest about uncertain
 |---|---|
 | Intent Composer | Implemented as `IntentComposer` |
 | Agent Card | Implemented as `AgentCard` |
-| Context Panel | Specified only |
-| Plan View | Specified only |
-| Proposal Card | Specified only |
+| Context Panel | Implemented as `ContextPanel` |
+| Plan View | Implemented as `PlanView` |
+| Proposal Card | Implemented as `ProposalCard` |
 | Approval Gate | Implemented as `ApprovalGate` |
 | Action Receipt | Implemented as `ActionReceipt` |
 | Memory Indicator | Specified only |
@@ -70,7 +70,9 @@ Only symbols exported by [index.ts](../packages/react/src/index.ts) are availabl
 
 **Behavior:** Material context SHOULD be inspectable with explicit/inferred information distinguished. Availability is not proof a source was used. Do not imply source access when permission is missing, and do not send unauthorized private content to the browser merely to hide it in a collapsed panel.
 
-**Accessibility and anti-patterns:** Use named disclosures and readable source/state labels. Avoid hidden persistence, irrelevant private context, and unexplained inference. This component is specified only.
+**Accessibility and anti-patterns:** Use named disclosures and readable source/state labels. Avoid hidden persistence, irrelevant private context, and unexplained inference.
+
+**Reference implementation:** `ContextSnapshot`, source availability separate from used/not-used/unknown, readable persistence/provenance, optional native disclosure and limited safe links, and warnings for stale context. Restricted/missing source summaries and links are not rendered; the host must still remove private data before sending props. No retrieval, permission, or memory service is supplied. See [Review Workflow](REVIEW-WORKFLOW-v0.1.md#2-context-panel).
 
 # 7. Plan View
 
@@ -82,7 +84,9 @@ Only symbols exported by [index.ts](../packages/react/src/index.ts) are availabl
 
 **Behavior:** Material plan changes SHOULD be highlighted. Approval of an approach does not automatically authorize every effectful action. The view MUST NOT imply that all hidden reasoning is exposed. Mark steps complete only from observed state.
 
-**Accessibility and anti-patterns:** Use ordered structure, textual status, and clear blockers. Avoid unbounded internal logs, fake progress, or hidden plan revisions. This component is specified only.
+**Accessibility and anti-patterns:** Use ordered structure, textual status, and clear blockers. Avoid unbounded internal logs, fake progress, or hidden plan revisions.
+
+**Reference implementation:** `TaskPlan`, context ID/version, step dependencies, expected outputs, change summaries, and application evidence. Structural errors are displayed as blocked; same-version material changes warn that review is stale. Unsupported completion claims are downgraded. There is no authorization callback. See [Review Workflow](REVIEW-WORKFLOW-v0.1.md#3-plan-view).
 
 # 8. Proposal Card
 
@@ -94,7 +98,9 @@ Only symbols exported by [index.ts](../packages/react/src/index.ts) are availabl
 
 **Behavior:** The card MUST look and read differently from an Action Receipt. Approved means authorized, not executed. Scrolling, navigating, or viewing MUST NOT count as approval. Review-relevant changes need a new proposal version.
 
-**Accessibility and anti-patterns:** Preserve material details in the reading order, not tooltip-only text. Avoid success styling, vague consequence labels, and implicit consent. A separate React Proposal Card is not exported yet; an Approval Gate rendering proposal details is not that separate component.
+**Accessibility and anti-patterns:** Preserve material details in the reading order, not tooltip-only text. Avoid success styling, vague consequence labels, and implicit consent.
+
+**Reference implementation:** `ActionProposal`, `ProposalStatus`, optional rationale/assumptions, optional navigation-only `onReview`, and host blocking explanation. Content preview and review references are inspectable. Same-version material changes and expiry block opening review. The card's landmark name includes its proposal-stage label to distinguish it from final approval of the same action. See [Review Workflow](REVIEW-WORKFLOW-v0.1.md#4-proposal-card).
 
 # 9. Approval Gate
 
@@ -106,7 +112,7 @@ Only symbols exported by [index.ts](../packages/react/src/index.ts) are availabl
 
 **Behavior:** C4 approval MUST be explicit for the particular proposal, consistent with Specification section 7.1. A general preference does not authorize it. Controls MUST be keyboard accessible and distinguishable, without deceptive defaults. Prefer Send email or Publish post to generic Continue. Changed versions restart review; they do not inherit consent.
 
-**Reference implementation:** `proposal`, `status`, `approveLabel`, `onDecision`, optional `blockedReason` and `className`. `onDecision` emits ID, version, and approve/reject—not executable parameters. Unknown callback outcomes remain latched against automatic retry. The component blocks both decisions on invalid/expired reviews; the host should supply an independent safe dismissal or escalation path. It is not a cancellation or authorization service.
+**Reference implementation:** `proposal`, `status`, `approveLabel`, `onDecision`, optional `blockedReason` and `className`. `onDecision` emits ID, version, and approve/reject—not executable parameters. Optional proposal context/plan references and content preview are included in its fingerprint and displayed before approval. Unknown callback outcomes remain latched against automatic retry. The component blocks both decisions on invalid/expired reviews; the host should supply independent safe dismissal/escalation. It is not a cancellation or authorization service.
 
 # 10. Action Receipt
 
@@ -209,12 +215,12 @@ Patterns are design recipes, not exported workflow engines.
 | Pattern | Composition |
 |---|---|
 | Simple Assist | Intent Composer → host result → Source View → Uncertainty Signal |
-| Proposed Action | Intent Composer → Plan View → Proposal Card → Approval Gate → host execution/verification → Action Receipt |
+| Proposed Action | Intent Composer → Context Panel → Plan View → Proposal Card → Approval Gate → host execution/verification → Action Receipt |
 | Autonomous Agent | Agent Card → Plan View → Agent/Tool Activity → Human Override → Action Receipt |
 | Memory-Aware Assistant | Intent Composer → Memory Indicator → Context Panel → host result |
 | Recovery | Action Receipt → host failure/unknown-state explanation → Recovery Control → updated receipt |
 
-The current React demo exercises the four implemented components with a simulated host. It is not an implementation of every recipe.
+The React lab exercises the seven implemented components through an in-memory proposed-action flow. It is not an implementation of every recipe or a trusted backend.
 
 # 19. Component Priority by Consequence
 
@@ -261,18 +267,18 @@ Separate presentation, state, authority, action logic, and audit data. Avoid mod
 
 # 25. Example Component Contract
 
-The source-of-truth React contract is exported, not the old illustrative `onApprove`/`onReject` shape:
+The source-of-truth React contract is exported, not the old illustrative onApprove/onReject shape:
 
 ```ts
 import type { ApprovalGateProps, ActionProposal, DecisionRequest } from '@tun-systemic/react';
 
 // ActionProposal includes actor, consequence, effect, authority, recovery,
-// a stable ID/version, and an optional supported absolute expiry timestamp.
+// a stable ID/version, optional expiry, and optional reviewBasis/contentPreview.
 type DecisionHandler = ApprovalGateProps['onDecision'];
 // DecisionRequest contains proposalId, proposalVersion, and decision.
 ```
 
-Use `ApprovalGate` with `proposal`, `status`, `approveLabel`, and `onDecision`. The callback requests a decision; it does not itself authorize execution. Full props, timestamp restrictions, and sample integrations are in [React Components](REACT-COMPONENTS-v0.1.md). TypeScript types are not runtime validation of untrusted JSON.
+Use ApprovalGate with proposal, status, approveLabel, and onDecision. The callback requests a decision, not authorization infrastructure. Full props and timestamp restrictions are in [React Components](REACT-COMPONENTS-v0.1.md); context, plan, and content binding are in [Review Workflow](REVIEW-WORKFLOW-v0.1.md). TypeScript types are not runtime validation of untrusted JSON.
 
 # 26. Component Review Checklist
 
@@ -280,6 +286,6 @@ What human problem is solved? Who acts? Under what authority? Is current state u
 
 # 27. Direction for v0.2
 
-The visual tokens and first four React components now exist. Remaining work includes ten component implementations, detailed state matrices, visual anatomy examples, localization, broader browser/accessibility validation, design-tool adapters, and scoped conformance evidence. See the [roadmap](STATUS-AND-ROADMAP.md) rather than treating this list as delivered functionality.
+The visual tokens and seven React components exist in this increment. Remaining work includes seven component implementations, independent-consumer installation testing, detailed state matrices, visual anatomy examples, localization, broader browser/accessibility validation, design-tool adapters, and scoped conformance evidence. See the [roadmap](STATUS-AND-ROADMAP.md) rather than treating this list as delivered functionality.
 
 **Human Intent. Machine Intelligence. Systemic Design.**
