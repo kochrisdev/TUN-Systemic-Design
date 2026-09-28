@@ -40,9 +40,15 @@ test('keyboard focus and review navigation are visible', async ({ page }) => {
   await expect(prepareButton).toBeFocused();
   expect(await prepareButton.evaluate(el => getComputedStyle(el).outlineStyle)).not.toBe('none');
   await page.keyboard.press('Enter');
-  await page.getByRole('button', { name: 'Review approach', exact: true }).focus(); await page.keyboard.press('Enter');
-  await page.getByRole('button', { name: 'Create proposal', exact: true }).focus(); await page.keyboard.press('Enter');
-  await page.getByRole('button', { name: 'Review action', exact: true }).focus(); await page.keyboard.press('Enter');
+  // focus() does not wait for enabled state. Review action initially waits for
+  // its expiry clock; wait for real readiness, not an arbitrary timeout.
+  for (const name of ['Review approach', 'Create proposal', 'Review action']) {
+    const control = page.getByRole('button', { name, exact: true });
+    await expect(control).toBeEnabled();
+    await control.focus();
+    await expect(control).toBeFocused();
+    await page.keyboard.press('Enter');
+  }
   const region = page.locator('[aria-label="Action approval review"]');
   await expect(region).toBeFocused();
   expect(await region.evaluate(el => getComputedStyle(el).outlineStyle)).not.toBe('none');
