@@ -17,7 +17,7 @@ export function Showcase() {
   const [theme, setTheme] = useState(() => document.documentElement.dataset.tunTheme || 'system');
   const menuButton = useRef<HTMLButtonElement>(null);
   const main = useRef<HTMLElement>(null);
-  const first = useRef(true);
+  const previousView = useRef(view);
   useEffect(() => {
     const change = () => {
       const next = showcaseView(window.location.hash);
@@ -28,7 +28,10 @@ export function Showcase() {
   }, []);
   useEffect(() => {
     document.title = `TUN Systemic Design — ${descriptions[view]}`;
-    if (first.current) { first.current = false; return; }
+    // Only an actual route change moves focus. StrictMode effect replay must
+    // not steal initial focus from the keyboard's first stop: the skip link.
+    if (previousView.current === view) return;
+    previousView.current = view;
     if (view !== 'demo') main.current?.querySelector<HTMLElement>(`[data-route="${view}"] [data-view-title]`)?.focus();
   }, [view]);
   useEffect(() => {
