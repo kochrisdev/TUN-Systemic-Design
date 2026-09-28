@@ -2,6 +2,18 @@
 
 This records repository work, not published npm releases. Private package version 0.1.0 and document version 0.1 do not imply a stable public API, release tag, deployment or certification. PR history records merge state for an exact revision.
 
+## September 28, 2026 — public showcase
+
+[PR 7](https://github.com/kochrisdev/TUN-Systemic-Design/pull/7) adds the public overview, a six-stage guided review task, a searchable fourteen-component explorer with two representative read-only states per component, and a separate Trust & Control Lab. Responsive navigation links the demos, documentation and repository. The original full technical lab remains at /?lab=1.
+
+The guided controller uses the unchanged review model. Hash navigation preserves visited controllers, so leaving a view cannot reset pending/unknown outcomes or discard earlier receipts. Initial focus stays with the browser; actual route and guided-stage changes receive appropriate focus. A pending result in an inactive view does not steal focus. The first CI candidate caught a StrictMode initial-focus bug and the incomplete sharing-image asset; both were corrected without weakening browser assertions.
+
+Added a favicon, a geometric 1200-by-630 sharing PNG with SVG source, static Open Graph/Twitter metadata and a no-JavaScript fallback. Root vercel.json records the library-first build and examples/react/dist output. Dashboard runtime, domain, permissions and production-branch settings are unchanged. A successful repository build does not prove a deployed URL has updated.
+
+Added routing, catalog, read-only specimen, focus and public-browser regression coverage. Existing technical browser assertions remain, targeting their preserved /?lab=1 entry. Updated README, documentation index, setup, status and the [Public Showcase guide](docs/PUBLIC-SHOWCASE-v0.1.md). Canonical library code, models, dependency graph, generated tokens, licenses, workflow permissions and historical validation records are preserved. The supervision fixture's explanatory wording now works in either presentation.
+
+No production model/service, analytics, account connection, persistent storage, new canonical component, or npm publication is included. PR history records exact final checks and merge state; deployment and live-site validation are separate.
+
 ## September 28, 2026 — supervision and recovery
 
 [PR 6](https://github.com/kochrisdev/TUN-Systemic-Design/pull/6) adds ToolActivity, AgentActivity, HumanOverride and RecoveryControl, completing the fourteen canonical reference React exports. New root-only contracts separate observed work, measured progress, control/run revisions, requests, acknowledgements, terminal evidence and known prior effects. Internal ControlAction is shared implementation, not a fifteenth public component.

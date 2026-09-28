@@ -10,7 +10,7 @@ export function SupervisionLab() {
   return <section id="supervision" aria-labelledby="supervision-title" className="evidence-section">
     <p className="lab-kicker">SUPERVISION AND RECOVERY / SEPARATE LOCAL SIMULATION</p>
     <h2 id="supervision-title">Request precisely. Verify the result.</h2>
-    <p className="simulation-notice">This stepped fixture has no real agent, tool, backend, or external effects. The controls below do not govern the publication-review lab above. Original effects stay visible after stoppage and compensation.</p>
+    <p className="simulation-notice">This stepped fixture has no real agent, tool, backend, or external effects. Its controls do not govern the publication-review workflow or the guided demo. Original effects stay visible after stoppage and compensation.</p>
     <section className="tun-component" aria-label="Simulated worker controls">
       <h3 className="tun-subheading">Simulation controls, not production actions</h3>
       <label className="demo-toggle"><input type="checkbox" checked={state.loseAcknowledgement} disabled={state.phase !== 'running'}
