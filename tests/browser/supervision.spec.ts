@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import axe from 'axe-core';
-test.beforeEach(async ({ page }) => { await page.goto('/'); });
+test.beforeEach(async ({ page }) => { await page.goto('/?lab=1'); });
 test('stop acknowledgement is separate from observed stoppage', async ({ page }) => {
   const lab = page.locator('#supervision');
   await lab.getByRole('button', { name: 'Request stop', exact: true }).click();

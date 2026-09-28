@@ -9,7 +9,7 @@ async function openReview(page: Page) {
   await prepare(page);
   await page.getByRole('button', { name: 'Review action', exact: true }).click();
 }
-test.beforeEach(async ({ page }) => { await page.goto('/'); });
+test.beforeEach(async ({ page }) => { await page.goto('/?lab=1'); });
 test('approval produces only a simulated verified receipt', async ({ page }) => {
   await expect(page.getByText('Local simulation only.')).toBeVisible();
   await openReview(page);

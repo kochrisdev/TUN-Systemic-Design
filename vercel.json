@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
+  "installCommand": "npx --yes npm@12.1.0 ci --include=dev --no-audit --no-fund",
+  "buildCommand": "npx --yes npm@12.1.0 run build",
+  "outputDirectory": "examples/react/dist"
+}
