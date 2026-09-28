@@ -1,4 +1,5 @@
 /** TUN presentation contracts. These are not an authorization boundary. */
+import type { ReviewBasis } from './review-contracts.js';
 export type Consequence = 'C0' | 'C1' | 'C2' | 'C3' | 'C4';
 export type AutonomyLevel = 0 | 1 | 2 | 3 | 4;
 export type AgentState = 'idle' | 'listening' | 'thinking' | 'planning' | 'waiting' | 'acting' | 'verifying' | 'blocked' | 'completed' | 'failed' | 'escalated';
@@ -21,6 +22,10 @@ export interface ActionProposal {
   readonly recovery: Recovery;
   /** Explicit timezone; seconds required; at most millisecond precision. */
   readonly expiresAt?: string;
+  /** Optional immutable references. The host must validate their actual contents. */
+  readonly reviewBasis?: ReviewBasis;
+  /** Reviewable plain text; never rendered as HTML or treated as authority. */
+  readonly contentPreview?: string;
 }
 export interface DecisionRequest {
   readonly proposalId: string;
@@ -71,7 +76,9 @@ export const receiptLabels: Record<ReceiptStatus, string> = {
 export function proposalFingerprint(p: ActionProposal): string {
   return JSON.stringify([p.id, p.version, p.action, p.target, p.actor.id, p.actor.name,
     p.actor.type, p.consequence, p.effect, p.authority, p.recovery.kind,
-    p.recovery.description, p.expiresAt ?? null]);
+    p.recovery.description, p.expiresAt ?? null, p.contentPreview ?? null,
+    p.reviewBasis ? [p.reviewBasis.context.id, p.reviewBasis.context.version,
+      p.reviewBasis.plan.id, p.reviewBasis.plan.version] : null]);
 }
 /** Strict calendar validation prevents Date.parse from rolling February 30 into March. */
 export function parseTimestamp(value: string): number | null {
@@ -100,6 +107,13 @@ export function proposalBlockReason(p: ActionProposal, now: number): string | nu
       !Object.hasOwn(recoveryLabels, p.recovery.kind) ||
       !['human', 'agent', 'system'].includes(p.actor.type)) {
     return 'Proposal classification is invalid. Request a fresh proposal.';
+  }
+  if (p.contentPreview !== undefined && (typeof p.contentPreview !== 'string' || !p.contentPreview.trim())) {
+    return 'The content preview is incomplete. Request a fresh proposal.';
+  }
+  if (p.reviewBasis && ![p.reviewBasis.context?.id, p.reviewBasis.context?.version,
+      p.reviewBasis.plan?.id, p.reviewBasis.plan?.version].every(s => typeof s === 'string' && s.trim())) {
+    return 'The review basis is incomplete. Request a fresh proposal.';
   }
   if (p.expiresAt !== undefined) {
     const expires = parseTimestamp(p.expiresAt);
@@ -130,3 +144,4 @@ export function displayTimestamp(value: string): string {
   const time = parseTimestamp(value);
   return time === null ? 'Time unavailable' : new Date(time).toISOString().replace('T', ' ').replace('.000Z', ' UTC').replace('Z', ' UTC');
 }
+export * from './review-contracts.js';

@@ -47,3 +47,12 @@
   .tun-component .tun-button:disabled { border-color: GrayText; color: GrayText; }
   .tun-component :where(button, textarea, a, summary):focus-visible { outline-color: Highlight; }
 }
+
+/* Context, plan, and proposal recipes. Never hide consequential detail. */
+.tun-component.tun-proposal { border-style: dashed; border-color: var(--tun-border-control); }
+.tun-component .tun-subheading { font-size: var(--tun-font-size-md); font-weight: var(--tun-font-weight-semibold); line-height: var(--tun-font-line-height-normal); margin-block: 0 var(--tun-space-2); }
+.tun-component .tun-source-list { list-style: none; padding-inline-start: 0; margin-block: var(--tun-space-4); }
+.tun-component .tun-source-item, .tun-component .tun-plan-steps > li { padding-block: var(--tun-space-4); border-block-end: var(--tun-border-thin) solid var(--tun-border-subtle); }
+.tun-component .tun-plan-steps { padding-inline-start: var(--tun-space-6); margin-block: var(--tun-space-4); }
+.tun-component .tun-preserve-text { white-space: pre-wrap; overflow-wrap: anywhere; }
+.tun-component .tun-preview { padding: var(--tun-space-4); margin-block: var(--tun-space-4); background: var(--tun-surface-subtle); border-inline-start: var(--tun-border-emphasis) solid var(--tun-border-control); }

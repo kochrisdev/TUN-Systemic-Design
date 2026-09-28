@@ -13,7 +13,7 @@
     "dev": "npm run build:library && npm run dev:demo",
     "dev:demo": "npm run dev --workspace tun-react-demo",
     "typecheck": "tsc --noEmit",
-    "test:contracts": "node --test tests/contracts.test.mjs tests/timestamps.test.mjs",
+    "test:contracts": "node --test tests/contracts.test.mjs tests/timestamps.test.mjs tests/review-contracts.test.mjs",
     "test:react": "vitest run",
     "test": "npm run build:library && npm run test:contracts && npm run test:react",
     "test:browser": "playwright test",

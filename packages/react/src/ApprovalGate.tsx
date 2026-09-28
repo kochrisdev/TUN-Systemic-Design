@@ -81,7 +81,12 @@ function ApprovalReview({ proposal, status, approveLabel, onDecision, blockedRea
       <div><dt>Authority requested</dt><dd>{proposal.authority}</dd></div>
       <div><dt>Recovery</dt><dd><strong>{recoveryLabels[proposal.recovery.kind]}.</strong> {proposal.recovery.description}</dd></div>
       {proposal.expiresAt && <div><dt>Expires</dt><dd>{displayTimestamp(proposal.expiresAt)}</dd></div>}
+      {proposal.reviewBasis && <>
+        <div><dt>Context basis</dt><dd>{proposal.reviewBasis.context.id} · version {proposal.reviewBasis.context.version}</dd></div>
+        <div><dt>Plan basis</dt><dd>{proposal.reviewBasis.plan.id} · version {proposal.reviewBasis.plan.version}</dd></div>
+      </>}
     </dl>
+    {proposal.contentPreview !== undefined && <div className="tun-preview"><h3 className="tun-subheading">Content preview</h3><p className="tun-preserve-text">{proposal.contentPreview}</p></div>}
     <div className="tun-notice" role="status" aria-live="polite" id={`${id}-status`}>{statusText}</div>
     <div className="tun-actions">
       <button type="button" className="tun-button" disabled={unavailable} onClick={() => void decide('reject')} aria-describedby={`${id}-status`}>Reject action</button>
