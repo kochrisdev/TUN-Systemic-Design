@@ -6,4 +6,8 @@ export { ActionReceipt, type ActionReceiptProps } from './ActionReceipt.js';
 export { ContextPanel, type ContextPanelProps } from './ContextPanel.js';
 export { PlanView, type PlanViewProps } from './PlanView.js';
 export { ProposalCard, type ProposalCardProps } from './ProposalCard.js';
+export { MemoryIndicator, type MemoryIndicatorProps } from './MemoryIndicator.js';
+export { SourceView, type SourceViewProps } from './SourceView.js';
+export { UncertaintySignal, type UncertaintySignalProps } from './UncertaintySignal.js';
 export * from './contracts.js';
+export * from './evidence-contracts.js';

@@ -2,6 +2,8 @@ import './review.css';
 import { useEffect, useRef, useState } from 'react';
 import { ActionReceipt, AgentCard, ApprovalGate, ContextPanel, IntentComposer, PlanView, ProposalCard,
   type AgentProfile, type AgentState, type ContextAvailability, type DecisionRequest } from '@tun-systemic/react';
+import { EvidenceReview } from './EvidenceReview.js';
+import { EvidenceExamples } from './EvidenceExamples.js';
 import { beginDemoDecision, changeDemoContext, changeDemoIntent, createDemoProposal, demoLocked, demoSourceReady,
   initialDemo, openDemoReview, prepareDemo, reconcileDemo, recordDemoAction, reviewDemoPlan, reviseDemoPlan,
   type DemoState } from './review-model.js';
@@ -30,7 +32,6 @@ export function App() {
     setState(current.current);
   }
   async function decide(request: DecisionRequest) {
-    // Capture the scenario before awaiting; the controls are locked while it runs.
     const loseAcknowledgement = unknown;
     apply(s => beginDemoDecision(s, request));
     if (request.decision === 'reject') return;
@@ -65,9 +66,9 @@ export function App() {
       </select></label>
     </header>
     <main id="main" className="lab-main">
-      <div className="lab-intro"><p className="lab-kicker">REACT COMPONENT LAB / REVIEW WORKFLOW</p>
+      <div className="lab-intro"><p className="lab-kicker">REACT COMPONENT LAB / EVIDENCE AND MEMORY</p>
         <h1>Understand first.<br />Authorize precisely.</h1>
-        <p className="lab-lede">Seven components. From source context to a verified action record.</p>
+        <p className="lab-lede">Ten components. Visible context, evidence, memory, and accountable actions.</p>
         <p className="simulation-notice"><strong>Local simulation only.</strong> No AI model, account connection, real publication, or persistent memory. Refreshing clears this demonstration, not real-world actions.</p>
       </div>
       <p className="simulation-notice" role="status">{state.notice || 'Start with the supplied notes and a clear outcome.'}</p>
@@ -127,6 +128,8 @@ export function App() {
           </div>
         </div>
       </div>
+      <EvidenceReview key={state.context.version} context={state.context} />
+      <EvidenceExamples />
       <footer className="lab-footer">Human Intent. Machine Intelligence. Systemic Design.<br />Reference implementation — not authorization infrastructure or accessibility certification.</footer>
     </main>
   </>;
