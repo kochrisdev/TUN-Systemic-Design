@@ -1,7 +1,8 @@
 /** Compiled outside the workspace against the installed archive's declarations. */
 import { IntentComposer, AgentCard, ContextPanel, PlanView, ProposalCard, ApprovalGate, ActionReceipt,
+  MemoryIndicator, SourceView, UncertaintySignal,
   type ActionProposal, type AgentProfile, type ContextSnapshot, type ContextSource,
-  type DecisionRequest, type ReceiptData, type TaskPlan } from '@tun-systemic/react';
+  type DecisionRequest, type ReceiptData, type TaskPlan, type EvidenceSource, type MemoryType } from '@tun-systemic/react';
 
 const noEffect = () => { throw new Error('Rendering must not request an action.'); };
 const actor = { id: 'fixture-agent', name: 'Fixture agent', type: 'agent' as const };
@@ -29,10 +30,17 @@ export const specimens = {
   ProposalCard: <ProposalCard proposal={proposal} status="ready" onReview={noEffect} />,
   ApprovalGate: <ApprovalGate proposal={proposal} status="awaiting" approveLabel="Approve synthetic action" onDecision={noEffect} />,
   ActionReceipt: <ActionReceipt receipt={receipt} />,
+  MemoryIndicator: <MemoryIndicator memory={{ id: 'm', version: '1', type: 'M2', state: 'active', scope: 'Fixture', influence: 'Hypothetical preference' }} onInspect={noEffect} />,
+  SourceView: <SourceView evidence={{ id: 'e', version: '1', claim: 'A synthetic claim', sources: [{ id: 's', title: 'Fixture source', kind: 'Synthetic note', relationship: 'supports', relationshipExplanation: 'Synthetic relation', access: 'available', excerpt: { kind: 'generated', text: 'Literal <script>not evidence</script>' }, verification: { state: 'verified', detail: 'Generated material must still not be treated as source text.' } }] }} />,
+  UncertaintySignal: <UncertaintySignal assessment={{ level: 'U0', scope: 'Fixture', explanation: 'Missing basis deliberately downgrades this assessment.' }} />,
 };
 // These errors must remain rejected by the installed declarations.
 // @ts-expect-error execution is not a decision-request value
 const invalidDecision: DecisionRequest = { proposalId: 'p', proposalVersion: '1', decision: 'execute' };
 // @ts-expect-error restricted source metadata cannot contain source content
 const invalidSource: ContextSource = { id: 'r', label: 'Restricted', kind: 'note', scope: 'Fixture', persistence: 'session', provenance: 'provided', availability: 'restricted', usage: 'not-used', summary: 'Forbidden extra field' };
-void invalidDecision; void invalidSource;
+// @ts-expect-error memory classifications do not include delegation permissions
+const invalidMemory: MemoryType = 'authorized';
+// @ts-expect-error restricted evidence cannot include an excerpt
+const invalidEvidence: EvidenceSource = { id: 'r', title: 'Restricted', kind: 'Note', relationship: 'background', relationshipExplanation: 'Unavailable', access: 'restricted', reason: 'No access', excerpt: { kind: 'quote', text: 'Must not be sent' } };
+void invalidDecision; void invalidSource; void invalidMemory; void invalidEvidence;

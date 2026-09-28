@@ -1,10 +1,10 @@
 # TUN React Components v0.1
 
-**Status:** Reference implementation of seven components.  
+**Status:** Reference implementation of ten components.  
 **Package:** `@tun-systemic/react` v0.1.0; repository-local, not published.  
 **Documentation revision:** September 28, 2026.
 
-[Documentation index](README.md) · [Getting started](GETTING-STARTED.md) · [Architecture](ARCHITECTURE.md) · [Review workflow API](REVIEW-WORKFLOW-v0.1.md) · [Consumer validation](CONSUMER-VALIDATION-v0.1.md)
+[Documentation index](README.md) · [Getting started](GETTING-STARTED.md) · [Architecture](ARCHITECTURE.md) · [Review workflow API](REVIEW-WORKFLOW-v0.1.md) · [Evidence and memory API](EVIDENCE-AND-MEMORY-v0.1.md)
 
 ## 1. Scope
 
@@ -19,8 +19,11 @@ This implementation translates parts of the [component catalog](COMPONENTS-v0.1.
 | `ProposalCard` | Exact proposed action and navigation to review | [ProposalCard.tsx](../packages/react/src/ProposalCard.tsx) |
 | `ApprovalGate` | Version-bound explicit decision request | [ApprovalGate.tsx](../packages/react/src/ApprovalGate.tsx) |
 | `ActionReceipt` | Supplied result with verification/recovery limits | [ActionReceipt.tsx](../packages/react/src/ActionReceipt.tsx) |
+| `MemoryIndicator` | Scoped memory use, influence, and inspection navigation | [MemoryIndicator.tsx](../packages/react/src/MemoryIndicator.tsx) |
+| `SourceView` | Claim-specific evidence, source access, quotation/interpretation distinctions | [SourceView.tsx](../packages/react/src/SourceView.tsx) |
+| `UncertaintySignal` | Scoped qualitative uncertainty with explicit basis and limits | [UncertaintySignal.tsx](../packages/react/src/UncertaintySignal.tsx) |
 
-Seven patterns remain specified only. A model runtime, orchestrator, memory service, Figma/Tailwind adapter, production authorization backend, and hosted application are not included. Full props for the three review components are in [Review Workflow](REVIEW-WORKFLOW-v0.1.md).
+Four patterns remain specified only: Tool Activity, Agent Activity, Human Override, and Recovery Control. A model runtime, orchestrator, memory service, independent evidence verifier, Figma/Tailwind adapter, production authorization backend, and hosted application are not included. Full props for the review components are in [Review Workflow](REVIEW-WORKFLOW-v0.1.md); the latest three are documented in [Evidence and Memory](EVIDENCE-AND-MEMORY-v0.1.md).
 
 ## 2. Repository layout
 
@@ -29,6 +32,7 @@ Seven patterns remain specified only. A model runtime, orchestrator, memory serv
 | [packages/react/src](../packages/react/src) | Components, contracts, component CSS |
 | [index.ts](../packages/react/src/index.ts) | Public client entry and exports |
 | [review-contracts.ts](../packages/react/src/review-contracts.ts) | Context/plan metadata, revision references, presentation helpers |
+| [evidence-contracts.ts](../packages/react/src/evidence-contracts.ts) | Memory/evidence/uncertainty display records and bounded metadata checks |
 | [copy-assets.mjs](../packages/react/scripts/copy-assets.mjs) | Copy styles, generated token CSS, and license |
 | [examples/react](../examples/react) | Simulated Vite component lab |
 | [review-model.ts](../examples/react/review-model.ts) | Pure in-memory demonstration state; not an exported engine |
@@ -37,7 +41,7 @@ Seven patterns remain specified only. A model runtime, orchestrator, memory serv
 | [check-consumer.mjs](../scripts/check-consumer.mjs) | Separate offline installed-consumer acceptance |
 | [package-lock.json](../package-lock.json) | Resolved dependency graph |
 
-The build emits ESM JavaScript and declarations under packages/react/dist, plus styles and tokens. React is a peer dependency. Exports are `.`, `./contracts`, `./styles.css`, and `./tokens.css`; there is no CommonJS require entry. Review types/helpers are re-exported through contracts; no separate review-contracts subpath is declared.
+The build emits ESM JavaScript and declarations under packages/react/dist, plus styles and tokens. React is a peer dependency. Exports are `.`, `./contracts`, `./styles.css`, and `./tokens.css`; there is no CommonJS require entry. Core/review types and helpers are available through root and contracts. **New evidence/memory types and helpers are root exports only.** No review-contracts or evidence-contracts package subpath is declared.
 
 ## 3. Getting started
 
@@ -52,7 +56,7 @@ npm run dev
 
 The lab runs at `http://127.0.0.1:4173`. Initial dependency installation needs registry access. npm run dev builds the library once; rebuild after library-source edits. npm run check includes typecheck, contract/React/model tests, builds, archive checks, and the isolated offline consumer test. Browser, token, documentation, and audit checks remain separate; see [Verification](GETTING-STARTED.md#verification).
 
-The peer range is React/React DOM >=19.2.0 <20. A named validation run covers one locked version, not every peer/runtime. The isolated test installs real local archives outside the workspace, compiles consumer declarations, and statically renders all seven components. This is distinct from inventory checking and does not establish hydration, bundler CSS integration, registry distribution, or every framework. Existing CI permissions remain read-only; artifacts are temporary.
+The peer range is React/React DOM >=19.2.0 <20. A named validation run covers one locked version, not every peer/runtime. The isolated test installs real local archives outside the workspace, compiles consumer declarations including four negative type cases, and statically renders all ten components. This is distinct from inventory checking and does not establish hydration, bundler CSS integration, registry distribution, or every framework. Existing CI permissions remain read-only; artifacts are temporary.
 
 ## 4. Intent Composer
 
@@ -183,24 +187,26 @@ Validate external JSON before rendering. Authenticate identity/tenant, bind exac
 
 Model output and retrieved content are data, not authority. Memory must not grant permission. Sanitize errors and keep private prompts, credentials, payloads, and sensitive query parameters out of logs/telemetry/shared surfaces. Filter unauthorized context before sending props to a client, not merely before rendering a disclosure.
 
+Evidence/memory components likewise cannot authenticate source checks, determine storage/training policy, or calibrate probabilities. Their limited metadata checks prevent specific misleading displays, not dishonest host claims. Changes to evidence material to an action must invalidate its canonical review rather than silently change a badge alongside an existing approval.
+
 Inspect authoritative state before retrying uncertain external actions. Preserve partial effects. Actual pause/stop/revocation and recovery require host services. Complete the [integration checklist](INTEGRATION-CHECKLIST.md).
 
 ## 9. Visual and accessibility behavior
 
 Import @tun-systemic/react/styles.css once; it includes tokens. Themes are document-level via html data-tun-theme light/dark; no attribute follows the system. No remote fonts or persistence are supplied.
 
-Native controls, labels, definition lists, disclosures, status text, generated IDs, visible focus, narrow-screen wrapping, reduced motion, and forced colors are used. These choices and automated samples are not a full accessibility audit.
+Native controls, labels, definition lists, disclosures, status text, generated IDs, visible focus, narrow-screen wrapping, reduced motion, and forced colors are used. These choices and automated samples are not a full accessibility audit. The three evidence/memory components opt into short polite status announcements through `announce`; default presentation is quiet.
 
-Approval is inline, not modal. Hosts adding dialogs need focus containment/dismissal/restoration. Hosts replacing components need appropriate focus and announcements. English copy is embedded; no locale contract is implemented. Test framework CSS placement, client/server boundaries, and hydration; static-render smoke checks do not establish those capabilities.
+Approval is inline, not modal. Hosts adding dialogs need focus containment/dismissal/restoration. Hosts replacing components or opening memory inspection need appropriate focus and announcements. English copy is embedded; no locale contract is implemented. Test framework CSS placement, client/server boundaries, and hydration; static-render smoke checks do not establish those capabilities.
 
 ## 10. Validation and release status
 
-[Consumer validation](CONSUMER-VALIDATION-v0.1.md) closes the isolated-install gap left in the [workflow record](REVIEW-VALIDATION-v0.1.md). The [earlier React record](REACT-VALIDATION-v0.1.md) preserves the historical four-component snapshot. Reports prove only their named source and checks.
+[PR 5](https://github.com/kochrisdev/TUN-Systemic-Design/pull/5) records the ten-component increment's exact tested heads. The [consumer](CONSUMER-VALIDATION-v0.1.md) and [workflow](REVIEW-VALIDATION-v0.1.md) records preserve the earlier seven-component acceptance. The [earlier React record](REACT-VALIDATION-v0.1.md) preserves the historical four-component snapshot. Reports prove only their named source and checks.
 
-The package remains private and unpublished with version 0.1.0; use source SHA and digest to identify archives. The isolated offline test is distinct from workspace inventory and proves one installed peer graph, declaration compilation, static rendering, and package/CSS resolution. Registry distribution, broader peers, bundlers, hydration, browsers, assistive technologies, localization, deployments, and production services still require validation. No full TUN conformance or accessibility certification is claimed.
+The package remains private and unpublished with version 0.1.0; use source SHA and digest to identify archives. The isolated offline test is distinct from workspace inventory and checks one installed peer graph, declaration compilation, ten static renders, and package/CSS resolution. Registry distribution, broader peers, bundlers, hydration, browsers, assistive technologies, localization, deployments, and production services still require validation. No full TUN conformance or accessibility certification is claimed.
 
 ## References
 
-[Source contracts](../packages/react/src/contracts.ts), [review contracts](../packages/react/src/review-contracts.ts), [exports](../packages/react/src/index.ts), [root scripts](../package.json), and [CI](../.github/workflows/react.yml) define this implementation. External references: [React useId](https://react.dev/reference/react/useId), [Vite](https://vite.dev/guide/), [Vitest](https://vitest.dev/guide/), [npm ci](https://docs.npmjs.com/cli/commands/npm-ci/), [W3C form notifications](https://www.w3.org/WAI/tutorials/forms/notifications/), and [Playwright CI](https://playwright.dev/docs/ci-intro).
+[Source contracts](../packages/react/src/contracts.ts), [review contracts](../packages/react/src/review-contracts.ts), [evidence contracts](../packages/react/src/evidence-contracts.ts), [exports](../packages/react/src/index.ts), [root scripts](../package.json), and [CI](../.github/workflows/react.yml) define this implementation. External references: [React useId](https://react.dev/reference/react/useId), [Vite](https://vite.dev/guide/), [Vitest](https://vitest.dev/guide/), [npm ci](https://docs.npmjs.com/cli/commands/npm-ci/), [W3C form notifications](https://www.w3.org/WAI/tutorials/forms/notifications/), and [Playwright CI](https://playwright.dev/docs/ci-intro).
 
 **Human Intent. Machine Intelligence. Systemic Design.**

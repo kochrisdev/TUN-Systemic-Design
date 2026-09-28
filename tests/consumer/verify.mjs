@@ -11,7 +11,7 @@ import { context, plan, proposal, specimens } from './build/consumer.js';
 const root = realpathSync(fileURLToPath(new URL('./', import.meta.url)));
 const modules = join(root, 'node_modules');
 const within = path => { const part = relative(modules, realpathSync(path)); return part && !isAbsolute(part) && part !== '..' && !part.startsWith(`..${sep}`); };
-const names = ['IntentComposer', 'AgentCard', 'ContextPanel', 'PlanView', 'ProposalCard', 'ApprovalGate', 'ActionReceipt'];
+const names = ['IntentComposer', 'AgentCard', 'ContextPanel', 'PlanView', 'ProposalCard', 'ApprovalGate', 'ActionReceipt', 'MemoryIndicator', 'SourceView', 'UncertaintySignal'];
 for (const name of ['@tun-systemic/react', 'react', 'react-dom', 'scheduler', '@types/react', '@types/react-dom', 'csstype']) {
   const path = join(modules, name);
   assert.ok(!lstatSync(path).isSymbolicLink() && within(path), `${name} must be a real consumer installation`);
@@ -31,6 +31,12 @@ assert.ok(rendered.PlanView.includes('not an action authorization'));
 assert.ok(rendered.ProposalCard.includes('&lt;script&gt;not executable&lt;/script&gt;'));
 assert.ok(!rendered.ProposalCard.includes('<script>'));
 assert.ok(rendered.ActionReceipt.includes('Pending verification'));
+assert.ok(rendered.MemoryIndicator.includes('User-controlled persistent memory'));
+assert.ok(rendered.SourceView.includes('Partial evidence') && rendered.SourceView.includes('Generated interpretation'));
+assert.ok(rendered.SourceView.includes('&lt;script&gt;not evidence&lt;/script&gt;') && !rendered.SourceView.includes('<script>'));
+assert.ok(rendered.UncertaintySignal.includes('U3') && rendered.UncertaintySignal.includes('Unknown'));
+assert.equal(components.evidenceState({ id: 'empty', version: '1', claim: 'Unknown', sources: [] }), 'unavailable');
+assert.equal(components.effectiveUncertaintyLevel({ level: 'U0', scope: 'Fixture', explanation: 'No basis' }), 'U3');
 assert.deepEqual(planIssues(plan), []);
 assert.equal(proposalBlockReason(proposal, Date.parse('2026-09-28T00:00:00Z')), null);
 assert.equal(reviewBasisMatches(proposal, context, plan), true);
@@ -41,4 +47,4 @@ assert.ok(tokens.includes('--tun-surface-panel') && tokens.includes('--tun-actio
 assert.ok(readFileSync(join(modules, '@tun-systemic/react/LICENSE'), 'utf8').includes('CC0'));
 console.log(JSON.stringify({ status: 'passed', components: names, staticRenders: names.length,
   contracts: 'passed', packageResolution: 'consumer-local', stylesAndTokens: 'resolved',
-  negativeTypeCases: 2, note: 'Static rendering does not exercise hydration or browser interactions.' }));
+  negativeTypeCases: 4, note: 'Static rendering does not exercise hydration or browser interactions.' }));

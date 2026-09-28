@@ -1,6 +1,6 @@
 # Getting started
 
-[Documentation index](README.md) · [Core React API](REACT-COMPONENTS-v0.1.md) · [Review workflow](REVIEW-WORKFLOW-v0.1.md) · [Consumer validation](CONSUMER-VALIDATION-v0.1.md)
+[Documentation index](README.md) · [Core React API](REACT-COMPONENTS-v0.1.md) · [Review workflow](REVIEW-WORKFLOW-v0.1.md) · [Evidence and memory](EVIDENCE-AND-MEMORY-v0.1.md) · [Historical consumer validation](CONSUMER-VALIDATION-v0.1.md)
 
 ## Choose a path
 
@@ -48,7 +48,9 @@ npm run dev
 
 Open `http://127.0.0.1:4173`. Keep the development-server terminal open; Ctrl+C stops it. GitHub's file viewer shows source, not a running app.
 
-The lab follows **Prepare plan → Review approach → Create proposal → Review action → Simulate publish or Reject action → Verified receipt**. Approach review and opening review grant no action permission. Notes availability and Revise plan demonstrate invalidation. An unconfirmed response requires reconciliation rather than retry. See the [walkthrough](REVIEW-WORKFLOW-v0.1.md#7-walk-through-the-local-lab).
+The lab follows **Prepare plan → Review approach → Create proposal → Review action → Simulate publish or Reject action → Verified receipt**. Approach review and opening review grant no action permission. Notes availability and Revise plan demonstrate invalidation. An unconfirmed response requires reconciliation rather than retry. See the [workflow walkthrough](REVIEW-WORKFLOW-v0.1.md#7-walk-through-the-local-lab).
+
+The ten-component lab also shows **Evidence for the current task**: memory influence, the supplied note and its application-reported check, and uncertainty about production readiness. Before preparing a plan, availability does not imply source use. Restricting the notes removes readable evidence and memory inspection. The **Explore evidence and memory states** disclosure uses separate synthetic fixtures to demonstrate conflicts, inaccessible sources, generated interpretation, and M0–M3/unavailable memory without changing the task, its approval, or stored memory. Read the [evidence and memory walkthrough](EVIDENCE-AND-MEMORY-v0.1.md#6-component-lab).
 
 ### Library changes during development
 
@@ -68,16 +70,16 @@ Open `http://127.0.0.1:8000/examples/visual-system.html`. This separate specimen
 | Command | Checks or produces | Does not include |
 |---|---|---|
 | npm run typecheck | TypeScript checking | Browser behavior |
-| npm test | Library build, Node contracts, React components, demo-model tests | Browser, tokens, docs, audit, isolated install |
+| npm test | Library build, Node contracts, React components, demo-model and evidence-metadata tests | Browser, tokens, docs, audit, isolated install |
 | npm run test:package | Archive inventory and workspace exports; requires a current library build | Independent installation |
-| npm run test:consumer | Offline isolated install/reinstall, consumer types, seven static renders, package/CSS resolution; requires current build and package report | Hydration, bundler integration, registry distribution |
+| npm run test:consumer | Offline isolated install/reinstall, consumer types, ten static renders, package/CSS resolution; requires current build and package report | Hydration, bundler integration, registry distribution |
 | npm run check | Typecheck, npm test, demo build, package inventory, and isolated consumer checks | Browser, tokens, docs, dependency audits |
 | npm run test:browser | Chromium browser suite | Firefox, WebKit, manual assistive-technology review |
 | python scripts/tokens.py check | Structure, declared contrast, generated-file drift | Every rendered combination |
 | python scripts/check_docs.py | Local Markdown links/fragments and fences | External URLs, code execution, factual correctness |
 | npm audit | Known advisories for the installed graph at run time | Proof of application security |
 
-Use actual runner output, not historical counts, for the current commit. [Consumer validation](CONSUMER-VALIDATION-v0.1.md) records the isolated acceptance result; [Review validation](REVIEW-VALIDATION-v0.1.md) preserves the earlier application-workflow results and findings.
+Use actual runner output, not historical counts, for the current commit. [PR 5](https://github.com/kochrisdev/TUN-Systemic-Design/pull/5) records the evidence/memory increment. [Consumer validation](CONSUMER-VALIDATION-v0.1.md) and [Review validation](REVIEW-VALIDATION-v0.1.md) preserve earlier seven-component acceptance and findings.
 
 After npm ci, run the full set of checks:
 
@@ -119,9 +121,12 @@ npm install /absolute/path/to/tun-systemic-react-0.1.0.tgz
 ```
 
 ```tsx
-import { ContextPanel, PlanView, ProposalCard, ApprovalGate } from '@tun-systemic/react';
+import { ContextPanel, PlanView, ProposalCard, ApprovalGate,
+  MemoryIndicator, SourceView, UncertaintySignal } from '@tun-systemic/react';
 import '@tun-systemic/react/styles.css';
 ```
+
+New evidence/memory types and helpers are root exports only, not additions to the existing contracts subpath. No evidence-contracts package subpath is declared. See the [API guide](EVIDENCE-AND-MEMORY-v0.1.md#1-scope-and-imports).
 
 Import CSS once in the permitted global entry; token CSS is included. The package is ESM with declarations and no CommonJS require export. The isolated smoke test validates one locked React graph and static rendering; validate CSS bundling, hydration, and framework boundaries in your actual consumer before adoption.
 
@@ -136,6 +141,7 @@ Set `data-tun-theme="light"` or `"dark"` on `<html>`; remove it for system prefe
 | Consumer dependency mismatch | Restore the committed graph with npm ci; do not silently select a newer peer. |
 | Consumer archive/report mismatch | Rebuild the library, run test:package, then test:consumer. |
 | Missing dist or stale edits | Run npm run build:library; the demo imports built files. |
+| Missing evidence contract import | Import new evidence/memory contracts from the package root, not an invented subpath. |
 | Missing Chromium | Run npx playwright install chromium using the installed toolchain. |
 | Port 4173 unavailable | Stop a process you own or update demo/test URLs together. |
 | Unstyled components | Import package CSS and set the theme on html. |
@@ -144,6 +150,9 @@ Set `data-tun-theme="light"` or `"dark"` on `<html>`; remove it for system prefe
 | Approval disabled | Inspect status, expiry, completeness, same-version changes, and pending/unknown outcomes. Never bypass a latch. |
 | Unknown publication outcome | Check the simulated action record; do not repeat publication. Missing evidence stays unknown. |
 | Receipt pending verification | Supply verified state and meaningful evidence; a click is insufficient. |
+| Uncertainty falls back to Unknown | Supply valid scope/explanation and a genuine supporting basis for U0–U2; do not invent evidence to obtain a preferred badge. |
+| Source summary stays Partial | Inspect actual support, access, excerpt type, and described source checks. Generated interpretation is not verified source material. |
+| Inspect memory is absent | Only valid active M1–M3 records with an onInspect handler offer inspection. No control means no promised mutation service. |
 | Local link checker failure | Move targets and links together. Remote URLs are not fetched. |
 
 For production, complete the [integration checklist](INTEGRATION-CHECKLIST.md). A local demo or passing smoke test implies no publication, hosted deployment, complete accessibility audit, or real backend execution.

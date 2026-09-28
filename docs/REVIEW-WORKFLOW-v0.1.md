@@ -1,14 +1,16 @@
 # Context, plan, and proposal review workflow v0.1
 
-**Status:** Seven-component reference implementation; PR history records acceptance of each revision.  
+**Status:** Seven-component review-flow subset of the ten-component reference library; PR history records acceptance of each revision.  
 **Revision:** September 28, 2026.  
 **Package:** @tun-systemic/react 0.1.0, repository-local and unpublished. Identify builds by source commit and archive digest.
 
-[Documentation index](README.md) · [Core React API](REACT-COMPONENTS-v0.1.md) · [Implementation matrix](STATUS-AND-ROADMAP.md) · [Workflow evidence](REVIEW-VALIDATION-v0.1.md) · [Consumer validation](CONSUMER-VALIDATION-v0.1.md)
+[Documentation index](README.md) · [Core React API](REACT-COMPONENTS-v0.1.md) · [Implementation matrix](STATUS-AND-ROADMAP.md) · [Evidence and memory](EVIDENCE-AND-MEMORY-v0.1.md) · [Historical workflow evidence](REVIEW-VALIDATION-v0.1.md)
 
 ## 1. Scope
 
-ContextPanel, PlanView, and ProposalCard bring the library to seven canonical exports. ActionProposal gains optional review-basis references and plain-text content preview. Approval, authority, execution, and verification retain their separate meanings. No model runtime or remaining seven components is supplied.
+This guide describes the review-flow subset originally delivered by adding ContextPanel, PlanView, and ProposalCard to the first four components. ActionProposal includes optional review-basis references and a plain-text content preview. Approval, authority, execution, and verification retain separate meanings.
+
+The library now also includes MemoryIndicator, SourceView, and UncertaintySignal; their contracts and lab integration are in [Evidence and Memory](EVIDENCE-AND-MEMORY-v0.1.md). Four supervision/recovery patterns remain specified only. No model or production action runtime is supplied.
 
 ```text
 IntentComposer → ContextPanel → PlanView → ProposalCard
@@ -107,6 +109,8 @@ reviewBasisMatches compares supplied IDs/versions and the plan's context referen
 
 Supplementary rationale and assumptions are not separately fingerprinted. If they materially change a decision, the host issues a new proposal version. Reference matches do not turn approach review into authority. onDecision still carries only proposalId, proposalVersion, and approve/reject. Completion comes from a separate action record.
 
+Memory/evidence metadata does not alter this contract. A material evidence change must invalidate the relevant canonical context and proposal; a confidence or source-check badge does not authorize an old or new action.
+
 ## 6. Minimal presentation example
 
 ```tsx
@@ -145,17 +149,19 @@ Missing, Restricted, or Stale notes invalidate earlier reviews and block generat
 
 An unconfirmed-response scenario writes an in-memory record but loses acknowledgement. New proposals and mutations stay blocked. Check simulated action record reads the record instead of repeating publication. Missing evidence remains unknown, not proof of failure. Earlier verified receipts survive subsequent context changes; the UI displays the latest and a count, not a complete history browser.
 
+The evidence/memory section explains the current context without changing approval state. Its separate synthetic fixture explorer demonstrates edge states but contributes no input or authority to this workflow. Production suitability remains Unknown; the local fixture does not substantiate a production claim.
+
 Ledger and deduplication live only in page memory. Refresh clears the demonstration; it does not undo real-world actions. The lab makes no model calls, connections, persistent writes, publications, or external sends.
 
 ## 8. Accessibility and verification
 
 Native structure, labels, disclosures, textual states, semantic tokens, wrapping content, and visible focus are used. The lab moves focus to approval and verified receipt regions. Material details remain visible on narrow layouts. State transitions do not depend on animation timing.
 
-Tests cover availability/usage, restricted content, safe links, stale context, dependencies/revisions, evidence, status/expiry/content changes, review versus consent, duplicate decisions, reconciliation, and retained receipts. Chromium checks keyboard/disclosure behavior, 320px/long-text layouts, reduced motion, color-state transitions, and light/dark accessibility samples. Read the [workflow record](REVIEW-VALIDATION-v0.1.md) for named results, and [consumer validation](CONSUMER-VALIDATION-v0.1.md) for installed-package testing. Authored tests are not automatically passed tests.
+Tests cover availability/usage, restricted content, safe links, stale context, dependencies/revisions, evidence, status/expiry/content changes, review versus consent, duplicate decisions, reconciliation, and retained receipts. Chromium checks keyboard/disclosure behavior, 320px/long-text layouts, reduced motion, color-state transitions, and light/dark accessibility samples. [Workflow](REVIEW-VALIDATION-v0.1.md) and [consumer](CONSUMER-VALIDATION-v0.1.md) records preserve the earlier seven-component validation; [PR 5](https://github.com/kochrisdev/TUN-Systemic-Design/pull/5) records the expanded library's exact runs. Authored tests are not automatically passed tests.
 
 ## 9. Remaining acceptance and adoption work
 
-The former isolated-install gap is closed by the offline consumer test: fresh installation outside the workspace, own-lockfile reinstall, declaration compilation, seven static renders, and package/CSS-path resolution. It uses already-locked local dependencies without lifecycle scripts, network fallback, or new workflow permissions. See [Consumer validation](CONSUMER-VALIDATION-v0.1.md) for the exact source and limits.
+The former isolated-install gap was closed by the offline consumer test. Its current fixture covers fresh installation outside the workspace, own-lockfile reinstall, declaration compilation, ten static renders, and package/CSS-path resolution. It uses already-locked local dependencies without lifecycle scripts, network fallback, or new workflow permissions. See the historical [Consumer validation](CONSUMER-VALIDATION-v0.1.md) and current PR evidence for their respective source snapshots.
 
 Static rendering does not exercise hydration or CSS bundlers. Cross-browser, manual assistive-technology, localization, complete runtime schemas, framework/server-component boundaries, registry distribution, production authorization, durable idempotency, revocation, real recovery, and complete conformance remain adoption work. No certification, npm release, or deployment is claimed.
 
