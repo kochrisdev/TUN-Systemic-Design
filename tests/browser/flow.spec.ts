@@ -61,7 +61,7 @@ test('reduced motion disables component transitions', async ({ page }) => {
 });
 for (const theme of ['light', 'dark']) {
   test(`${theme} theme passes review and receipt accessibility samples`, async ({ page }, testInfo) => {
-    await page.getByLabel('Theme', { exact: true }).selectOption(theme);
+    await page.getByRole('combobox', { name: 'Theme', exact: true }).selectOption(theme);
     await expect(page.locator('html')).toHaveAttribute('data-tun-theme', theme);
     await openReview(page); await page.addScriptTag({ content: axe.source });
     const violations = () => page.evaluate(async () => {
