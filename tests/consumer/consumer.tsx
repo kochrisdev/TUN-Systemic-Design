@@ -1,8 +1,9 @@
 /** Compiled outside the workspace against the installed archive's declarations. */
 import { IntentComposer, AgentCard, ContextPanel, PlanView, ProposalCard, ApprovalGate, ActionReceipt,
-  MemoryIndicator, SourceView, UncertaintySignal,
+  MemoryIndicator, SourceView, UncertaintySignal, ToolActivity, AgentActivity, HumanOverride, RecoveryControl,
   type ActionProposal, type AgentProfile, type ContextSnapshot, type ContextSource,
-  type DecisionRequest, type ReceiptData, type TaskPlan, type EvidenceSource, type MemoryType } from '@tun-systemic/react';
+  type DecisionRequest, type ReceiptData, type TaskPlan, type EvidenceSource, type MemoryType,
+  type ActivityRecord, type InterventionOperation, type InterventionKind, type ControlRequest, type ControlEvidence } from '@tun-systemic/react';
 
 const noEffect = () => { throw new Error('Rendering must not request an action.'); };
 const actor = { id: 'fixture-agent', name: 'Fixture agent', type: 'agent' as const };
@@ -22,6 +23,9 @@ const agent: AgentProfile = { id: actor.id, name: actor.name, purpose: 'Static f
 const receipt: ReceiptData = { id: 'fixture-receipt', action: 'Synthetic action record', actor, target: proposal.target,
   timestamp: '2026-09-28T00:00:00Z', status: 'completed', summary: 'This record intentionally lacks verification',
   verification: { state: 'pending', detail: 'No execution was requested.' }, recovery };
+const activity: ActivityRecord = { id: 'run', version: '1', actor, task: 'Observe fixture', scope: 'Local', effects: 'Partial effects remain', status: 'completed', observedAt: '2026-09-28T00:00:00Z' };
+const operation: InterventionOperation = { id: 'control', version: '1', run: { id: 'run', version: '1' }, actor,
+  kind: 'stop', target: 'Local worker', scope: 'This run', effect: 'Stop future work', limits: 'Earlier effects remain', knownEffects: 'Two fixture writes' };
 export const specimens = {
   IntentComposer: <IntentComposer value="Synthetic request" onValueChange={noEffect} onSubmit={noEffect} scope="No external effects" />,
   AgentCard: <AgentCard agent={agent} state="planning" />,
@@ -33,6 +37,10 @@ export const specimens = {
   MemoryIndicator: <MemoryIndicator memory={{ id: 'm', version: '1', type: 'M2', state: 'active', scope: 'Fixture', influence: 'Hypothetical preference' }} onInspect={noEffect} />,
   SourceView: <SourceView evidence={{ id: 'e', version: '1', claim: 'A synthetic claim', sources: [{ id: 's', title: 'Fixture source', kind: 'Synthetic note', relationship: 'supports', relationshipExplanation: 'Synthetic relation', access: 'available', excerpt: { kind: 'generated', text: 'Literal <script>not evidence</script>' }, verification: { state: 'verified', detail: 'Generated material must still not be treated as source text.' } }] }} />,
   UncertaintySignal: <UncertaintySignal assessment={{ level: 'U0', scope: 'Fixture', explanation: 'Missing basis deliberately downgrades this assessment.' }} />,
+  AgentActivity: <AgentActivity activity={activity} />,
+  ToolActivity: <ToolActivity activity={{ ...activity, tool: 'Local tool', category: 'writing', target: 'Fixture', authority: 'No external authority' }} />,
+  HumanOverride: <HumanOverride operation={operation} status="completed" onRequest={noEffect} />,
+  RecoveryControl: <RecoveryControl operation={{ ...operation, kind: 'retry', originalOutcome: 'unknown' }} status="available" onRequest={noEffect} />,
 };
 // These errors must remain rejected by the installed declarations.
 // @ts-expect-error execution is not a decision-request value
@@ -43,4 +51,10 @@ const invalidSource: ContextSource = { id: 'r', label: 'Restricted', kind: 'note
 const invalidMemory: MemoryType = 'authorized';
 // @ts-expect-error restricted evidence cannot include an excerpt
 const invalidEvidence: EvidenceSource = { id: 'r', title: 'Restricted', kind: 'Note', relationship: 'background', relationshipExplanation: 'Unavailable', access: 'restricted', reason: 'No access', excerpt: { kind: 'quote', text: 'Must not be sent' } };
-void invalidDecision; void invalidSource; void invalidMemory; void invalidEvidence;
+// @ts-expect-error control requests must identify the run version
+const invalidRequest: ControlRequest = { controlId: 'c', controlVersion: '1', runId: 'r' };
+// @ts-expect-error arbitrary destructive commands are not intervention kinds
+const invalidKind: InterventionKind = 'destroy';
+// @ts-expect-error acknowledgement is not a verified terminal outcome
+const invalidOutcome: ControlEvidence['outcome'] = 'acknowledged';
+void invalidDecision; void invalidSource; void invalidMemory; void invalidEvidence; void invalidRequest; void invalidKind; void invalidOutcome;

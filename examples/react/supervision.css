@@ -1,0 +1,4 @@
+/* Demo layout only. Component colors and control styling remain token driven. */
+#supervision { margin-block-start: var(--tun-space-8); overflow-wrap: anywhere; }
+#supervision > .tun-component, #supervision > .lab-grid { margin-block: var(--tun-space-6); }
+#supervision .demo-toggle { min-inline-size: 0; }

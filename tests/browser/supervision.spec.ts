@@ -1,0 +1,60 @@
+import { test, expect } from '@playwright/test';
+import axe from 'axe-core';
+test.beforeEach(async ({ page }) => { await page.goto('/'); });
+test('stop acknowledgement is separate from observed stoppage', async ({ page }) => {
+  const lab = page.locator('#supervision');
+  await lab.getByRole('button', { name: 'Request stop', exact: true }).click();
+  await expect(lab.locator('.tun-override')).toContainText('Request acknowledged — result not confirmed');
+  await expect(lab.locator('.tun-override')).not.toContainText('Stop confirmed');
+  await expect(lab.getByRole('button', { name: 'Start another local run' })).toBeDisabled();
+  await lab.getByRole('button', { name: 'Advance simulated worker' }).click();
+  await expect(lab.locator('.tun-override')).toContainText('Stop confirmed');
+  await expect(lab.locator('.tun-agent-activity')).toContainText('Partially completed');
+  await expect(lab.getByRole('region', { name: 'Simulation action history' }).getByRole('listitem')).toHaveCount(2);
+});
+test('compensation preserves original records', async ({ page }) => {
+  const lab = page.locator('#supervision');
+  await lab.getByRole('button', { name: 'Request stop', exact: true }).click();
+  await lab.getByRole('button', { name: 'Advance simulated worker' }).click();
+  await lab.getByRole('button', { name: 'Request compensation' }).click();
+  await expect(lab.locator('.tun-recovery')).not.toContainText('Compensation confirmed');
+  await lab.getByRole('button', { name: 'Advance simulated worker' }).click();
+  await expect(lab.locator('.tun-recovery')).toContainText('Compensation confirmed — not undo');
+  await expect(lab.getByRole('region', { name: 'Simulation action history' }).getByRole('listitem')).toHaveCount(3);
+  await lab.getByRole('button', { name: 'Start another local run' }).click();
+  await expect(lab.getByRole('region', { name: 'Simulation action history' }).getByRole('listitem')).toHaveCount(4);
+});
+test('unknown stop outcome allows reconciliation without another write', async ({ page }) => {
+  const lab = page.locator('#supervision');
+  await lab.getByLabel('Lose stop acknowledgement (simulation)').check();
+  await lab.getByRole('button', { name: 'Request stop', exact: true }).click();
+  await lab.getByRole('button', { name: 'Advance simulated worker' }).click();
+  await expect(lab.locator('.tun-override')).toContainText('Outcome unknown');
+  await expect(lab.getByRole('button', { name: 'Start another local run' })).toBeDisabled();
+  await lab.getByRole('button', { name: 'Check original action status' }).click();
+  await lab.getByRole('button', { name: 'Advance simulated worker' }).click();
+  await expect(lab.locator('.tun-recovery')).toContainText('Status check completed — no retry');
+  await expect(lab.getByRole('region', { name: 'Simulation action history' }).getByRole('listitem')).toHaveCount(2);
+});
+test('supervision request supports keyboard and visible focus', async ({ page }) => {
+  const button = page.locator('#supervision').getByRole('button', { name: 'Request stop', exact: true });
+  await button.focus(); await expect(button).toBeFocused();
+  expect(await button.evaluate(el => getComputedStyle(el).outlineStyle)).not.toBe('none');
+  await page.keyboard.press('Enter');
+  await expect(button).toBeDisabled();
+  await expect(page.locator('#supervision .tun-override')).toContainText('result not confirmed');
+});
+for (const theme of ['light', 'dark']) test(`${theme} supervision samples remain accessible at 320px`, async ({ page }, testInfo) => {
+  await page.getByRole('combobox', { name: 'Theme', exact: true }).selectOption(theme);
+  await page.setViewportSize({ width: 320, height: 900 });
+  const lab = page.locator('#supervision'); await lab.scrollIntoViewIfNeeded();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.addScriptTag({ content: axe.source });
+  const violations = await page.evaluate(async () => (await (window as any).axe.run('#supervision')).violations);
+  expect(violations).toEqual([]);
+  await lab.screenshot({ path: testInfo.outputPath(`supervision-${theme}-320.png`) });
+  await lab.getByRole('button', { name: 'Request stop', exact: true }).click();
+  await lab.getByRole('button', { name: 'Advance simulated worker' }).click();
+  const after = await page.evaluate(async () => (await (window as any).axe.run('#supervision')).violations);
+  expect(after).toEqual([]);
+});

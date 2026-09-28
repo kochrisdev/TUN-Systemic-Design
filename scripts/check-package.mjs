@@ -4,7 +4,6 @@ import { execFileSync } from 'node:child_process';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-
 const root = fileURLToPath(new URL('../', import.meta.url));
 const output = join(root, 'artifacts');
 mkdirSync(output, { recursive: true });
@@ -21,15 +20,16 @@ assert.equal(archive.name, '@tun-systemic/react');
 assert.equal(archive.version, '0.1.0');
 assert.ok(Array.isArray(archive.files), 'Package inventory must contain a file list.');
 const paths = new Set(archive.files.map(file => file.path));
-const componentNames = ['IntentComposer', 'AgentCard', 'ApprovalGate', 'ActionReceipt', 'ContextPanel', 'PlanView', 'ProposalCard', 'MemoryIndicator', 'SourceView', 'UncertaintySignal'];
-for (const name of ['index', 'contracts', 'review-contracts', 'evidence-contracts', ...componentNames]) {
+const componentNames = ['IntentComposer', 'AgentCard', 'ApprovalGate', 'ActionReceipt', 'ContextPanel', 'PlanView', 'ProposalCard', 'MemoryIndicator', 'SourceView', 'UncertaintySignal', 'ToolActivity', 'AgentActivity', 'HumanOverride', 'RecoveryControl'];
+for (const name of ['index', 'contracts', 'review-contracts', 'evidence-contracts', 'supervision-contracts', 'ControlAction', ...componentNames]) {
   for (const extension of ['js', 'd.ts']) assert.ok(paths.has(`dist/${name}.${extension}`), `Missing ${name}.${extension}`);
 }
 for (const path of ['dist/styles.css', 'dist/tokens.css', 'package.json', 'LICENSE', 'README.md']) assert.ok(paths.has(path), `Missing package file ${path}`);
 assert.ok(![...paths].some(path => /(^|\/)(node_modules|\.env|\.git)(\/|$)/.test(path)));
 const components = await import('@tun-systemic/react');
 for (const name of componentNames) assert.equal(typeof components[name], 'function', `Missing export ${name}`);
-for (const name of ['evidenceState', 'effectiveUncertaintyLevel', 'memoryIsInspectable']) assert.equal(typeof components[name], 'function', `Missing evidence contract ${name}`);
+for (const name of ['evidenceState', 'effectiveUncertaintyLevel', 'controlBlockReason', 'controlEvidenceMatches']) assert.equal(typeof components[name], 'function', `Missing root helper ${name}`);
+assert.equal(components.ControlAction, undefined);
 const contracts = await import('@tun-systemic/react/contracts');
 for (const name of ['proposalBlockReason', 'parseTimestamp', 'planIssues', 'reviewBasisMatches']) assert.equal(typeof contracts[name], 'function', `Missing contract ${name}`);
 assert.ok(readFileSync(fileURLToPath(import.meta.resolve('@tun-systemic/react/styles.css')), 'utf8').length > 0);
