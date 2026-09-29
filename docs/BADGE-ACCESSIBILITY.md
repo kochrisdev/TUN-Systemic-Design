@@ -27,15 +27,15 @@ The source review found descriptive text in every existing badge. No component o
 
 ## Executable regression contract
 
-[badge-text.ts](../tests/browser/badge-text.ts) provides `inspectBadgeText` and `expectBadgeText`. It inspects text nodes in every rendered badge in the supplied page or component, including badges below the fold. It excludes icon/SVG text, CSS-generated content, hidden/inert/aria-hidden content, transparent or zero-size text, common screen-reader-only clipping, and text positioned outside the badge. An accessible-name attribute alone cannot satisfy the visible-text requirement. Empty, whitespace-only, symbol-only and bare C/U/M state-code labels fail.
+[badge-text.ts](../tests/browser/badge-text.ts) provides `inspectBadgeText` and `expectBadgeText`. It inspects text nodes in every rendered badge in the supplied page or component, including badges below the fold. It excludes icon/SVG text, CSS-generated content, hidden/aria-hidden content, transparent or zero-size text, common screen-reader-only clipping, and text positioned outside the badge. An accessible-name attribute alone cannot satisfy the visible-text requirement. Empty, whitespace-only, symbol-only and bare C/U/M state-code labels fail.
 
-The generic check detects the presence of descriptive text, not arbitrary semantic correctness. Independent expected-label fixtures verify the meaning of known component states. Labels need not be English: visible non-Latin text is supported and tested. A badge in an inactive hidden view or closed disclosure is checked when that view is shown; specimen tests independently assert badge counts so an absent expected badge cannot pass vacuously.
+The generic check detects the presence of descriptive text, not arbitrary semantic correctness. Independent expected-label fixtures verify the meaning of known component states. Labels need not be English: visible non-Latin text is supported and tested. An `inert` container alone does not hide a badge; visible inert badges are still checked. A badge in an inactive hidden view or closed disclosure is checked when that view is shown; specimen tests independently assert badge counts so an absent expected badge cannot pass vacuously.
 
 The browser coverage has three parts:
 
 | Suite | Coverage |
 |---|---|
-| [Component specimens and guard regressions](../tests/browser/badge-text.spec.ts) | Both explorer states of every canonical component, plus deliberately bad/good markup and live review/evidence/supervision transitions. |
+| [Component specimens and guard regressions](../tests/browser/badge-text.spec.ts) | Both explorer states of every canonical component, plus deliberately bad/good markup and live review/evidence/supervision transitions. [Visibility regression](../tests/browser/badge-visibility.spec.ts) keeps visible inert badges in scope. |
 | [Consequence and state matrix](../tests/browser/badge-states.spec.ts) | C0–C4; U0–U3 and unsupported-confidence fallback; every declared Agent Card/activity status; unverified terminal activity and invalid observation time. Uses the built React components with actual component/token CSS in an isolated browser document. |
 | [Public showcase](../tests/browser/showcase.spec.ts) | The helper runs at existing axe checkpoints, each explorer specimen, and after each public-showcase browser test. Existing axe checks remain enabled. |
 
@@ -45,7 +45,7 @@ Explorer, state-matrix and live-transition checks run in light, dark and Chromiu
 npm ci
 npm run build:library
 npx playwright install chromium
-npx playwright test tests/browser/badge-text.spec.ts tests/browser/badge-states.spec.ts
+npx playwright test tests/browser/badge-
 ```
 
 Run `npm run test:browser` for the complete browser suite after building the library. The existing React CI job already runs that suite, so these tests need no additional workflow or dependency.

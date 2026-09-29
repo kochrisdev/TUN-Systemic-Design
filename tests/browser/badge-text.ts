@@ -14,7 +14,7 @@ export async function inspectBadgeText(root: Page | Locator) {
     elements.forEach((badge, index) => {
       // display:none (including inactive routes) and closed <details> do not
       // present a badge. The explorer tests assert badge counts independently.
-      if (!badge.getClientRects().length || badge.closest('[hidden], [inert]')) return;
+      if (!badge.getClientRects().length || badge.closest('[hidden]')) return;
       checked++;
       const bounds = badge.getBoundingClientRect();
       const walker = document.createTreeWalker(badge, NodeFilter.SHOW_TEXT);
@@ -23,7 +23,7 @@ export async function inspectBadgeText(root: Page | Locator) {
       while ((node = walker.nextNode())) {
         if (!normalize(node.textContent ?? '')) continue;
         const parent = node.parentElement;
-        if (!parent || parent.closest('svg, script, style, template, noscript, [aria-hidden="true"], [hidden], [inert]')) continue;
+        if (!parent || parent.closest('svg, script, style, template, noscript, [aria-hidden="true"], [hidden]')) continue;
         const range = document.createRange(); range.selectNodeContents(node);
         let rects = [...range.getClientRects()].map(r => ({ left: Math.max(r.left, bounds.left), right: Math.min(r.right, bounds.right), top: Math.max(r.top, bounds.top), bottom: Math.min(r.bottom, bounds.bottom) }));
         let visible = true;
