@@ -9,6 +9,9 @@ import { proposal, specimens } from './consumer/consumer.js';
 
 describe('React peer compatibility', () => {
   it('hydrates all fourteen exported specimens with stable unique labelled ids', async () => {
+    // Initialize RTL before observing component hydration. React 18.3.0's
+    // test-utils fallback emits a one-time act deprecation; leave it visible.
+    await act(async () => {});
     const tree = <StrictMode>{Object.entries(specimens).map(([name, specimen]) => <div key={name}>{specimen}</div>)}</StrictMode>;
     const container = document.createElement('div');
     container.innerHTML = renderToString(tree, { identifierPrefix: 'compat-' });
