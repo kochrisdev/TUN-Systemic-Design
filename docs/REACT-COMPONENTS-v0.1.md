@@ -2,7 +2,7 @@
 
 **Status:** Reference implementations of all fourteen canonical components.  
 **Package:** @tun-systemic/react v0.1.0; repository-local, private, unpublished.  
-**Revision:** September 28, 2026.
+**Revision:** September 29, 2026.
 
 [Documentation index](README.md) · [Getting started](GETTING-STARTED.md) · [Architecture](ARCHITECTURE.md) · [Review API](REVIEW-WORKFLOW-v0.1.md) · [Evidence API](EVIDENCE-AND-MEMORY-v0.1.md) · [Supervision API](SUPERVISION-AND-RECOVERY-v0.1.md)
 
@@ -61,7 +61,7 @@ npm run dev
 
 Open `http://127.0.0.1:4173`. Initial setup needs registry access. The development command builds the library once; rebuild after source edits. npm run check includes typecheck, Node/React/metadata/model tests, builds, archive checks and isolated consumer acceptance. Browser, token, documentation and audits remain separate; see [Verification](GETTING-STARTED.md#verification).
 
-Declared React/React DOM peer range remains >=19.2.0 <20. The isolated test targets fourteen static renders and seven negative declaration cases outside the workspace, using real local archives and its own lockfile reinstall. One locked peer graph does not establish every runtime, bundler, hydration or framework configuration. CI permissions remain read-only and artifacts temporary.
+Declared React/React DOM peer range is >=18.3.0 <20. The isolated test targets fourteen static renders and seven negative declaration cases outside the workspace, using real local archives and its own lockfile reinstall. The [compatibility matrix](REACT-COMPATIBILITY.md) runs the locked React 19 graph and exact React 18.3.0/18.3.1 profiles, including matching type majors, isolated consumption and hydration samples. CI permissions remain read-only and artifacts temporary.
 
 ## 4. Intent Composer
 
@@ -196,7 +196,7 @@ Approval, override and recovery are inline regions, not modals. Hosts adding dia
 
 [PR 6](https://github.com/kochrisdev/TUN-Systemic-Design/pull/6) records the fourteen-component increment. [Evidence](EVIDENCE-VALIDATION-v0.1.md), [consumer](CONSUMER-VALIDATION-v0.1.md), [workflow](REVIEW-VALIDATION-v0.1.md), and [original React](REACT-VALIDATION-v0.1.md) reports preserve earlier snapshots. Reports prove only their named source/checks, not every future commit.
 
-The package remains private/unpublished at version 0.1.0. Identify builds by source SHA and digest. Current isolated fixtures target fourteen static renders and seven negative type cases using one locked peer graph. Registry distribution, broader peers, bundlers, hydration, browsers, assistive technology, localization and real backend services remain adoption work. No full conformance or accessibility certification is claimed.
+The package remains private/unpublished at version 0.1.0. Identify builds by source SHA and digest. Current isolated fixtures target fourteen static renders and seven negative type cases for each [React compatibility profile](REACT-COMPATIBILITY.md). Separate tests cover specimen hydration and StrictMode controls. Registry distribution, additional framework/bundler integrations, broader browser and assistive-technology coverage, localization and real backend services remain adoption work. No full conformance or accessibility certification is claimed.
 
 ## References
 

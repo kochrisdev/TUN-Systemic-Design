@@ -4,6 +4,14 @@ Repository milestones and development history. See [Scope and non-claims](docs/S
 
 ## Unreleased
 
+### React 18 adoption compatibility — September 29, 2026
+
+Widened both library peers to `>=18.3.0 <20` and added a [React compatibility matrix](docs/REACT-COMPATIBILITY.md) for the committed React 19 graph plus exact React/React DOM 18.3.0 and 18.3.1 with React 18 type declarations. Each profile verifies single-copy runtime resolution, rejects unrelated dependency drift, and runs the full application, consumer, audit, conformance and Chromium checks. Temporary alternate graphs retain baseline/effective lockfiles as evidence; the default showcase remains on React 19.
+
+The isolated consumer now packs the selected peers' actual transitive dependencies. Added graph/CI guard regressions and separate fourteen-component hydration, stable-ID and StrictMode decision samples. The floor-profile run exposed a one-time upstream act-harness deprecation; initialization leaves that warning visible while keeping actual hydration errors checked. The stable `verify` context now aggregates all matrix legs and fails unless every leg succeeds; `documentation`, security settings, action pins and read-only permissions are preserved.
+
+Updated package/API/setup/scope/architecture/roadmap guidance without rewriting historical validation reports. Component implementation and authorization semantics are unchanged. [PR 16](https://github.com/kochrisdev/TUN-Systemic-Design/pull/16) records source-specific validation; unfinished runtime-schema PR 12 remains separate.
+
 ### Threat model — September 29, 2026
 
 Added [TUN threat model](docs/THREAT-MODEL.md) as a security-review entry point: assets, adversaries, six trust boundaries, an eighteen-scenario STRIDE register, existing test pointers, twelve proposed adopter acceptance scenarios, and a residual-risk review packet. Every threat allocates presentation behavior and host enforcement separately and links applicable specification rule IDs. Three walkthroughs cover stale multi-tab review, lost acknowledgement, and stop/worker races.
