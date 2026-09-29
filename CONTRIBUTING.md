@@ -25,13 +25,15 @@ python scripts/check_docs.py
 python -m unittest discover -s tests -p 'test_docs.py'
 ```
 
+The same check compares current component counts and the roadmap matrix with `packages/react/src/index.ts`. After adding, removing or renaming a component export, run `python scripts/check_docs.py --sync-components`, review the generated diff, then run the checks again. Synchronization leaves historical reports and normative design-pattern counts intact. See [Documentation checks](docs/DOCUMENTATION-CHECKS.md) for the checked locations and source convention.
+
 Changes to tokens require their build/check cycle and committed generated outputs. Component/API changes require typechecking, contract and React tests, package checks, relevant browser tests, and updated examples/docs. A dependency update requires a reviewed manifest/lockfile change and dated audit output. Do not remove a failing check or suppress peer validation merely to obtain a green run.
 
 The documentation checker intentionally uses no network and does not execute Markdown examples. Review code snippets against source and test important examples separately.
 
 ## Source-of-truth rules
 
-Edit `tokens/tokens.json`, not generated CSS or the generated token report. Use the actual public exports and props, not historical illustrative contracts. Update the implementation matrix when exports change. Treat generated output and evidence as different from hand-authored guidance.
+Edit `tokens/tokens.json`, not generated CSS or the generated token report. Use the actual public exports and props, not historical illustrative contracts. Synchronize the current implementation declarations and matrix when exports change. Treat generated output and evidence as different from hand-authored guidance.
 
 Keep setup commands centralized in Getting Started. Package README links to repository-only documents should remain usable outside the monorepo. Any code example that accesses private data should avoid logging raw user input, secrets, or tool payloads.
 
