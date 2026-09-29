@@ -17,18 +17,22 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           package-manager-cache: false
-      - name: Prepare locked development inputs
+      - name: Resolve the new workspace dependency only
         run: |
           npm install --global npm@12.1.0 --ignore-scripts --no-audit --no-fund
-          npm ci --ignore-scripts --no-audit --no-fund
           mkdir -p preparation
-          git archive --format=tar HEAD -o preparation/source.tar
-          npm pack zod@4.6.5 --ignore-scripts --json --pack-destination preparation > preparation/zod-pack.json
-          npm view zod@4.6.5 --json > preparation/zod-metadata.json
+          npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+          cp package-lock.json preparation/package-lock.json
+          npm ci --ignore-scripts --no-audit --no-fund
+          npm pack npm@12.1.0 --ignore-scripts --json --pack-destination preparation > preparation/npm-pack.json
           tar -czf preparation/development-dependencies.tar.gz node_modules
-          git diff --exit-code -- package-lock.json
+          cd contracts/consumers/go
+          go mod tidy
+          cp go.mod go.sum ../../../preparation/
+          go list -m all > ../../../preparation/go-versions.txt
+          tar -czf ../../../preparation/go-modules.tar.gz -C "$(go env GOMODCACHE)" .
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: runtime-contract-development-inputs
+          name: runtime-contract-lock-inputs
           path: preparation/
           retention-days: 1

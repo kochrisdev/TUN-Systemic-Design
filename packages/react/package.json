@@ -8,13 +8,33 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
-    "./contracts": { "types": "./dist/contracts.d.ts", "import": "./dist/contracts.js" },
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./contracts": {
+      "types": "./dist/contracts.d.ts",
+      "import": "./dist/contracts.js"
+    },
     "./styles.css": "./dist/styles.css",
     "./tokens.css": "./dist/tokens.css"
   },
-  "sideEffects": ["**/*.css"],
-  "files": ["dist", "README.md", "LICENSE"],
-  "peerDependencies": { "react": ">=19.2.0 <20", "react-dom": ">=19.2.0 <20" },
-  "scripts": { "build": "tsc -p tsconfig.build.json && node scripts/copy-assets.mjs" }
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "peerDependencies": {
+    "react": ">=19.2.0 <20",
+    "react-dom": ">=19.2.0 <20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && node scripts/copy-assets.mjs"
+  },
+  "dependencies": {
+    "@tun-systemic/contracts": "0.1.0"
+  }
 }

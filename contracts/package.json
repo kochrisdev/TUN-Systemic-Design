@@ -1,0 +1,23 @@
+{
+  "name": "@tun-systemic/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Framework-independent TUN runtime contracts and JSON Schema",
+  "license": "CC0-1.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./json-schema/*": "./json-schema/*",
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
+  "files": ["dist", "json-schema", "README.md", "LICENSE"],
+  "dependencies": { "zod": "4.6.5" },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "generate": "npm run build && node scripts/json-schema.mjs --write",
+    "check": "npm run build && node scripts/json-schema.mjs"
+  }
+}
