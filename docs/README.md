@@ -10,6 +10,8 @@
 
 **Engineering:** Introduction → Getting Started → Architecture → React Components → Review Workflow → Evidence and Memory → Supervision and Recovery → [Requirement traceability](../conformance/TRACEABILITY.md) → Validation → Contributing.
 
+**Security reviewers:** [Threat model](THREAT-MODEL.md) → Architecture → Integration Checklist → Conformance assessment → [Security maintenance](SECURITY-MAINTENANCE.md).
+
 **AI coding agents:** Check the implementation matrix, public exports, source contracts, and [application responsibilities](SCOPE.md#where-the-application-takes-over). Keep generated tokens reproducible and validation claims tied to executed checks. Preserve controller state across showcase navigation and enforce authority in the host application.
 
 ## Current guidance
@@ -31,6 +33,7 @@
 | [Evidence and Memory](EVIDENCE-AND-MEMORY-v0.1.md) | Memory, sources and qualitative uncertainty |
 | [Supervision and Recovery](SUPERVISION-AND-RECOVERY-v0.1.md) | Observations, intervention/recovery requests, evidence and simulation |
 | [Getting Started](GETTING-STARTED.md) | Setup, commands, examples and package consumption |
+| [Threat model](THREAT-MODEL.md) | STRIDE register, trust boundaries, component safeguards, host controls and adoption acceptance scenarios |
 | [Architecture](ARCHITECTURE.md) | Data flow, source ownership and host services |
 | [Status and Roadmap](STATUS-AND-ROADMAP.md) | Available capabilities and next milestones |
 | [Documentation checks](DOCUMENTATION-CHECKS.md) | Source-derived component counts, inventory synchronization and link validation |

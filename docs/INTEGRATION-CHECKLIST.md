@@ -1,7 +1,7 @@
 # Product integration checklist
 
 **Status:** Application review worksheet, not a certification or an implemented backend.  
-[Documentation index](README.md) · [Specification](SPECIFICATION-v0.1.md) · [Architecture](ARCHITECTURE.md)
+[Documentation index](README.md) · [Specification](SPECIFICATION-v0.1.md) · [Architecture](ARCHITECTURE.md) · [Threat model](THREAT-MODEL.md)
 
 ## Record the assessed scope
 
@@ -30,7 +30,7 @@ The backend should validate the authenticated user, tenant, proposal version, ca
 
 A rejected callback can mean an acknowledgement was lost after execution. Query the authoritative record before offering another attempt. Record partial effects and explain what remains unknown. Neither the gate's local latch nor TypeScript props solve multi-tab races, malicious requests, or malformed external JSON.
 
-The current gate disables both decision controls for invalid or expired reviews. Provide a separate safe dismissal/escalation path where needed. Rejection is not cancellation of work already in flight. The four-component package does not implement Human Override.
+The current gate disables both decision controls for invalid or expired reviews. Provide a separate safe dismissal/escalation path where needed. Rejection is not cancellation of work already in flight. HumanOverride now provides a reference request interface; actual cancellation and verification remain host responsibilities.
 
 ## Privacy and memory review
 
@@ -51,6 +51,10 @@ The reference components contain English copy. A locale API, all assistive-techn
 Use the committed dependency graph for reproduction; review deliberate updates. Test the local package in a fresh consumer project, including exports, declarations, CSS and assets. Workspace-built export checks do not prove that independent installation works.
 
 Record source SHA, dependency/toolchain versions, commands, test counts, skipped/failing cases, manual observations, artifact locations, and retention. Do not reuse historical passed counts as proof for new code. An npm audit is dated advisory evidence, not a security guarantee.
+
+## Threat-model review
+
+Use the [STRIDE threat register](THREAT-MODEL.md#4-stride-threat-register) to identify applicable assets, boundaries and failure scenarios. Assign a service owner to each relevant threat and execute the [adopter acceptance scenarios](THREAT-MODEL.md#7-adopter-acceptance-scenarios), including concurrent replay, lost acknowledgements, revocation races, tenant isolation and worker stopping. Record the threat ID, linked SPEC IDs, evidence, residual risk and approver in the [review packet](THREAT-MODEL.md#8-review-packet-and-residual-risk-decisions). Keep proposed integration tests separate from existing local component/model evidence.
 
 ## Decision record
 

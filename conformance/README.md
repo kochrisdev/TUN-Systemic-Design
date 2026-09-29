@@ -61,6 +61,8 @@ Execution reports are evidence produced by the named runner and source. The hash
 
 ## Complete a scoped product assessment
 
+Use the [threat model](../docs/THREAT-MODEL.md) to identify trust boundaries and applicable misuse/failure scenarios. Attach its adopter acceptance results to the corresponding `SPEC-*` records; a threat mitigation and a complete requirement assessment are related but distinct review decisions.
+
 Start with this record and attach one row for every applicable rule in the matrix:
 
 | Assessment field | Required record |
