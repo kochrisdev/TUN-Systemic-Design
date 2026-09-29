@@ -89,6 +89,6 @@ This initial inventory uses complete mandatory sentences in numbered sections 3 
 
 ## CI integration
 
-The documentation workflow checks traceability and its Python regressions on every push and PR. The React workflow runs the mapped tests and uploads the report with its existing artifacts; changes to `conformance/` or the specification trigger that workflow. Existing test suites, dependency pins and read-only CI permissions are preserved.
+Both workflows run on every pull request, merge-group checks, and pushes to `main`. Documentation CI checks traceability and its Python regressions; React CI runs mapped tests and uploads their report with the existing artifacts. React CI also runs weekly to refresh dependency-advisory checks. See [Security maintenance](../docs/SECURITY-MAINTENANCE.md) for the required-check policy and owner activation. Existing test suites, dependency pins and read-only CI permissions are preserved.
 
 **The next conformance milestone is to close the recorded integration gaps through one bounded application pilot, then attach its evidence to these same stable rule IDs.**
