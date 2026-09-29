@@ -1,6 +1,6 @@
 # Implementation status and roadmap
 
-**Revision:** September 29, 2026. **Current milestone:** Fourteen-component foundation and public showcase available. **Next:** A bounded application pilot.
+**Revision:** September 29, 2026. **Current milestone:** Fourteen-component foundation, public showcase and requirement traceability available. **Next:** A bounded application pilot.
 
 [Documentation index](README.md) · [Public showcase](PUBLIC-SHOWCASE-v0.1.md) · [Public exports](../packages/react/src/index.ts) · [Scope and non-claims](SCOPE.md)
 
@@ -38,11 +38,14 @@ All fourteen patterns defined in [Components v0.1](COMPONENTS-v0.1.md) have refe
 | Sharing assets | Static title/description/social metadata, favicon, 1200-by-630 PNG with SVG source |
 | TypeScript contracts | Core/review, evidence/memory, and supervision/recovery records and helpers |
 | Validation tooling | Locked dependency graph, CI, contract/component/model/browser tests, documentation checker |
+| Requirement traceability | [Stable rule IDs, test mappings, fresh evidence reports and manual/integration assessment procedures](../conformance/README.md) |
 | Consumer acceptance | Isolated offline installation/reinstall, declarations, fourteen static renders, seven negative type cases, package/CSS checks |
 
 ## Acceptance boundary
 
 [PR 7](https://github.com/kochrisdev/TUN-Systemic-Design/pull/7) records public-showcase acceptance. [PR 6](https://github.com/kochrisdev/TUN-Systemic-Design/pull/6) records the fourteen-component implementation. The [documentation index](README.md#evidence-and-historical-records) collects the named runs and historical validation records. Coverage, service responsibilities, release status, and conformance terminology are consolidated in [Scope and non-claims](SCOPE.md).
+
+The [generated traceability matrix](../conformance/TRACEABILITY.md) records the current mandatory-statement coverage. The conformance runner connects selected checks to fresh execution results; its remaining review procedures define concrete next work for each rule.
 
 ## Next milestones
 
@@ -50,11 +53,11 @@ These are planned increments, in recommended order.
 
 | Milestone | Deliverable | Acceptance target |
 |---|---|---|
-| **1. Bounded application pilot** | Integrate one workflow with application-owned authorization, execution, observation, intervention, and recovery | Begin with reversible local effects. Verify lost acknowledgements, revoked permissions, changed revisions, partial completion, and duplicate requests across tabs/remounts. |
+| **1. Bounded application pilot** | Integrate one workflow with application-owned authorization, execution, observation, intervention, and recovery | Begin with reversible local effects. Verify lost acknowledgements, revoked permissions, changed revisions, partial completion, and duplicate requests across tabs/remounts. Attach evidence to the matching conformance rule IDs. |
 | **2. Portability and accessibility** | Expand browser, framework, hydration, CSS-bundler, localization, and assistive-technology coverage; add runtime input schemas and state matrices | Validate named target environments and untrusted inputs while retaining isolated-consumer regression checks. |
 | **3. Public-site validation** | Test the deployed showcase with first-time visitors | Check public access, production assets, social previews, loading performance, and successful completion of the guided journey. |
 | **4. Developer and designer experience** | Richer specimens, product-specific examples, Figma/token adapters, and a package release policy | Demonstrate reuse in a consuming application and define intentional versioning and publication gates. |
-| **5. Conformance and governance** | Map product behavior to applicable requirements and build scoped evaluation tooling | Record requirement-level evidence, reviewer, exceptions, and justified non-applicability. |
+| **5. Conformance and governance** | Extend the existing traceability layer to recommendation/component-catalog rules and additional test runners; close recorded integration gaps | Complete scoped product assessments with requirement-level evidence, reviewer, exceptions, and justified non-applicability. |
 
 ## Maintaining status
 

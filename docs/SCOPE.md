@@ -10,7 +10,9 @@ TUN provides the design language and interface building blocks for understandabl
 
 The repository includes fourteen reference React components, typed interaction contracts, visual tokens and light/dark themes, a behavioral specification, a public showcase, a technical component lab, and validation tooling. The [implementation matrix](STATUS-AND-ROADMAP.md#canonical-component-matrix) links each component to its source; the [documentation index](README.md) links API guides and validation records.
 
-Figma, Tailwind and native adapters, complete runtime input schemas, a design linter, and a conformance protocol are future work. The documentation checker validates Markdown links and fences; it is not a design linter. The specification's conceptual YAML is an illustration, not a supported runtime configuration format.
+The [conformance layer](../conformance/README.md) connects mandatory specification statements to stable IDs, selected executable tests, and remaining assessment procedures. Its [generated matrix](../conformance/TRACEABILITY.md) shows current coverage and specific gaps.
+
+Figma, Tailwind and native adapters, complete runtime input schemas, and a design linter are future work. The documentation checker validates Markdown links, fences and component inventory; it is not a design linter. The specification's conceptual YAML is an illustration, not a supported runtime configuration format.
 
 ## Where the application takes over
 
@@ -29,6 +31,8 @@ Visited showcase views retain task state during navigation. Refreshing clears th
 ## What validation establishes
 
 Validation records identify a source revision, environment, commands, results, and remaining coverage. An implemented component has source and exports. A validated claim additionally needs a successful named check. Historical reports retain the component counts and results of their original snapshots.
+
+The conformance runner collects fresh, exact file/title test results and joins them to requirement IDs. Passing mapped checks provide the evidence described by each mapping; product and service procedures remain separately assessable under those same IDs. Use the [assessment workflow](../conformance/README.md#complete-a-scoped-product-assessment) to record full rule outcomes, reviewers and justified non-applicability. Initial traceability covers mandatory specification sentences; recommendation and component-catalog coverage remain planned expansion.
 
 The isolated consumer test checks installation and lockfile-based reinstall outside the workspace, installed declarations, static rendering, and package/CSS resolution using one locked dependency graph. It does not establish hydration, independently selected peer versions, every framework, or CSS-bundler integration. Chromium interaction tests, selected accessibility checks, screenshots, and declared token contrast pairs cover their tested cases rather than every browser, assistive technology, layout, or state. A dependency audit reports known advisories at its run time, not a security guarantee.
 

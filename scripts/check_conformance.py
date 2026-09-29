@@ -185,9 +185,9 @@ def load_manifest(root: Path) -> dict:
         seen_sources.add(key)
         if rule['strength'] != expected[key]['strength']:
             raise Invalid(f'{rid}: normative strength drift')
-        if rule['owner'] not in {'ui', 'host', 'shared', 'product-review'}:
+        if not isinstance(rule['owner'], str) or rule['owner'] not in {'ui', 'host', 'shared', 'product-review'}:
             raise Invalid(f'{rid}: unknown responsibility owner')
-        if rule['coverage'] not in {'partial', 'manual', 'gap'}:
+        if not isinstance(rule['coverage'], str) or rule['coverage'] not in {'partial', 'manual', 'gap'}:
             raise Invalid(f'{rid}: coverage must be partial, manual or gap')
         if not isinstance(rule['automated'], list):
             raise Invalid(f'{rid}: automated must be an array')
@@ -275,7 +275,7 @@ def collect_results(manifest: dict, payload: dict) -> tuple[dict, list[str]]:
             results[test_id] = 'missing' if not states else 'ambiguous'
         else:
             state = states[0]
-            results[test_id] = state if state in {'passed', 'failed', 'skipped', 'pending', 'todo'} else 'unrecognized'
+            results[test_id] = state if isinstance(state, str) and state in {'passed', 'failed', 'skipped', 'pending', 'todo'} else 'unrecognized'
         if results[test_id] != 'passed':
             errors.append(f'{test_id}: {results[test_id]}')
     if payload.get('success') is not True:

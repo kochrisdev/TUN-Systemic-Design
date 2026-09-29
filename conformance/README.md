@@ -6,7 +6,7 @@
 
 ## What is assessable now
 
-The reference UI profile catalogs every mandatory statement in Specification v0.1: **46 statements containing MUST or MUST NOT**. Twenty-five have partial automated coverage through **35 distinct existing Vitest test IDs**. Eight need product/manual review; thirteen identify concrete integration or test gaps. Each record names the responsible layer, the exact source text, what its tests prove, and the remaining procedure and evidence.
+The reference UI profile catalogs the mandatory statements in Specification v0.1 and links selected aspects to existing Vitest tests. Each record names the responsible layer, exact source text, what its tests prove, and the remaining procedure and evidence. The [generated matrix](TRACEABILITY.md) shows the current totals for partially mapped requirements, manual reviews, explicit gaps and distinct tests. Those totals are calculated from the mapping and checked in CI.
 
 For example:
 

@@ -6,9 +6,9 @@
 
 **New visitors:** [An Introduction to TUN Systemic Design](INTRODUCTION.md) → Public Showcase → Guided Demo → Component Explorer → Concept Note.
 
-**Product and design:** Introduction → Concept Note → Manifesto → Specification → Components → Visual System → Integration Checklist.
+**Product and design:** Introduction → Concept Note → Manifesto → Specification → Components → Visual System → Integration Checklist → [Conformance assessment](../conformance/README.md).
 
-**Engineering:** Introduction → Getting Started → Architecture → React Components → Review Workflow → Evidence and Memory → Supervision and Recovery → Validation → Contributing.
+**Engineering:** Introduction → Getting Started → Architecture → React Components → Review Workflow → Evidence and Memory → Supervision and Recovery → [Requirement traceability](../conformance/TRACEABILITY.md) → Validation → Contributing.
 
 **AI coding agents:** Check the implementation matrix, public exports, source contracts, and [application responsibilities](SCOPE.md#where-the-application-takes-over). Keep generated tokens reproducible and validation claims tied to executed checks. Preserve controller state across showcase navigation and enforce authority in the host application.
 
@@ -22,6 +22,8 @@
 | [Concept Note](CONCEPT-NOTE.md) | Founding proposal and long-term vision |
 | [Manifesto](MANIFESTO-v0.1.md) | Philosophy and TUN terminology |
 | [Specification](SPECIFICATION-v0.1.md) | Draft behavioral requirements and conformance vocabulary |
+| [Conformance assessment](../conformance/README.md) | Stable rule IDs, executable test mappings, fresh evidence reports and remaining assessment procedures |
+| [Requirement traceability](../conformance/TRACEABILITY.md) | Generated requirement-to-test matrix and coverage inventory |
 | [Components](COMPONENTS-v0.1.md) | Fourteen design patterns and implementation guidance |
 | [Visual System](DESIGN-TOKENS-AND-VISUAL-SYSTEM-v0.1.md) | Tokens, styling and exporter behavior |
 | [React Components](REACT-COMPONENTS-v0.1.md) | Package overview and core API |
@@ -56,6 +58,8 @@
 Read the Introduction for orientation, and Specification and Components for intended behavior. For accepted props and exports inspect [core contracts](../packages/react/src/contracts.ts), [review contracts](../packages/react/src/review-contracts.ts), [evidence contracts](../packages/react/src/evidence-contracts.ts), [supervision contracts](../packages/react/src/supervision-contracts.ts) and [index.ts](../packages/react/src/index.ts).
 
 Current implementation counts and the roadmap matrix are checked against the public exports by [the documentation checker](DOCUMENTATION-CHECKS.md). Use its explicit synchronization command after changing exports; retain historical snapshot counts.
+
+The [conformance manifest](../conformance/spec-v0.1.json) maps mandatory specification statements to stable rule IDs, real test titles and explicit review procedures. Run `python scripts/check_conformance.py` to check traceability and add `--run` to collect fresh mapped-test results. Generated counts live in the traceability matrix rather than repeated prose.
 
 [Showcase](../examples/react/Showcase.tsx) defines public navigation, [Guided Demo](../examples/react/GuidedDemo.tsx) presents the local model, and [the explorer catalog](../examples/react/showcase-catalog.ts) links actual components. The full technical lab is selected by `?lab=1` in the [application entry](../examples/react/main.tsx).
 

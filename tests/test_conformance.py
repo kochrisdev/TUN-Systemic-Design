@@ -269,6 +269,30 @@ class ConformanceChecks(unittest.TestCase):
             report, errors = m.run_evidence(self.root, self.manifest)
         self.assertTrue(errors); self.assertEqual(report['evidence_status'], 'not-passed')
 
+    def test_non_string_owner_and_coverage_fail_validation(self):
+        for key in ('owner', 'coverage'):
+            for value in ([], {}, 1, None):
+                with self.subTest(key=key, value=value):
+                    original = self.manifest['rules'][0][key]
+                    self.manifest['rules'][0][key] = value
+                    self.write(m.MANIFEST, json.dumps(self.manifest))
+                    self.rejected()
+                    self.manifest['rules'][0][key] = original
+
+    def test_non_string_runtime_status_fails_without_false_pass(self):
+        for value in ([], {}, 1, None):
+            with self.subTest(value=value):
+                report, errors = m.collect_results(self.manifest, self.report(value))
+                self.assertTrue(errors)
+                self.assertEqual(report['tests'][TEST], 'unrecognized')
+
+    def test_malformed_mapping_invalidates_previous_report(self):
+        self.write(m.REPORT, '{"evidence_status":"passed"}')
+        self.manifest['rules'][0]['owner'] = []
+        self.save()
+        self.assertEqual(self.main('--run'), 1)
+        self.assertEqual(json.loads((self.root / m.REPORT).read_text())['evidence_status'], 'not-passed')
+
     def test_cli_nonzero_for_drift(self):
         self.write(m.MATRIX, '# Stale')
         completed = subprocess.run([sys.executable, m.__file__, '--root', str(self.root)], capture_output=True, text=True, timeout=10)
