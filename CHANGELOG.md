@@ -4,6 +4,14 @@ Repository milestones and development history. See [Scope and non-claims](docs/S
 
 ## Unreleased
 
+### Security maintenance — September 29, 2026
+
+Added a root security policy, CODEOWNERS, and weekly Dependabot entries for commit-pinned Actions and the root npm workspace graph. Contribution guidance now points to the reporting policy. The [maintenance guide](docs/SECURITY-MAINTENANCE.md) records the audit policy and owner activation steps for private vulnerability reporting and the [main required-check ruleset](.github/rulesets/main-required-checks.json).
+
+The audit gate explicitly fails at every reported severity or on an audit error, attempts both full/runtime audits, and preserves both reports plus an aggregate summary. The previous npm audit commands already propagated failures; this improves evidence retention and makes policy testable. Added synthetic audit and configuration regressions, an ongoing weekly React check, and unfiltered pull-request/merge-group triggers for both required jobs.
+
+Existing action SHAs, read-only permissions, application code, dependency graph, conformance mappings and historical evidence are preserved. The ruleset file is ready for owner import; administration settings were not changed. The separate draft runtime-contract PR remains independent.
+
 ### Requirement-to-test conformance — September 29, 2026
 
 Added the [conformance layer](conformance/README.md): stable requirement IDs, exact mandatory specification text, real test mappings with assertion scope, and concrete remaining review procedures. The [generated traceability matrix](conformance/TRACEABILITY.md) reports coverage from the machine-readable manifest; current totals are checked rather than duplicated across guides.

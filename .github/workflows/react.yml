@@ -1,10 +1,12 @@
 name: TUN React checks
 on:
   push:
-    paths: ['packages/react/**', 'examples/react/**', 'tests/**', 'styles/**', 'tokens/**', 'scripts/**', 'conformance/**', 'docs/SPECIFICATION-v0.1.md', 'package*.json', '*config*.json', '*config*.ts', '.nvmrc', '.github/workflows/react.yml']
+    branches: [main]
   pull_request:
-    paths: ['packages/react/**', 'examples/react/**', 'tests/**', 'styles/**', 'tokens/**', 'scripts/**', 'conformance/**', 'docs/SPECIFICATION-v0.1.md', 'package*.json', '*config*.json', '*config*.ts', '.nvmrc', '.github/workflows/react.yml']
+  merge_group:
   workflow_dispatch:
+  schedule:
+    - cron: '17 6 * * 1'
 permissions:
   contents: read
 concurrency:
@@ -28,11 +30,8 @@ jobs:
         run: |
           npm ci --no-fund --no-audit
           git diff --exit-code -- package-lock.json
-      - name: Audit dependency graph
-        run: |
-          mkdir -p artifacts
-          npm audit --json > artifacts/dependency-audit.json
-          npm audit --omit=dev --json > artifacts/dependency-audit-runtime.json
+      - name: Audit both dependency graphs (fail on any finding or audit error)
+        run: python3 scripts/audit_dependencies.py
       - name: Validate existing design tokens
         run: python3 scripts/tokens.py check
       - name: Typecheck, contract tests, React tests, production build, and package checks
