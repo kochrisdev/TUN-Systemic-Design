@@ -1,0 +1,33 @@
+name: Contracts development bootstrap
+on:
+  push:
+    branches: ['feat/runtime-contract-schemas-v0.1']
+    paths: ['.github/workflows/contracts-bootstrap.yml']
+permissions:
+  contents: read
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version-file: '.nvmrc'
+          package-manager-cache: false
+      - name: Prepare source and locked dependencies for isolated development
+        run: |
+          npm install --global npm@12.1.0 --ignore-scripts --no-audit --no-fund
+          npm ci --ignore-scripts --no-audit --no-fund
+          mkdir -p artifacts/bootstrap
+          npm pack zod@4.6.5 --ignore-scripts --pack-destination artifacts/bootstrap
+          npm view zod@4.6.5 --json > artifacts/bootstrap/zod-metadata.json
+          git archive --format=tar.gz HEAD > artifacts/bootstrap/source.tgz
+          tar -czf artifacts/bootstrap/locked-dependencies.tgz node_modules
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: tun-contracts-development
+          path: artifacts/bootstrap/
+          retention-days: 1
