@@ -1,9 +1,9 @@
 name: TUN React checks
 on:
   push:
-    paths: ['packages/react/**', 'examples/react/**', 'tests/**', 'styles/**', 'tokens/**', 'scripts/**', 'package*.json', '*config*.json', '*config*.ts', '.nvmrc', '.github/workflows/react.yml']
+    paths: ['packages/react/**', 'examples/react/**', 'tests/**', 'styles/**', 'tokens/**', 'scripts/**', 'conformance/**', 'docs/SPECIFICATION-v0.1.md', 'package*.json', '*config*.json', '*config*.ts', '.nvmrc', '.github/workflows/react.yml']
   pull_request:
-    paths: ['packages/react/**', 'examples/react/**', 'tests/**', 'styles/**', 'tokens/**', 'scripts/**', 'package*.json', '*config*.json', '*config*.ts', '.nvmrc', '.github/workflows/react.yml']
+    paths: ['packages/react/**', 'examples/react/**', 'tests/**', 'styles/**', 'tokens/**', 'scripts/**', 'conformance/**', 'docs/SPECIFICATION-v0.1.md', 'package*.json', '*config*.json', '*config*.ts', '.nvmrc', '.github/workflows/react.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -37,6 +37,8 @@ jobs:
         run: python3 scripts/tokens.py check
       - name: Typecheck, contract tests, React tests, production build, and package checks
         run: npm run check
+      - name: Collect mapped requirement-test evidence
+        run: python3 scripts/check_conformance.py --run
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
       - name: Browser interaction and accessibility samples

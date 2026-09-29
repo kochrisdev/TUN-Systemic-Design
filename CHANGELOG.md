@@ -4,6 +4,14 @@ Repository milestones and development history. See [Scope and non-claims](docs/S
 
 ## Unreleased
 
+### Requirement-to-test conformance — September 29, 2026
+
+Added the [conformance layer](conformance/README.md): stable requirement IDs, exact mandatory specification text, real test mappings with assertion scope, and concrete remaining review procedures. The [generated traceability matrix](conformance/TRACEABILITY.md) reports coverage from the machine-readable manifest; current totals are checked rather than duplicated across guides.
+
+The read-only checker detects requirement/text/strength drift, missing or renamed tests, duplicate identifiers and stale matrix output. Its explicit run mode executes mapped Vitest files and joins fresh file/title outcomes to rule IDs, recording source hashes, runner metadata and remaining assessments in artifacts/conformance-results.json. Missing, skipped, failed or ambiguous mapped results fail the run. Test evidence and full product assessment remain distinct fields.
+
+Documentation CI now checks traceability and its Python regressions. React CI collects mapped evidence and responds to conformance/specification changes. Updated the documentation index, scope and roadmap to make requirement-level assessment a working capability. The value-first README, normative specification text, canonical components, existing application tests, dependencies, tokens, deployment settings and historical validation reports are preserved.
+
 ### Source-driven component documentation — September 29, 2026
 
 Extended `scripts/check_docs.py` to derive the public component inventory from `packages/react/src/index.ts`, check four current implementation-count declarations, and compare the roadmap matrix's names, labels and source links. Added `--sync-components` to regenerate those sites explicitly while preserving surrounding prose and historical evidence. Missing declarations, unsupported entry-point syntax and empty inventories fail the check.
