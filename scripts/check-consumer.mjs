@@ -35,7 +35,8 @@ const exec = (args, cwd = consumer) => execFileSync(process.execPath, args, {
 const npm = args => exec([npmCli, ...args, '--offline', '--ignore-scripts', '--no-audit', '--no-fund', '--workspaces=false', `--cache=${cache}`]);
 const packages = [
   { name: '@tun-systemic/react', directory: join(root, 'packages/react') },
-  ...['react', 'react-dom', 'scheduler', '@types/react', '@types/react-dom', 'csstype'].map(name => ({ name, directory: join(root, 'node_modules', name) })),
+  { name: '@tun-systemic/contracts', directory: join(root, 'contracts') },
+  ...['zod', 'react', 'react-dom', 'scheduler', '@types/react', '@types/react-dom', 'csstype'].map(name => ({ name, directory: join(root, 'node_modules', name) })),
 ];
 try {
   const dependencies = {};
@@ -44,7 +45,9 @@ try {
   for (const { name, directory } of packages) {
     const manifest = JSON.parse(readFileSync(join(directory, 'package.json'), 'utf8'));
     assert.equal(manifest.name, name);
-    if (name !== '@tun-systemic/react') assert.equal(manifest.version, lock.packages[`node_modules/${name}`]?.version, `${name} differs from the lockfile`);
+    if (!name.startsWith('@tun-systemic/')) assert.equal(manifest.version, lock.packages[`node_modules/${name}`]?.version, `${name} differs from the lockfile`);
+    if (name === '@tun-systemic/contracts') assert.equal(manifest.version, lock.packages.contracts?.version);
+    if (name === '@tun-systemic/react') assert.equal(manifest.version, lock.packages['packages/react']?.version);
     versions[name] = manifest.version;
     const result = JSON.parse(npm(['pack', directory, '--json', '--pack-destination', archives]));
     // npm 12 uses a package-name-keyed object; older npm uses an array.

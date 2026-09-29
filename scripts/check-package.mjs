@@ -21,7 +21,7 @@ assert.equal(archive.version, '0.1.0');
 assert.ok(Array.isArray(archive.files), 'Package inventory must contain a file list.');
 const paths = new Set(archive.files.map(file => file.path));
 const componentNames = ['IntentComposer', 'AgentCard', 'ApprovalGate', 'ActionReceipt', 'ContextPanel', 'PlanView', 'ProposalCard', 'MemoryIndicator', 'SourceView', 'UncertaintySignal', 'ToolActivity', 'AgentActivity', 'HumanOverride', 'RecoveryControl'];
-for (const name of ['index', 'contracts', 'review-contracts', 'evidence-contracts', 'supervision-contracts', 'ControlAction', ...componentNames]) {
+for (const name of ['index', 'contracts', 'runtime-contracts', 'review-contracts', 'evidence-contracts', 'supervision-contracts', 'ControlAction', ...componentNames]) {
   for (const extension of ['js', 'd.ts']) assert.ok(paths.has(`dist/${name}.${extension}`), `Missing ${name}.${extension}`);
 }
 for (const path of ['dist/styles.css', 'dist/tokens.css', 'package.json', 'LICENSE', 'README.md']) assert.ok(paths.has(path), `Missing package file ${path}`);
@@ -32,6 +32,8 @@ for (const name of ['evidenceState', 'effectiveUncertaintyLevel', 'controlBlockR
 assert.equal(components.ControlAction, undefined);
 const contracts = await import('@tun-systemic/react/contracts');
 for (const name of ['proposalBlockReason', 'parseTimestamp', 'planIssues', 'reviewBasisMatches']) assert.equal(typeof contracts[name], 'function', `Missing contract ${name}`);
+for (const name of ['ActionProposalSchema', 'MemoryRecordSchema', 'RecoveryOperationSchema']) assert.equal(typeof contracts[name]?.safeParse, 'function');
+assert.equal(contracts.ActionProposalSchema.safeParse(null).success, false);
 assert.ok(readFileSync(fileURLToPath(import.meta.resolve('@tun-systemic/react/styles.css')), 'utf8').length > 0);
 assert.equal(readFileSync(fileURLToPath(import.meta.resolve('@tun-systemic/react/tokens.css')), 'utf8'), readFileSync(join(root, 'styles/tun.css'), 'utf8'));
 assert.equal(readFileSync(join(root, 'packages/react/LICENSE'), 'utf8'), readFileSync(join(root, 'LICENSE'), 'utf8'));

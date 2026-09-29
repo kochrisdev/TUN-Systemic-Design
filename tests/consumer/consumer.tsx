@@ -58,3 +58,8 @@ const invalidKind: InterventionKind = 'destroy';
 // @ts-expect-error acknowledgement is not a verified terminal outcome
 const invalidOutcome: ControlEvidence['outcome'] = 'acknowledged';
 void invalidDecision; void invalidSource; void invalidMemory; void invalidEvidence; void invalidRequest; void invalidKind; void invalidOutcome;
+
+// Parsed runtime output is assignable to the public readonly proposal API.
+import { ActionProposalSchema, type ContractValue } from '@tun-systemic/react/contracts';
+export const parsedProposal: ActionProposal = ActionProposalSchema.parse(proposal);
+export const inferredProposal: ContractValue<'ActionProposal'> = parsedProposal;

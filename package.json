@@ -4,23 +4,34 @@
   "private": true,
   "type": "module",
   "packageManager": "npm@12.1.0",
-  "workspaces": ["packages/react", "examples/react"],
-  "engines": { "node": "^22.22.2 || ^24.15.0 || >=26.0.0", "npm": ">=12.1.0 <13" },
+  "workspaces": [
+    "contracts",
+    "packages/react",
+    "examples/react"
+  ],
+  "engines": {
+    "node": "^22.22.2 || ^24.15.0 || >=26.0.0",
+    "npm": ">=12.1.0 <13"
+  },
   "scripts": {
-    "build:library": "npm run build --workspace @tun-systemic/react",
+    "build:library": "npm run build:contracts && npm run build --workspace @tun-systemic/react",
     "build:demo": "npm run build --workspace tun-react-demo",
     "build": "npm run build:library && npm run build:demo",
     "dev": "npm run build:library && npm run dev:demo",
     "dev:demo": "npm run dev --workspace tun-react-demo",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "npm run build:contracts && tsc --noEmit",
     "test:contracts": "node --test tests/contracts.test.mjs tests/timestamps.test.mjs tests/review-contracts.test.mjs",
     "test:react": "vitest run",
     "test": "npm run build:library && npm run test:contracts && npm run test:react",
     "test:browser": "playwright test",
     "test:package": "node scripts/check-package.mjs",
     "test:consumer": "node scripts/check-consumer.mjs",
-    "check": "npm run typecheck && npm test && npm run build:demo && npm run test:package && npm run test:consumer",
-    "pack:react": "npm run build:library && npm pack --workspace @tun-systemic/react"
+    "check": "npm run typecheck && npm test && npm run build:demo && npm run test:package && npm run test:consumer && npm run schemas:check && npm run test:contract-package",
+    "pack:react": "npm run build:library && npm pack --workspace @tun-systemic/react",
+    "build:contracts": "npm run build --workspace @tun-systemic/contracts",
+    "schemas:generate": "npm run generate --workspace @tun-systemic/contracts",
+    "schemas:check": "npm run check --workspace @tun-systemic/contracts",
+    "test:contract-package": "node scripts/check-contract-package.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",
