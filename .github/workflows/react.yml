@@ -1,9 +1,9 @@
 name: TUN React checks
 on:
   push:
-    paths: ['packages/react/**', 'examples/react/**', 'tests/**', 'styles/**', 'tokens/**', 'scripts/**', 'conformance/**', 'docs/SPECIFICATION-v0.1.md', 'package*.json', '*config*.json', '*config*.ts', '.nvmrc', '.github/workflows/react.yml']
+    paths: ['contracts/**', 'packages/react/**', 'examples/react/**', 'tests/**', 'styles/**', 'tokens/**', 'scripts/**', 'conformance/**', 'docs/SPECIFICATION-v0.1.md', 'package*.json', '*config*.json', '*config*.ts', '.nvmrc', '.github/workflows/react.yml']
   pull_request:
-    paths: ['packages/react/**', 'examples/react/**', 'tests/**', 'styles/**', 'tokens/**', 'scripts/**', 'conformance/**', 'docs/SPECIFICATION-v0.1.md', 'package*.json', '*config*.json', '*config*.ts', '.nvmrc', '.github/workflows/react.yml']
+    paths: ['contracts/**', 'packages/react/**', 'examples/react/**', 'tests/**', 'styles/**', 'tokens/**', 'scripts/**', 'conformance/**', 'docs/SPECIFICATION-v0.1.md', 'package*.json', '*config*.json', '*config*.ts', '.nvmrc', '.github/workflows/react.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -37,6 +37,18 @@ jobs:
         run: python3 scripts/tokens.py check
       - name: Typecheck, contract tests, React tests, production build, and package checks
         run: npm run check
+      - name: Validate Python JSON Schema consumer
+        run: |
+          python3 -m venv /tmp/tun-jsonschema-python
+          /tmp/tun-jsonschema-python/bin/pip install --disable-pip-version-check -r contracts/consumers/python/requirements.txt
+          /tmp/tun-jsonschema-python/bin/python -m unittest discover -s contracts/consumers/python -p 'test_*.py' -v > artifacts/contracts-python.txt 2>&1
+          cat artifacts/contracts-python.txt
+      - name: Validate Go JSON Schema consumer
+        run: |
+          go version
+          cd contracts/consumers/go
+          go test -mod=readonly -count=1 -v ./... > ../../../artifacts/contracts-go.txt 2>&1
+          cat ../../../artifacts/contracts-go.txt
       - name: Collect mapped requirement-test evidence
         run: python3 scripts/check_conformance.py --run
       - name: Install Chromium

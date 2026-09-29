@@ -5,18 +5,18 @@ import { isAbsolute, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { renderToStaticMarkup } from 'react-dom/server';
 import * as components from '@tun-systemic/react';
-import { planIssues, proposalBlockReason, reviewBasisMatches } from '@tun-systemic/react/contracts';
+import { planIssues, proposalBlockReason, reviewBasisMatches, ActionProposalSchema, WireSchemas } from '@tun-systemic/react/contracts';
 import { context, plan, proposal, specimens } from './build/consumer.js';
 
 const root = realpathSync(fileURLToPath(new URL('./', import.meta.url)));
 const modules = join(root, 'node_modules');
 const within = path => { const part = relative(modules, realpathSync(path)); return part && !isAbsolute(part) && part !== '..' && !part.startsWith(`..${sep}`); };
 const names = ['IntentComposer', 'AgentCard', 'ContextPanel', 'PlanView', 'ProposalCard', 'ApprovalGate', 'ActionReceipt', 'MemoryIndicator', 'SourceView', 'UncertaintySignal', 'ToolActivity', 'AgentActivity', 'HumanOverride', 'RecoveryControl'];
-for (const name of ['@tun-systemic/react', 'react', 'react-dom', 'scheduler', '@types/react', '@types/react-dom', 'csstype']) {
+for (const name of ['@tun-systemic/react', '@tun-systemic/contracts', 'zod', 'react', 'react-dom', 'scheduler', '@types/react', '@types/react-dom', 'csstype']) {
   const path = join(modules, name);
   assert.ok(!lstatSync(path).isSymbolicLink() && within(path), `${name} must be a real consumer installation`);
 }
-for (const spec of ['@tun-systemic/react', '@tun-systemic/react/contracts', '@tun-systemic/react/styles.css', '@tun-systemic/react/tokens.css', 'react', 'react-dom/server']) {
+for (const spec of ['@tun-systemic/contracts', '@tun-systemic/react', '@tun-systemic/react/contracts', '@tun-systemic/react/styles.css', '@tun-systemic/react/tokens.css', 'react', 'react-dom/server']) {
   assert.ok(within(fileURLToPath(import.meta.resolve(spec))), `${spec} resolved outside the consumer`);
 }
 assert.deepEqual(Object.keys(specimens).sort(), [...names].sort());
@@ -46,6 +46,10 @@ for (const name of ['controlBlockReason', 'controlEvidenceMatches', 'controlRequ
 assert.deepEqual(planIssues(plan), []);
 assert.equal(proposalBlockReason(proposal, Date.parse('2026-09-28T00:00:00Z')), null);
 assert.equal(reviewBasisMatches(proposal, context, plan), true);
+assert.equal(ActionProposalSchema.safeParse(proposal).success, true);
+assert.equal(ActionProposalSchema.safeParse({ ...proposal, actor: null }).success, false);
+assert.equal(typeof WireSchemas.NonBlankText.safeParse, 'function');
+assert.equal(ActionProposalSchema, (await import('@tun-systemic/contracts')).ActionProposalSchema);
 const css = readFileSync(fileURLToPath(import.meta.resolve('@tun-systemic/react/styles.css')), 'utf8');
 const tokens = readFileSync(fileURLToPath(import.meta.resolve('@tun-systemic/react/tokens.css')), 'utf8');
 assert.ok(css.includes("@import './tokens.css'") && css.includes('.tun-proposal'));

@@ -5,10 +5,28 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"sort"
-
+	"github.com/dlclark/regexp2"
 	"github.com/santhosh-tekuri/jsonschema/v6"
+	"sort"
+	"time"
 )
+
+// JSON Schema patterns use ECMAScript syntax, including strict end assertions.
+type ecmaRegexp struct{ compiled *regexp2.Regexp }
+
+func (r ecmaRegexp) String() string { return r.compiled.String() }
+func (r ecmaRegexp) MatchString(value string) bool {
+	matched, err := r.compiled.MatchString(value)
+	return err == nil && matched
+}
+func compilePattern(pattern string) (jsonschema.Regexp, error) {
+	re, err := regexp2.Compile(pattern, regexp2.ECMAScript)
+	if err != nil {
+		return nil, err
+	}
+	re.MatchTimeout = time.Second
+	return ecmaRegexp{re}, nil
+}
 
 type localOnly struct{}
 
@@ -34,6 +52,7 @@ func CompileContracts(bundle []byte) (map[string]*jsonschema.Schema, error) {
 		return nil, errors.New("unsupported TUN schema bundle")
 	}
 	c := jsonschema.NewCompiler()
+	c.UseRegexpEngine(compilePattern)
 	c.UseLoader(localOnly{})
 	if err = c.AddResource(inventory.ID, doc); err != nil {
 		return nil, err

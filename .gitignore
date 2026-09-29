@@ -7,3 +7,4 @@ artifacts/
 *.tgz
 packages/react/LICENSE
 .DS_Store
+__pycache__/

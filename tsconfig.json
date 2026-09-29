@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "jsx": "react-jsx",
@@ -11,8 +15,24 @@
     "verbatimModuleSyntax": true,
     "noEmit": true,
     "baseUrl": ".",
-    "paths": { "@tun-systemic/react": ["packages/react/src/index.ts"] },
-    "types": ["node", "@testing-library/jest-dom"]
+    "paths": {
+      "@tun-systemic/react": [
+        "packages/react/src/index.ts"
+      ],
+      "@tun-systemic/react/contracts": [
+        "packages/react/src/runtime-contracts.ts"
+      ]
+    },
+    "types": [
+      "node",
+      "@testing-library/jest-dom"
+    ]
   },
-  "include": ["packages/react/src", "examples/react/*.tsx", "tests/**/*.tsx", "tests/**/*.ts", "*.config.ts"]
+  "include": [
+    "packages/react/src",
+    "examples/react/*.tsx",
+    "tests/**/*.tsx",
+    "tests/**/*.ts",
+    "*.config.ts"
+  ]
 }
