@@ -116,6 +116,8 @@ Consumer npm operations remain offline with lifecycle scripts disabled. No new p
 
 ## Trust-boundary checklist
 
+The [threat model](THREAT-MODEL.md) expands these boundaries into an explicit STRIDE register: each scenario identifies the presentation safeguard, required host control, linked specification rule and adoption evidence. Use its [acceptance scenarios](THREAT-MODEL.md#7-adopter-acceptance-scenarios) when reviewing a real integration.
+
 Authenticate principal/tenant; validate hostile input; redact before transmission; bind immutable material records; invalidate stale reviews; recheck authority/expiry/revocation; deduplicate durably; reconcile unknown outcomes; retain partial effects; verify results; restrict evidence visibility. Never derive permission from colors, model instructions, memory, source checks, plan review, navigation or callback success. Complete the [integration checklist](INTEGRATION-CHECKLIST.md).
 
 ## Styling and environments

@@ -8,6 +8,8 @@ If private reporting is unavailable, contact **@kochrisdev** through an existing
 
 ## Review scope
 
+Adopting organizations should start with the [TUN threat model](docs/THREAT-MODEL.md): trust boundaries, STRIDE scenarios, presentation safeguards, required host controls, and evidence for a scoped security review.
+
 Security fixes are developed against the current `main` branch. Include the exact commit or archive digest when reporting a repository-local build. Earlier snapshots are useful reproduction evidence; there is no separate backport maintenance branch.
 
 Reports may concern component behavior, contract handling, authorization-related examples, dependency/build configuration, or the public demonstration. Test with synthetic data and accounts you control. Do not disrupt the hosted site, probe other users' accounts, or access third-party systems.

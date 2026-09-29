@@ -4,6 +4,12 @@ Repository milestones and development history. See [Scope and non-claims](docs/S
 
 ## Unreleased
 
+### Threat model — September 29, 2026
+
+Added [TUN threat model](docs/THREAT-MODEL.md) as a security-review entry point: assets, adversaries, six trust boundaries, an eighteen-scenario STRIDE register, existing test pointers, twelve proposed adopter acceptance scenarios, and a residual-risk review packet. Every threat allocates presentation behavior and host enforcement separately and links applicable specification rule IDs. Three walkthroughs cover stale multi-tab review, lost acknowledgement, and stop/worker races.
+
+Linked the model from the README, documentation index, architecture, integration checklist, security policy and conformance assessment guide. Corrected the integration checklist's outdated statement that Human Override was not implemented. The model is tied to its assessed main commit and does not credit the draft runtime-schema PR as a merged safeguard. Normative rules, conformance mappings, application code, dependencies, CI and live security settings are unchanged.
+
 ### Security maintenance — September 29, 2026
 
 Added a root security policy, CODEOWNERS, and weekly Dependabot entries for commit-pinned Actions and the root npm workspace graph. Contribution guidance now points to the reporting policy. The [maintenance guide](docs/SECURITY-MAINTENANCE.md) records the audit policy and owner activation steps for private vulnerability reporting and the [main required-check ruleset](.github/rulesets/main-required-checks.json).

@@ -46,7 +46,7 @@ The gate shows the actor, target, effect, and recovery limits, then emits `{ pro
 
 **Start here:** [Introduction for everyone](docs/INTRODUCTION.md) · [Install and run](docs/GETTING-STARTED.md) · [Approval Gate API](docs/REACT-COMPONENTS-v0.1.md#6-approval-gate)
 
-**Design and integrate:** [Specification](docs/SPECIFICATION-v0.1.md) · [Visual system](docs/DESIGN-TOKENS-AND-VISUAL-SYSTEM-v0.1.md) · [Architecture](docs/ARCHITECTURE.md) · [Integration checklist](docs/INTEGRATION-CHECKLIST.md)
+**Design and integrate:** [Specification](docs/SPECIFICATION-v0.1.md) · [Visual system](docs/DESIGN-TOKENS-AND-VISUAL-SYSTEM-v0.1.md) · [Architecture](docs/ARCHITECTURE.md) · [Integration checklist](docs/INTEGRATION-CHECKLIST.md) · [Threat model](docs/THREAT-MODEL.md)
 
 **Project:** [Documentation](docs/README.md) · [Roadmap](docs/STATUS-AND-ROADMAP.md) · [Scope and non-claims](docs/SCOPE.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Changelog](CHANGELOG.md) · [CC0-1.0 license](LICENSE)
 
