@@ -35,6 +35,8 @@
 | [Status and Roadmap](STATUS-AND-ROADMAP.md) | Available capabilities and next milestones |
 | [Documentation checks](DOCUMENTATION-CHECKS.md) | Source-derived component counts, inventory synchronization and link validation |
 | [Integration Checklist](INTEGRATION-CHECKLIST.md) | Product adoption worksheet |
+| [Security policy](../SECURITY.md) | Private reporting and coordinated vulnerability handling |
+| [Security maintenance](SECURITY-MAINTENANCE.md) | Dependency audit gate, update automation, code ownership and required-check activation |
 | [Contributing](../CONTRIBUTING.md) | Change and review process |
 | [Changelog](../CHANGELOG.md) | Repository milestones |
 

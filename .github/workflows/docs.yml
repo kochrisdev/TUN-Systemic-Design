@@ -1,7 +1,9 @@
 name: TUN documentation checks
 on:
   push:
+    branches: [main]
   pull_request:
+  merge_group:
   workflow_dispatch:
 permissions:
   contents: read
@@ -24,3 +26,5 @@ jobs:
         run: python3 scripts/check_conformance.py
       - name: Test requirement traceability and evidence collection
         run: python3 -m unittest discover -s tests -p 'test_conformance.py' -v
+      - name: Test dependency audit failure policy and security configuration
+        run: python3 -m unittest discover -s tests -p 'test_security.py' -v

@@ -31,6 +31,8 @@ Changes to tokens require their build/check cycle and committed generated output
 
 The documentation checker intentionally uses no network and does not execute Markdown examples. Review code snippets against source and test important examples separately.
 
+Security/CI changes also run `python -m unittest discover -s tests -p 'test_security.py'`. Follow [Security maintenance](docs/SECURITY-MAINTENANCE.md) for the audit policy, dependency updates, code ownership and owner-managed GitHub settings.
+
 ## Source-of-truth rules
 
 Edit `tokens/tokens.json`, not generated CSS or the generated token report. Use the actual public exports and props, not historical illustrative contracts. Synchronize the current implementation declarations and matrix when exports change. Treat generated output and evidence as different from hand-authored guidance.
@@ -47,7 +49,7 @@ Record source SHA, toolchain, commands, counts, failures/skips, and artifact ava
 
 ## Reporting problems
 
-Use repository issues for non-sensitive documentation defects, reproducible bugs, and design questions. Include a minimal sanitized example and the relevant commit. Do not post credentials, personal data, live exploit details, or confidential customer material publicly. Use an already established private contact with the owner for sensitive findings; this document does not assert that a private GitHub reporting channel, bounty, or response-time commitment exists.
+Use repository issues for non-sensitive documentation defects, reproducible bugs, and design questions. Include a minimal sanitized example and the relevant commit. For vulnerabilities, follow [SECURITY.md](SECURITY.md) and its private reporting route or safe contact-request fallback. Keep credentials, personal data, exploit details, and customer material out of public issues and pull requests.
 
 ## Scope of automation
 
