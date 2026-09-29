@@ -20,3 +20,7 @@ jobs:
         run: python3 scripts/check_docs.py
       - name: Test the documentation checker
         run: python3 -m unittest discover -s tests -p 'test_docs.py' -v
+      - name: Check requirement traceability
+        run: python3 scripts/check_conformance.py
+      - name: Test requirement traceability and evidence collection
+        run: python3 -m unittest discover -s tests -p 'test_conformance.py' -v
