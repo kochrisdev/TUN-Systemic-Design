@@ -12,7 +12,7 @@ const root = realpathSync(fileURLToPath(new URL('./', import.meta.url)));
 const modules = join(root, 'node_modules');
 const within = path => { const part = relative(modules, realpathSync(path)); return part && !isAbsolute(part) && part !== '..' && !part.startsWith(`..${sep}`); };
 const names = ['IntentComposer', 'AgentCard', 'ContextPanel', 'PlanView', 'ProposalCard', 'ApprovalGate', 'ActionReceipt', 'MemoryIndicator', 'SourceView', 'UncertaintySignal', 'ToolActivity', 'AgentActivity', 'HumanOverride', 'RecoveryControl'];
-for (const name of ['@tun-systemic/react', 'react', 'react-dom', 'scheduler', '@types/react', '@types/react-dom', 'csstype']) {
+for (const name of Object.keys(JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')).dependencies)) {
   const path = join(modules, name);
   assert.ok(!lstatSync(path).isSymbolicLink() && within(path), `${name} must be a real consumer installation`);
 }

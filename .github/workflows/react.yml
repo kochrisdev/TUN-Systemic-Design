@@ -13,9 +13,14 @@ concurrency:
   group: tun-react-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  verify:
+  compatibility:
+    name: React compatibility (${{ matrix.profile }})
     runs-on: ubuntu-24.04
     timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        profile: [locked, react-18.3.0, react-18.3.1]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -26,10 +31,15 @@ jobs:
           package-manager-cache: false
       - name: Use pinned package manager
         run: npm install --global npm@12.1.0 --ignore-scripts --no-audit --no-fund
-      - name: Install the committed dependency graph
-        run: |
-          npm ci --no-fund --no-audit
-          git diff --exit-code -- package-lock.json
+      - name: Prepare the isolated peer profile
+        run: npm run compat:prepare -- ${{ matrix.profile }}
+      - name: Install the selected dependency graph
+        run: npm ci --strict-peer-deps --no-fund --no-audit
+      - name: Verify actual peers and absence of nested React copies
+        run: npm run compat:verify -- ${{ matrix.profile }}
+      - name: Preserve the default committed graph
+        if: matrix.profile == 'locked'
+        run: git diff --exit-code -- package.json package-lock.json examples/react/package.json
       - name: Audit both dependency graphs (fail on any finding or audit error)
         run: python3 scripts/audit_dependencies.py
       - name: Validate existing design tokens
@@ -45,7 +55,7 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: ${{ !cancelled() }}
         with:
-          name: tun-react-check-artifacts
+          name: tun-react-check-artifacts-${{ matrix.profile }}
           path: |
             playwright-report/
             test-results/
@@ -53,3 +63,14 @@ jobs:
             examples/react/dist/
             package-lock.json
           retention-days: 7
+  # Keep the exact required-check context; a skipped/cancelled matrix is NOT green.
+  verify:
+    if: ${{ always() }}
+    needs: [compatibility]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - name: Require every peer profile to succeed
+        env:
+          MATRIX_RESULT: ${{ needs.compatibility.result }}
+        run: test "$MATRIX_RESULT" = "success"

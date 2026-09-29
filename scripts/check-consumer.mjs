@@ -33,9 +33,16 @@ const exec = (args, cwd = consumer) => execFileSync(process.execPath, args, {
   env: { ...process.env, NODE_PATH: '' },
 });
 const npm = args => exec([npmCli, ...args, '--offline', '--ignore-scripts', '--no-audit', '--no-fund', '--workspaces=false', `--cache=${cache}`]);
+// Include the selected peer graph's actual transitive dependencies. React 18
+// additionally needs loose-envify/js-tokens and @types/prop-types.
+const peerPackages = new Set(['react', 'react-dom', 'scheduler', '@types/react', '@types/react-dom', 'csstype']);
+for (const name of peerPackages) {
+  const manifest = JSON.parse(readFileSync(join(root, 'node_modules', name, 'package.json'), 'utf8'));
+  for (const dependency of Object.keys(manifest.dependencies ?? {})) peerPackages.add(dependency);
+}
 const packages = [
   { name: '@tun-systemic/react', directory: join(root, 'packages/react') },
-  ...['react', 'react-dom', 'scheduler', '@types/react', '@types/react-dom', 'csstype'].map(name => ({ name, directory: join(root, 'node_modules', name) })),
+  ...[...peerPackages].map(name => ({ name, directory: join(root, 'node_modules', name) })),
 ];
 try {
   const dependencies = {};
@@ -89,7 +96,7 @@ try {
     installMode: 'Offline local tarballs from the repository-locked installed graph; fresh temporary directory and cache',
     freshInstall: true, lockedReinstall: true, workspaceLinks: false, lifecycleScripts: false,
     typecheck: 'passed', ...verified, archiveSha256: sha256(readFileSync(libraryArchive)), lockfileSha256: sha256(lockBytes),
-    limits: 'One locked React peer graph; static rendering and package/types/CSS resolution, not hydration, bundler, registry, or cross-framework certification.' };
+    limits: 'The selected CI peer graph; static rendering and package/types/CSS resolution, not hydration, bundler, registry, or cross-framework certification.' };
   writeFileSync(reportFile, JSON.stringify(report, null, 2) + '\n');
   console.log(JSON.stringify(report, null, 2));
 } catch (error) {
