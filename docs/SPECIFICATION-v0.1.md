@@ -1,21 +1,21 @@
 # TUN Systemic Design
 ## Specification v0.1
 
-**Status:** Draft project specification, not an externally adopted standard.  
-**Version:** 0.1; documentation revision September 27, 2026.  
-**Implementation:** Four React components, not the complete system described here.
+**Status:** Draft project specification.  
+**Version:** 0.1; documentation revision September 29, 2026.  
+**Implementation:** Fourteen reference React components; see the [implementation matrix](STATUS-AND-ROADMAP.md).
 
-[Documentation index](README.md) · [Component catalog](COMPONENTS-v0.1.md) · [Implementation status](STATUS-AND-ROADMAP.md) · [Revision findings](DOCUMENTATION-AUDIT-v0.1.md)
+[Documentation index](README.md) · [Component catalog](COMPONENTS-v0.1.md) · [Implementation status](STATUS-AND-ROADMAP.md) · [Scope and non-claims](SCOPE.md) · [Revision findings](DOCUMENTATION-AUDIT-v0.1.md)
 
 # 1. Purpose
 
-TUN defines interaction requirements for products in which humans work with AI, agents, tools, context, memory, and actions. It covers understanding, authority, uncertainty, execution, accountability, and recovery—not only visual consistency.
+TUN defines how people understand, authorize, and verify AI actions. These requirements connect intent, context, agents, tools, and memory with explicit decisions, observable outcomes, and usable recovery.
 
-This is a design specification. A component library alone cannot implement application permissions, data retention, external execution, or organizational accountability. Requirements apply to the declared product scope and the actor responsible for enforcing them. The concept note and manifesto remain informative founding propositions.
+Requirements apply to the declared product scope and the actor responsible for enforcing them. Product-wide responsibilities and validation coverage are collected in [Scope and non-claims](SCOPE.md).
 
 # 2. Normative Language
 
-Uppercase **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, and **MAY** express requirement strength. Lowercase uses are ordinary prose. This convention follows [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119) and [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174); it does not make TUN an IETF standard.
+Uppercase **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, and **MAY** express requirement strength. Lowercase uses are ordinary prose. This convention follows [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119) and [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174).
 
 ## MUST
 
@@ -151,7 +151,7 @@ A calendar entry that sends invitations may have C3 effects even if its local re
 
 C3 actions SHOULD require explicit approval unless an authorized person has intentionally delegated that action class with defined targets, limits, duration, and exception handling.
 
-C4 actions MUST have explicit, recorded approval of the particular proposal before execution. A general autonomy setting, remembered preference, or broad standing delegation is not sufficient. The pre-action summary SHOULD make material effects and recovery limits clear. This clarifies the C4 Approval Gate rule in the component catalog; the reference component remains a UI, not the enforcing service.
+C4 actions MUST have explicit, recorded approval of the particular proposal before execution. A general autonomy setting, remembered preference, or broad standing delegation is not sufficient. The pre-action summary SHOULD make material effects and recovery limits clear.
 
 # 8. Approval Gates
 
@@ -301,7 +301,7 @@ Failure MUST be a first-class design state. The interface SHOULD explain what fa
 
 # 20. Canonical TUN Components
 
-These are design patterns, not a declaration that all are exported by the React package. See the [implementation matrix](STATUS-AND-ROADMAP.md).
+The fourteen patterns below have reference React implementations. The [component catalog](COMPONENTS-v0.1.md) defines their anatomy and the [implementation matrix](STATUS-AND-ROADMAP.md) links their source.
 
 ## 20.1 Intent Composer
 
@@ -377,7 +377,7 @@ Motion SHOULD explain transitions, progress, hierarchy, or causality, not simula
 
 Components MUST support accessible interaction. Interactive controls MUST be keyboard operable, have accessible names, expose meaningful state, and retain visible focus. Critical meaning MUST NOT rely only on color; approval and rejection MUST be distinguishable. Status changes SHOULD be announced without flooding assistive technologies.
 
-Products SHOULD test reduced motion, reflow, zoom, forced colors, language, cognitive load, and relevant assistive technologies. The [integration checklist](INTEGRATION-CHECKLIST.md) separates automated samples from manual review. TUN is not an accessibility certification scheme or a replacement for applicable accessibility standards.
+Products SHOULD test reduced motion, reflow, zoom, forced colors, language, cognitive load, and relevant assistive technologies. The [integration checklist](INTEGRATION-CHECKLIST.md) separates automated samples from manual review.
 
 # 25. Privacy
 
@@ -401,7 +401,7 @@ The interface SHOULD distinguish information, recommendations, warnings, require
 
 # 30. Machine-Readable TUN
 
-Tokens and TypeScript contracts exist. A complete runtime behavior schema, design linter, or conformance protocol does not. Future versions SHOULD define structured patterns, permissions, state transitions, and conformance evidence.
+Tokens and TypeScript contracts provide the current machine-readable foundation. Future versions SHOULD define structured patterns, permissions, state transitions, and conformance evidence.
 
 Conceptual declaration only—not a parser input supported by this repository:
 
@@ -428,11 +428,11 @@ Implements identified relevant patterns and documents omissions. Avoid an unsupp
 
 A scoped, self-assessed claim that all applicable MUST and MUST NOT requirements of an identified revision are satisfied. The declaration MUST identify the assessed product scope, requirement evidence, reviewer, date, exceptions, and justified non-applicability. An applicable unmet MUST prevents this claim for that scope.
 
-There is no independent TUN certification program here. This reference package does not claim full product conformance. Passing component tests, adopting tokens, or using a TUN logo is not equivalent to conformance.
+See [Scope and non-claims](SCOPE.md#release-status-and-conformance) for project release and certification status.
 
 # 32. Product Declaration
 
-Implementations SHOULD document revision/commit, scope, autonomy per operation, consequence classes, memory/retention model, agent roles, permissions, approval, verification, recovery, evidence, and known gaps. Use the [integration worksheet](INTEGRATION-CHECKLIST.md); the named components do not discharge host responsibilities.
+Implementations SHOULD document revision/commit, scope, autonomy per operation, consequence classes, memory/retention model, agent roles, permissions, approval, verification, recovery, evidence, and known gaps. Use the [integration worksheet](INTEGRATION-CHECKLIST.md) to record responsibilities and evidence for each actor.
 
 # 33. Anti-Patterns
 
@@ -496,6 +496,6 @@ If an answer is incomplete, record the gap and responsible owner rather than imp
 
 # 37. Direction for v0.2
 
-The [status and roadmap](STATUS-AND-ROADMAP.md) separates completed foundations from proposed work. Next areas include the remaining ten components, state matrices, runtime schemas, stronger integration tests, localization, broader accessibility/browser evidence, and design-tool adapters. No delivery date, interoperability claim, or certification is implied.
+The fourteen-component foundation is in place. The [roadmap](STATUS-AND-ROADMAP.md#next-milestones) prioritizes a bounded application pilot, state matrices, runtime schemas, stronger integration tests, localization, broader accessibility/browser coverage, and design-tool adapters.
 
 **Human Intent. Machine Intelligence. Systemic Design.**
