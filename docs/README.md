@@ -31,6 +31,7 @@
 | [Getting Started](GETTING-STARTED.md) | Setup, commands, examples and package consumption |
 | [Architecture](ARCHITECTURE.md) | Data flow, source ownership and host services |
 | [Status and Roadmap](STATUS-AND-ROADMAP.md) | Available capabilities and next milestones |
+| [Documentation checks](DOCUMENTATION-CHECKS.md) | Source-derived component counts, inventory synchronization and link validation |
 | [Integration Checklist](INTEGRATION-CHECKLIST.md) | Product adoption worksheet |
 | [Contributing](../CONTRIBUTING.md) | Change and review process |
 | [Changelog](../CHANGELOG.md) | Repository milestones |
@@ -53,6 +54,8 @@
 ## Sources of truth
 
 Read the Introduction for orientation, and Specification and Components for intended behavior. For accepted props and exports inspect [core contracts](../packages/react/src/contracts.ts), [review contracts](../packages/react/src/review-contracts.ts), [evidence contracts](../packages/react/src/evidence-contracts.ts), [supervision contracts](../packages/react/src/supervision-contracts.ts) and [index.ts](../packages/react/src/index.ts).
+
+Current implementation counts and the roadmap matrix are checked against the public exports by [the documentation checker](DOCUMENTATION-CHECKS.md). Use its explicit synchronization command after changing exports; retain historical snapshot counts.
 
 [Showcase](../examples/react/Showcase.tsx) defines public navigation, [Guided Demo](../examples/react/GuidedDemo.tsx) presents the local model, and [the explorer catalog](../examples/react/showcase-catalog.ts) links actual components. The full technical lab is selected by `?lab=1` in the [application entry](../examples/react/main.tsx).
 

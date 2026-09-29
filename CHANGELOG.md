@@ -4,6 +4,12 @@ Repository milestones and development history. See [Scope and non-claims](docs/S
 
 ## Unreleased
 
+### Source-driven component documentation — September 29, 2026
+
+Extended `scripts/check_docs.py` to derive the public component inventory from `packages/react/src/index.ts`, check four current implementation-count declarations, and compare the roadmap matrix's names, labels and source links. Added `--sync-components` to regenerate those sites explicitly while preserving surrounding prose and historical evidence. Missing declarations, unsupported entry-point syntax and empty inventories fail the check.
+
+Added regression coverage for export additions/removals, same-count renames, stale wording and links, duplicate/missing declarations, synchronization and CLI behavior. The existing documentation workflow runs the new checks without dependency or permission changes. [Documentation checks](docs/DOCUMENTATION-CHECKS.md) explains the source convention and maintenance workflow. The specification's stale four-component line was already corrected in the preceding documentation revision; this increment guards against recurrence.
+
 ### Value-first documentation — September 29, 2026
 
 Rebuilt the README around the problem TUN solves: keeping a clicked decision, authorization, execution, and verification distinct. It now leads with one value paragraph, one flow diagram, one ApprovalGate integration example, and links to the demo and deeper guides.
