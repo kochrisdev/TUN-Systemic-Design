@@ -1,6 +1,6 @@
 # TUN documentation
 
-[Repository home](../README.md) · [Introduction](INTRODUCTION.md) · [Public showcase](PUBLIC-SHOWCASE-v0.1.md) · [Getting started](GETTING-STARTED.md) · [Status and roadmap](STATUS-AND-ROADMAP.md)
+[Repository home](../README.md) · [Introduction](INTRODUCTION.md) · [Public showcase](PUBLIC-SHOWCASE-v0.1.md) · [Getting started](GETTING-STARTED.md) · [Status and roadmap](STATUS-AND-ROADMAP.md) · [Scope and non-claims](SCOPE.md)
 
 ## Reading paths
 
@@ -10,18 +10,19 @@
 
 **Engineering:** Introduction → Getting Started → Architecture → React Components → Review Workflow → Evidence and Memory → Supervision and Recovery → Validation → Contributing.
 
-**AI coding agents:** Check the implementation matrix, public exports and source contracts. All fourteen canonical components have reference exports; that supplies no model, authorization service, memory backend or real cancellation/recovery. Never fabricate validation, hand-edit generated tokens, or turn presentation callbacks into authority. The public shell preserves its controllers across navigation; do not replace view changes with destructive task resets.
+**AI coding agents:** Check the implementation matrix, public exports, source contracts, and [application responsibilities](SCOPE.md#where-the-application-takes-over). Keep generated tokens reproducible and validation claims tied to executed checks. Preserve controller state across showcase navigation and enforce authority in the host application.
 
 ## Current guidance
 
 | Document | Role |
 |---|---|
-| [An Introduction to TUN Systemic Design](INTRODUCTION.md) | Shared starting point for developers and non-developers: concepts, examples, components, adoption and limits |
-| [Public Showcase](PUBLIC-SHOWCASE-v0.1.md) | Visitor journeys, state lifetime, specimen boundaries, metadata and Vercel configuration |
-| [Concept Note](CONCEPT-NOTE.md) | Founding proposal; long-term outputs are aspirations |
-| [Manifesto](MANIFESTO-v0.1.md) | Philosophy and TUN terminology, not an exclusive history |
+| [An Introduction to TUN Systemic Design](INTRODUCTION.md) | Shared starting point for developers and non-developers: concepts, examples, components and adoption |
+| [Scope and non-claims](SCOPE.md) | Central reference for application responsibilities, demo boundaries, validation coverage, release status and conformance |
+| [Public Showcase](PUBLIC-SHOWCASE-v0.1.md) | Visitor journeys, state lifetime, specimens, metadata and Vercel configuration |
+| [Concept Note](CONCEPT-NOTE.md) | Founding proposal and long-term vision |
+| [Manifesto](MANIFESTO-v0.1.md) | Philosophy and TUN terminology |
 | [Specification](SPECIFICATION-v0.1.md) | Draft behavioral requirements and conformance vocabulary |
-| [Components](COMPONENTS-v0.1.md) | Fourteen design patterns and implementation boundaries |
+| [Components](COMPONENTS-v0.1.md) | Fourteen design patterns and implementation guidance |
 | [Visual System](DESIGN-TOKENS-AND-VISUAL-SYSTEM-v0.1.md) | Tokens, styling and exporter behavior |
 | [React Components](REACT-COMPONENTS-v0.1.md) | Package overview and core API |
 | [Review Workflow](REVIEW-WORKFLOW-v0.1.md) | Context/plan/proposal APIs and approval binding |
@@ -29,17 +30,17 @@
 | [Supervision and Recovery](SUPERVISION-AND-RECOVERY-v0.1.md) | Observations, intervention/recovery requests, evidence and simulation |
 | [Getting Started](GETTING-STARTED.md) | Setup, commands, examples and package consumption |
 | [Architecture](ARCHITECTURE.md) | Data flow, source ownership and host services |
-| [Status and Roadmap](STATUS-AND-ROADMAP.md) | Implemented versus planned capabilities |
-| [Integration Checklist](INTEGRATION-CHECKLIST.md) | Adoption worksheet, not certification |
+| [Status and Roadmap](STATUS-AND-ROADMAP.md) | Available capabilities and next milestones |
+| [Integration Checklist](INTEGRATION-CHECKLIST.md) | Product adoption worksheet |
 | [Contributing](../CONTRIBUTING.md) | Change and review process |
-| [Changelog](../CHANGELOG.md) | Repository milestones, not npm releases |
+| [Changelog](../CHANGELOG.md) | Repository milestones |
 
 ## Evidence and historical records
 
 | Record | Scope |
 |---|---|
-| [Showcase Validation](SHOWCASE-VALIDATION-v0.1.md) | Public journeys, preserved technical suites, focus/assets corrections, artifact identity and deployment limits; final-head acceptance in PR 7 |
-| [Supervision Validation](SUPERVISION-VALIDATION-v0.1.md) | Fourteen-component implementation checks, review finding, artifacts and limits; final-head acceptance in PR 6 |
+| [Showcase Validation](SHOWCASE-VALIDATION-v0.1.md) | Public journeys, technical suites, focus/assets corrections, artifacts and deployment checks; final-head acceptance in PR 7 |
+| [Supervision Validation](SUPERVISION-VALIDATION-v0.1.md) | Fourteen-component checks, review finding and artifacts; final-head acceptance in PR 6 |
 | [Token Validation](TOKEN-VALIDATION-v0.1.md) | Generated declared token/contrast checks |
 | [Evidence Validation](EVIDENCE-VALIDATION-v0.1.md) | Historical ten-component snapshot |
 | [Consumer Validation](CONSUMER-VALIDATION-v0.1.md) | Historical seven-component isolated installation acceptance |
@@ -47,20 +48,20 @@
 | [React Validation](REACT-VALIDATION-v0.1.md) | Historical four-component snapshot |
 | [Documentation Audit](DOCUMENTATION-AUDIT-v0.1.md) | Earlier documentation review |
 
-[PR 7](https://github.com/kochrisdev/TUN-Systemic-Design/pull/7) records public-showcase checks and merge state. [PR 6](https://github.com/kochrisdev/TUN-Systemic-Design/pull/6) records canonical-component acceptance. Older counts remain dated evidence, not current implementation limits. Authored tests are not successful tests until a named run passes. Source merge, Vercel deployment readiness, and a successful live smoke test are separate observations.
+[PR 7](https://github.com/kochrisdev/TUN-Systemic-Design/pull/7) records public-showcase checks and merge state. [PR 6](https://github.com/kochrisdev/TUN-Systemic-Design/pull/6) records canonical-component acceptance. Use [What validation establishes](SCOPE.md#what-validation-establishes) to interpret the reports and their coverage.
 
 ## Sources of truth
 
-Read the Introduction for orientation, and Specification and Components for intended behavior. The Introduction is informative, not an additional normative standard. For accepted props and exports inspect [core contracts](../packages/react/src/contracts.ts), [review contracts](../packages/react/src/review-contracts.ts), [evidence contracts](../packages/react/src/evidence-contracts.ts), [supervision contracts](../packages/react/src/supervision-contracts.ts) and [index.ts](../packages/react/src/index.ts). An implementation may fall short; code does not silently redefine a requirement.
+Read the Introduction for orientation, and Specification and Components for intended behavior. For accepted props and exports inspect [core contracts](../packages/react/src/contracts.ts), [review contracts](../packages/react/src/review-contracts.ts), [evidence contracts](../packages/react/src/evidence-contracts.ts), [supervision contracts](../packages/react/src/supervision-contracts.ts) and [index.ts](../packages/react/src/index.ts).
 
-[Showcase](../examples/react/Showcase.tsx) defines public navigation, [Guided Demo](../examples/react/GuidedDemo.tsx) presents the unchanged local model, and [the explorer catalog](../examples/react/showcase-catalog.ts) links actual components. The preserved full technical lab is selected by `?lab=1` in the [application entry](../examples/react/main.tsx). Native hash links do not execute task operations.
+[Showcase](../examples/react/Showcase.tsx) defines public navigation, [Guided Demo](../examples/react/GuidedDemo.tsx) presents the local model, and [the explorer catalog](../examples/react/showcase-catalog.ts) links actual components. The full technical lab is selected by `?lab=1` in the [application entry](../examples/react/main.tsx).
 
-Edit [tokens.json](../tokens/tokens.json) for visual values, not generated CSS/reports. Inspect [package.json](../package.json) for commands, [package-lock.json](../package-lock.json) for the dependency graph, and [vercel.json](../vercel.json) for static deployment settings. Use named source/run evidence for tests and actual PR metadata for merge state.
+Edit [tokens.json](../tokens/tokens.json) for visual values, then regenerate CSS/reports. Inspect [package.json](../package.json) for commands, [package-lock.json](../package-lock.json) for the dependency graph, and [vercel.json](../vercel.json) for static deployment settings. Use named source/run evidence for tests and actual PR metadata for merge state.
 
-Report conflicting guidance with its scope. Do not weaken approval, privacy, evidence or recovery rules to resolve conflicts. Normative changes require explicit review. Historical validation records remain unchanged when new acceptance succeeds.
+Report conflicting guidance with its scope. Requirement changes need explicit review; preserve approval, privacy, evidence and recovery rules when resolving conflicts. Retain historical validation records when new acceptance succeeds.
 
 ## Status vocabulary
 
-**Specified:** a design contract exists. **Implemented:** reference code is exported. **Validated:** a named check passed in a stated environment. **Published:** intentional distribution through a named channel. None means certified; no certification program is supplied.
+**Specified:** a design contract exists. **Implemented:** reference code is exported. **Validated:** a named check passed in a stated environment. **Published:** intentional distribution through a named channel.
 
-Document version 0.1, private package version 0.1.0, Git commits and deployment versions are distinct. Identify exact builds by source SHA and archive digest.
+See [Release status and conformance](SCOPE.md#release-status-and-conformance) for how document versions, package versions, commits, deployments and product-level assessments relate.

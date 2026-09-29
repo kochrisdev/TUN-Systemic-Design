@@ -1,8 +1,16 @@
 # Changelog
 
-This records repository work, not published npm releases. Private package version 0.1.0 and document version 0.1 do not imply a stable public API, release tag, deployment or certification. PR history records merge state for an exact revision.
+Repository milestones and development history. See [Scope and non-claims](docs/SCOPE.md#release-status-and-conformance) for package release and conformance status.
 
 ## Unreleased
+
+### Value-first documentation — September 29, 2026
+
+Rebuilt the README around the problem TUN solves: keeping a clicked decision, authorization, execution, and verification distinct. It now leads with one value paragraph, one flow diagram, one ApprovalGate integration example, and links to the demo and deeper guides.
+
+Added [Scope and non-claims](docs/SCOPE.md) as the central reference for service responsibilities, demo behavior, validation coverage, release status, and conformance. Refocused the roadmap on available capabilities and concrete next milestones, and updated the documentation index to use the central scope page.
+
+Removed repeated project-level caveats from the specification while preserving its requirement language and section headings. Corrected stale references to four implemented components and ten remaining components. Action-specific approval, privacy, uncertainty, verification, and recovery rules stay beside the behavior they govern. This is a documentation revision; component APIs, application code, and deployment configuration are unchanged.
 
 ### Documentation — September 29, 2026
 
