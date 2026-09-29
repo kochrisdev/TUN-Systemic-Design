@@ -15,6 +15,6 @@
   },
   "sideEffects": ["**/*.css"],
   "files": ["dist", "README.md", "LICENSE"],
-  "peerDependencies": { "react": ">=19.2.0 <20", "react-dom": ">=19.2.0 <20" },
+  "peerDependencies": { "react": ">=18.3.0 <20", "react-dom": ">=18.3.0 <20" },
   "scripts": { "build": "tsc -p tsconfig.build.json && node scripts/copy-assets.mjs" }
 }

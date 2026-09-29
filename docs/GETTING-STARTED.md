@@ -29,7 +29,7 @@ Do not discard local work. PR branches can contain unmerged work; check the actu
 | Node | 22.23.2 | [.nvmrc](../.nvmrc) |
 | npm | 12.1.0 | [package.json](../package.json) packageManager |
 | Python | 3.10+ for token/documentation tools | Standard-library scripts |
-| React/React DOM | Declared peer range: >=19.2.0 <20 | [Package manifest](../packages/react/package.json) |
+| React/React DOM | Declared peer range: >=18.3.0 <20 | [Package manifest](../packages/react/package.json) |
 
 Select the reference Node version with a version manager or manual installation. The broader engine range does not prove every allowed runtime was tested. On Windows, Python may be `py -3`; on macOS/Linux it may be `python3`. Substitute your Python 3 command below. Run npm commands from the repository root unless stated otherwise.
 
@@ -82,28 +82,30 @@ Open `http://127.0.0.1:8000/examples/visual-system.html`. The specimen needs rep
 | Command | Checks or produces | Does not include |
 |---|---|---|
 | npm run typecheck | TypeScript checking | Browser behavior |
-| npm test | Library build, Node contracts, React components, metadata, demo-model and showcase tests | Browser, tokens, docs, audit, isolated installation |
+| npm test | Library build, Node contracts, React components, metadata, demo-model, showcase and hydration/StrictMode samples | Browser, tokens, docs, audit, isolated installation |
 | npm run test:package | Archive inventory and workspace exports; requires a current build | Independent installation |
 | npm run test:consumer | Offline fresh install/reinstall, declarations, fourteen static renders, seven negative type cases, package/CSS paths | Hydration, CSS bundlers, registry distribution |
 | npm run check | Typecheck, npm test, demo build, package inventory, isolated consumer checks | Browser, tokens, docs, audits |
 | npm run test:browser | Chromium public showcase and preserved technical-lab suites | Firefox, WebKit, manual assistive-technology review |
 | python scripts/tokens.py check | Structure, declared contrast, generated-file drift | Every rendered combination |
-| python scripts/check_docs.py | Local Markdown links/fragments and fences | External URLs, code execution, factual correctness |
-| npm audit | Known advisories for the installed graph at run time | Proof of application security |
+| python scripts/check_docs.py | Local Markdown links/fragments, fences and current component inventory | External URLs, code execution, general factual correctness |
+| python scripts/audit_dependencies.py | Full/runtime advisory reports; fails on any finding or audit error | Proof of application security |
 
-Use actual runner output for the current commit, not historical counts. [PR 7](https://github.com/kochrisdev/TUN-Systemic-Design/pull/7) tracks public-showcase acceptance. [PR 6](https://github.com/kochrisdev/TUN-Systemic-Design/pull/6) and earlier [evidence](EVIDENCE-VALIDATION-v0.1.md), [consumer](CONSUMER-VALIDATION-v0.1.md), and [review](REVIEW-VALIDATION-v0.1.md) reports retain their dated scope.
+Use actual runner output for the current commit, not historical counts. [React compatibility](REACT-COMPATIBILITY.md) explains the three CI profiles. [PR 7](https://github.com/kochrisdev/TUN-Systemic-Design/pull/7) tracks public-showcase acceptance. [PR 6](https://github.com/kochrisdev/TUN-Systemic-Design/pull/6) and earlier [evidence](EVIDENCE-VALIDATION-v0.1.md), [consumer](CONSUMER-VALIDATION-v0.1.md), and [review](REVIEW-VALIDATION-v0.1.md) reports retain their dated scope.
 
 After npm ci, run the full set:
 
 ```sh
 python scripts/check_docs.py
 python -m unittest discover -s tests -p 'test_docs.py'
+python -m unittest discover -s tests -p 'test_conformance.py'
+python -m unittest discover -s tests -p 'test_security.py'
 python scripts/tokens.py check
 npm run check
+python scripts/check_conformance.py --run
 npx playwright install chromium
 npm run test:browser
-npm audit
-npm audit --omit=dev
+python scripts/audit_dependencies.py
 ```
 
 Linux environments missing browser libraries may use `npx playwright install --with-deps chromium`; review system-package privileges first. [React CI](../.github/workflows/react.yml) and [documentation CI](../.github/workflows/docs.yml) define the existing workflows. Artifacts are temporary evidence, not durable releases.
@@ -141,7 +143,7 @@ import '@tun-systemic/react/styles.css';
 
 Evidence/memory and supervision types/helpers are root-only exports. No evidence-contracts or supervision-contracts package subpath is declared. Core/review types remain available through the existing contracts subpath.
 
-Import CSS once in the host's permitted global entry; token CSS is included. The package is ESM with declarations, not CommonJS require. The isolated test covers one locked graph and static rendering. Validate CSS bundling, hydration, framework boundaries, and actual service integration in the consuming application.
+Import CSS once in the host's permitted global entry; token CSS is included. The package is ESM with declarations, not CommonJS require. The [React compatibility matrix](REACT-COMPATIBILITY.md) runs isolated installation and static rendering for the locked React 19 graph and exact React 18.3.0/18.3.1 profiles, with separate hydration samples. Keep React and React DOM versions matched and use types from the same major. Validate the actual framework, CSS integration and host services in the consuming application.
 
 Set data-tun-theme light/dark on html, or remove it for system preference. Nested themes and persisted preferences are not implemented.
 

@@ -110,9 +110,9 @@ The host supplies ReceiptData; the gate creates none. Unverified completed/rever
 
 ## Package acceptance boundary
 
-The inventory check and consumer test are complementary. The consumer packs TUN and lockfile-matched installed peers, installs local archives in a new external directory/cache, reinstalls from its own lockfile, compiles declarations, and renders fourteen static specimens. It checks seven negative type cases, consumer-local paths, CSS/tokens, and archive integrity without workspace symlinks.
+The inventory check and consumer test are complementary. The consumer packs TUN and the selected profile's lockfile-matched installed peers plus their transitive dependencies, installs local archives in a new external directory/cache, reinstalls from its own lockfile, compiles declarations, and renders fourteen static specimens. It checks seven negative type cases, consumer-local paths, CSS/tokens, and archive integrity without workspace symlinks.
 
-Consumer npm operations remain offline with lifecycle scripts disabled. No new permissions or dependencies are needed. This detects packaging assumptions, not registry distribution, independently selected peers, hydration, every bundler or framework. Historical [consumer evidence](CONSUMER-VALIDATION-v0.1.md) retains its earlier seven-component scope; current acceptance belongs to [PR 6](https://github.com/kochrisdev/TUN-Systemic-Design/pull/6).
+Consumer npm operations remain offline with lifecycle scripts disabled. The [React compatibility matrix](REACT-COMPATIBILITY.md) repeats package acceptance for exact React 18.3.0/18.3.1 with React 18 types and the committed React 19 graph. Separate jsdom tests exercise specimen hydration and StrictMode decision behavior; the consumer test itself remains a static package check. Historical [consumer evidence](CONSUMER-VALIDATION-v0.1.md) retains its original scope, while [PR 16](https://github.com/kochrisdev/TUN-Systemic-Design/pull/16) records peer-matrix acceptance.
 
 ## Trust-boundary checklist
 
@@ -122,4 +122,4 @@ Authenticate principal/tenant; validate hostile input; redact before transmissio
 
 ## Styling and environments
 
-Component CSS consumes semantic tokens and includes generated CSS. Themes are document-level without remote fonts or persistence. Public components are client entries. Static rendering and sampled Chromium tests do not establish SSR hydration, server-component boundaries, CSS placement, localization or full accessibility. Validate those in the actual host.
+Component CSS consumes semantic tokens and includes generated CSS. Themes are document-level without remote fonts or persistence. Public components are client entries. Static consumer rendering, jsdom hydration specimens, and sampled Chromium interactions cover separate checks in the [peer matrix](REACT-COMPATIBILITY.md). Validate framework-specific server-component/streaming boundaries, CSS placement, localization and full accessibility in the actual host.

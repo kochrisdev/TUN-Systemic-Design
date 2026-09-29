@@ -35,9 +35,9 @@ import type { ActivityRecord, ToolActivityRecord, InterventionOperation, Recover
 import '@tun-systemic/react/styles.css';
 ```
 
-The declared peer range remains React/React DOM >=19.2.0 <20. The package is ESM with declarations. Root, contracts, styles.css, and tokens.css are declared entry points; there is no CommonJS require entry. Evidence/memory and supervision types/helpers are **root-only**. Existing core/review helpers remain available through contracts. Internal ControlAction is not a public export.
+The declared peer range is React/React DOM >=18.3.0 <20. The package is ESM with declarations. Root, contracts, styles.css, and tokens.css are declared entry points; there is no CommonJS require entry. Evidence/memory and supervision types/helpers are **root-only**. Existing core/review helpers remain available through contracts. Internal ControlAction is not a public export.
 
-The isolated consumer installs real local archives outside the repository and tests all fourteen static renders, declarations, seven negative type cases, and CSS/token resolution. It covers one locked peer graph, not independently selected peers, registry distribution, browser hydration, CSS bundlers, or every framework.
+The isolated consumer installs real local archives outside the repository and tests all fourteen static renders, declarations, seven negative type cases, and CSS/token resolution. It runs under the locked React 19 graph and exact React 18.3.0/18.3.1 profiles with React 18 types. A separate hydration sample checks all fourteen specimens and stable IDs. See [React compatibility](https://github.com/kochrisdev/TUN-Systemic-Design/blob/main/docs/REACT-COMPATIBILITY.md) for the profile commands and evidence boundaries.
 
 Import CSS once in the host's permitted global entry. Tokens are included. Set data-tun-theme light/dark on html, or remove it for system preference. Nested theme islands, remote fonts, and preference persistence are not implemented.
 

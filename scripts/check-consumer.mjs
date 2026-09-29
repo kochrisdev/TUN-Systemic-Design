@@ -7,6 +7,8 @@ import { tmpdir } from 'node:os';
 import { isAbsolute, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+assert.ok(process.argv.length === 2 || (process.argv.length === 3 && process.argv[2] === '--canonical'), 'Only --canonical is accepted.');
+const canonical = process.argv[2] === '--canonical';
 const root = realpathSync(fileURLToPath(new URL('../', import.meta.url)));
 const output = join(root, 'artifacts');
 const npmCli = process.env.npm_execpath;
@@ -25,7 +27,8 @@ const within = (parent, child) => {
 };
 assert.ok(!within(root, consumer), 'Consumer must be outside the repository.');
 for (const directory of [consumer, archives, cache, output]) mkdirSync(directory, { recursive: true });
-const reportFile = join(output, 'consumer-check.json');
+const reportFile = join(output, canonical ? 'consumer-canonical.json' : 'consumer-check.json');
+const inventoryFile = join(output, canonical ? 'canonical/package-check.json' : 'package-check.json');
 // A failed attempt must never leave an earlier green report at this path.
 writeFileSync(reportFile, JSON.stringify({ status: 'running' }) + '\n');
 const exec = (args, cwd = consumer) => execFileSync(process.execPath, args, {
@@ -33,9 +36,16 @@ const exec = (args, cwd = consumer) => execFileSync(process.execPath, args, {
   env: { ...process.env, NODE_PATH: '' },
 });
 const npm = args => exec([npmCli, ...args, '--offline', '--ignore-scripts', '--no-audit', '--no-fund', '--workspaces=false', `--cache=${cache}`]);
+// Include the selected peer graph's actual transitive dependencies. React 18
+// additionally needs loose-envify/js-tokens and @types/prop-types.
+const peerPackages = new Set(['react', 'react-dom', 'scheduler', '@types/react', '@types/react-dom', 'csstype']);
+for (const name of peerPackages) {
+  const manifest = JSON.parse(readFileSync(join(root, 'node_modules', name, 'package.json'), 'utf8'));
+  for (const dependency of Object.keys(manifest.dependencies ?? {})) peerPackages.add(dependency);
+}
 const packages = [
   { name: '@tun-systemic/react', directory: join(root, 'packages/react') },
-  ...['react', 'react-dom', 'scheduler', '@types/react', '@types/react-dom', 'csstype'].map(name => ({ name, directory: join(root, 'node_modules', name) })),
+  ...[...peerPackages].map(name => ({ name, directory: join(root, 'node_modules', name) })),
 ];
 try {
   const dependencies = {};
@@ -46,6 +56,17 @@ try {
     assert.equal(manifest.name, name);
     if (name !== '@tun-systemic/react') assert.equal(manifest.version, lock.packages[`node_modules/${name}`]?.version, `${name} differs from the lockfile`);
     versions[name] = manifest.version;
+    if (canonical && name === '@tun-systemic/react') {
+      // Consume the actual default-peer build, not rebuilt React 18 declarations.
+      const filename = 'tun-systemic-react-0.1.0.tgz';
+      libraryArchive = join(archives, filename);
+      copyFileSync(join(output, 'canonical', filename), libraryArchive);
+      const inventory = JSON.parse(readFileSync(inventoryFile, 'utf8'));
+      const integrity = `sha512-${createHash('sha512').update(readFileSync(libraryArchive)).digest('base64')}`;
+      assert.equal(integrity, inventory.integrity, 'Canonical archive must match its original package check');
+      dependencies[name] = `file:../archives/${filename}`;
+      continue;
+    }
     const result = JSON.parse(npm(['pack', directory, '--json', '--pack-destination', archives]));
     // npm 12 uses a package-name-keyed object; older npm uses an array.
     const records = Array.isArray(result) ? result : Object.values(result);
@@ -80,7 +101,7 @@ try {
   assert.equal(verified.status, 'passed');
   assert.deepEqual(readFileSync(join(root, 'package-lock.json')), lockBytes, 'Repository lockfile changed');
   assert.ok(libraryArchive);
-  const inventory = JSON.parse(readFileSync(join(root, 'artifacts/package-check.json'), 'utf8'));
+  const inventory = JSON.parse(readFileSync(inventoryFile, 'utf8'));
   const integrity = `sha512-${createHash('sha512').update(readFileSync(libraryArchive)).digest('base64')}`;
   assert.equal(integrity, inventory.integrity, 'Consumer must install the same archive checked by test:package');
   const report = { status: 'passed', checkedAt: new Date().toISOString(),
@@ -88,8 +109,8 @@ try {
     node: process.version, npm: exec([npmCli, '--version']).trim(), versions,
     installMode: 'Offline local tarballs from the repository-locked installed graph; fresh temporary directory and cache',
     freshInstall: true, lockedReinstall: true, workspaceLinks: false, lifecycleScripts: false,
-    typecheck: 'passed', ...verified, archiveSha256: sha256(readFileSync(libraryArchive)), lockfileSha256: sha256(lockBytes),
-    limits: 'One locked React peer graph; static rendering and package/types/CSS resolution, not hydration, bundler, registry, or cross-framework certification.' };
+    typecheck: 'passed', ...verified, archiveBuild: canonical ? 'committed-default-peer-build' : 'selected-peer-build', archiveSha256: sha256(readFileSync(libraryArchive)), lockfileSha256: sha256(lockBytes),
+    limits: 'The selected CI peer graph; static rendering and package/types/CSS resolution, not hydration, bundler, registry, or cross-framework certification.' };
   writeFileSync(reportFile, JSON.stringify(report, null, 2) + '\n');
   console.log(JSON.stringify(report, null, 2));
 } catch (error) {

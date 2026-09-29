@@ -28,6 +28,7 @@
 | [Requirement traceability](../conformance/TRACEABILITY.md) | Generated requirement-to-test matrix and coverage inventory |
 | [Components](COMPONENTS-v0.1.md) | Fourteen design patterns and implementation guidance |
 | [Visual System](DESIGN-TOKENS-AND-VISUAL-SYSTEM-v0.1.md) | Tokens, styling and exporter behavior |
+| [React compatibility](REACT-COMPATIBILITY.md) | React 18/19 peer profiles, matching types, installation, hydration samples and CI gate |
 | [React Components](REACT-COMPONENTS-v0.1.md) | Package overview and core API |
 | [Review Workflow](REVIEW-WORKFLOW-v0.1.md) | Context/plan/proposal APIs and approval binding |
 | [Evidence and Memory](EVIDENCE-AND-MEMORY-v0.1.md) | Memory, sources and qualitative uncertainty |
