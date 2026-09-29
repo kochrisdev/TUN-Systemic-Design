@@ -20,6 +20,8 @@ The [profile runner](../scripts/react-compat.mjs) verifies the installed runtime
 
 Every matrix leg runs the existing typecheck, Node contracts, React/component/model tests, library and demo builds, package inventory, isolated consumer installation/reinstallation, mapped conformance checks, design tokens, full/runtime dependency audits and Chromium interaction/accessibility samples.
 
+Before selecting an alternate peer profile, each job builds and preserves the archive against the committed default React 19 graph. After selection it tests **both that unchanged archive and the profile-local build** in separate fresh consumers. This detects declarations that only work when the library is rebuilt for the consuming React major. `artifacts/consumer-canonical.json` identifies the original build archive by digest.
+
 The [isolated consumer](../scripts/check-consumer.mjs) includes the selected React dependency closure. For React 18 this includes `loose-envify`, `js-tokens` and `@types/prop-types`; installation is still offline from local archives, with lifecycle scripts disabled and no workspace links. Consumer declarations are checked with `skipLibCheck: false`, followed by fourteen static component renders and seven negative type cases.
 
 [Hydration and StrictMode samples](../tests/react-hydration.test.tsx) additionally check that all fourteen exported specimens hydrate with stable, unique IDs and valid label references, that a repeated decision remains single-shot, and that a changed target or unknown result cannot reopen approval. These are jsdom hydration samples; the Chromium suite separately exercises the built client application.
@@ -31,10 +33,17 @@ React 18.3.0's Testing Library fallback emits a one-time `ReactDOMTestUtils.act`
 Ordinary development keeps using `npm ci` and `npm run check`. To reproduce an alternate profile, use a **separate disposable clone or worktree** with the [pinned Node/npm toolchain](GETTING-STARTED.md#toolchain). Preparation edits that checkout's root/demo manifests and effective lockfile.
 
 ```sh
+npm ci --strict-peer-deps --no-fund --no-audit
+npm run build:library
+npm run test:package
+mkdir -p artifacts/canonical
+cp artifacts/tun-systemic-react-0.1.0.tgz artifacts/canonical/
+cp artifacts/package-check.json artifacts/canonical/
 npm run compat:prepare -- react-18.3.0
 npm ci --strict-peer-deps --no-fund --no-audit
 npm run compat:verify -- react-18.3.0
 npm run check
+npm run test:consumer -- --canonical
 python scripts/audit_dependencies.py
 python scripts/tokens.py check
 python scripts/check_conformance.py --run
@@ -50,7 +59,7 @@ React 18 preparation resolves only the named React/runtime/type family and its s
 
 The required check names remain **`documentation`** and **`verify`**. The React matrix uses separate `React compatibility (...)` jobs; the always-running `verify` job succeeds only when the matrix result is `success`. Failure, cancellation or skipping cannot produce a green aggregate. No live branch-rule change is required when the existing two-check policy is already active.
 
-Artifacts are named `tun-react-check-artifacts-locked`, `tun-react-check-artifacts-react-18.3.0` and `tun-react-check-artifacts-react-18.3.1`. Each contains that profile's peer report, effective/baseline locks, audit and conformance evidence, consumer results, browser outputs and compiled demo. Do not treat an artifact uploaded after a failure as passing evidence; inspect the job and report statuses.
+Artifacts are named `tun-react-check-artifacts-locked`, `tun-react-check-artifacts-react-18.3.0` and `tun-react-check-artifacts-react-18.3.1`. Each contains the default-build archive, both consumer reports, and that profile's peer report, effective/baseline locks, audit and conformance evidence, consumer results, browser outputs and compiled demo. Do not treat an artifact uploaded after a failure as passing evidence; inspect the job and report statuses.
 
 [PR #16](https://github.com/kochrisdev/TUN-Systemic-Design/pull/16) records the final tested revision and outcomes. Historical validation reports retain their original single-graph scope.
 

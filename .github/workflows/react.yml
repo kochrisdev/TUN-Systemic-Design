@@ -31,6 +31,15 @@ jobs:
           package-manager-cache: false
       - name: Use pinned package manager
         run: npm install --global npm@12.1.0 --ignore-scripts --no-audit --no-fund
+      - name: Build and preserve the distributable with the committed default peers
+        run: |
+          npm ci --strict-peer-deps --no-fund --no-audit
+          git diff --exit-code -- package-lock.json
+          npm run build:library
+          npm run test:package
+          mkdir -p artifacts/canonical
+          cp artifacts/tun-systemic-react-0.1.0.tgz artifacts/canonical/
+          cp artifacts/package-check.json artifacts/canonical/
       - name: Prepare the isolated peer profile
         run: npm run compat:prepare -- ${{ matrix.profile }}
       - name: Install the selected dependency graph
@@ -46,6 +55,8 @@ jobs:
         run: python3 scripts/tokens.py check
       - name: Typecheck, contract tests, React tests, production build, and package checks
         run: npm run check
+      - name: Install the default-peer-built archive into the selected peer consumer
+        run: npm run test:consumer -- --canonical
       - name: Collect mapped requirement-test evidence
         run: python3 scripts/check_conformance.py --run
       - name: Install Chromium

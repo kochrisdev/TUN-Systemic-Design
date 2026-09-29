@@ -65,3 +65,13 @@ test('matrix completion gate cannot pass a skipped failed or cancelled matrix', 
   assert.match(workflow, /test "\$MATRIX_RESULT" = "success"/);
   assert.match(workflow, /name: tun-react-check-artifacts-\$\{\{ matrix.profile \}\}/);
 });
+
+test('every peer consumes the preserved default build as well as its own build', () => {
+  const workflow = readFileSync(new URL('../.github/workflows/react.yml', import.meta.url), 'utf8');
+  const snapshot = workflow.indexOf('cp artifacts/tun-systemic-react-0.1.0.tgz artifacts/canonical/');
+  assert.ok(snapshot > 0 && snapshot < workflow.indexOf('run: npm run compat:prepare'));
+  assert.ok(workflow.indexOf('run: npm run test:consumer -- --canonical') > workflow.indexOf('run: npm run check'));
+  const consumer = readFileSync(new URL('../scripts/check-consumer.mjs', import.meta.url), 'utf8');
+  assert.match(consumer, /consumer-canonical\.json/);
+  assert.match(consumer, /Canonical archive must match its original package check/);
+});
