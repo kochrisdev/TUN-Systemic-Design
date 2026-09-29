@@ -1,14 +1,14 @@
 # TUN documentation
 
-[Repository home](../README.md) · [Public showcase](PUBLIC-SHOWCASE-v0.1.md) · [Getting started](GETTING-STARTED.md) · [Status and roadmap](STATUS-AND-ROADMAP.md)
+[Repository home](../README.md) · [Introduction](INTRODUCTION.md) · [Public showcase](PUBLIC-SHOWCASE-v0.1.md) · [Getting started](GETTING-STARTED.md) · [Status and roadmap](STATUS-AND-ROADMAP.md)
 
 ## Reading paths
 
-**New visitors:** Public Showcase → Guided Demo → Component Explorer → Concept Note.
+**New visitors:** [An Introduction to TUN Systemic Design](INTRODUCTION.md) → Public Showcase → Guided Demo → Component Explorer → Concept Note.
 
-**Product and design:** Concept Note → Manifesto → Specification → Components → Visual System → Integration Checklist.
+**Product and design:** Introduction → Concept Note → Manifesto → Specification → Components → Visual System → Integration Checklist.
 
-**Engineering:** Getting Started → Architecture → React Components → Review Workflow → Evidence and Memory → Supervision and Recovery → Validation → Contributing.
+**Engineering:** Introduction → Getting Started → Architecture → React Components → Review Workflow → Evidence and Memory → Supervision and Recovery → Validation → Contributing.
 
 **AI coding agents:** Check the implementation matrix, public exports and source contracts. All fourteen canonical components have reference exports; that supplies no model, authorization service, memory backend or real cancellation/recovery. Never fabricate validation, hand-edit generated tokens, or turn presentation callbacks into authority. The public shell preserves its controllers across navigation; do not replace view changes with destructive task resets.
 
@@ -16,6 +16,7 @@
 
 | Document | Role |
 |---|---|
+| [An Introduction to TUN Systemic Design](INTRODUCTION.md) | Shared starting point for developers and non-developers: concepts, examples, components, adoption and limits |
 | [Public Showcase](PUBLIC-SHOWCASE-v0.1.md) | Visitor journeys, state lifetime, specimen boundaries, metadata and Vercel configuration |
 | [Concept Note](CONCEPT-NOTE.md) | Founding proposal; long-term outputs are aspirations |
 | [Manifesto](MANIFESTO-v0.1.md) | Philosophy and TUN terminology, not an exclusive history |
@@ -50,7 +51,7 @@
 
 ## Sources of truth
 
-Read Specification and Components for intended behavior. For accepted props and exports inspect [core contracts](../packages/react/src/contracts.ts), [review contracts](../packages/react/src/review-contracts.ts), [evidence contracts](../packages/react/src/evidence-contracts.ts), [supervision contracts](../packages/react/src/supervision-contracts.ts) and [index.ts](../packages/react/src/index.ts). An implementation may fall short; code does not silently redefine a requirement.
+Read the Introduction for orientation, and Specification and Components for intended behavior. The Introduction is informative, not an additional normative standard. For accepted props and exports inspect [core contracts](../packages/react/src/contracts.ts), [review contracts](../packages/react/src/review-contracts.ts), [evidence contracts](../packages/react/src/evidence-contracts.ts), [supervision contracts](../packages/react/src/supervision-contracts.ts) and [index.ts](../packages/react/src/index.ts). An implementation may fall short; code does not silently redefine a requirement.
 
 [Showcase](../examples/react/Showcase.tsx) defines public navigation, [Guided Demo](../examples/react/GuidedDemo.tsx) presents the unchanged local model, and [the explorer catalog](../examples/react/showcase-catalog.ts) links actual components. The preserved full technical lab is selected by `?lab=1` in the [application entry](../examples/react/main.tsx). Native hash links do not execute task operations.
 
