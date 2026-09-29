@@ -36,6 +36,7 @@
 | [Threat model](THREAT-MODEL.md) | STRIDE register, trust boundaries, component safeguards, host controls and adoption acceptance scenarios |
 | [Architecture](ARCHITECTURE.md) | Data flow, source ownership and host services |
 | [Status and Roadmap](STATUS-AND-ROADMAP.md) | Available capabilities and next milestones |
+| [Badge accessibility](BADGE-ACCESSIBILITY.md) | Visible non-color badge labels, component/state coverage and browser regression checks |
 | [Documentation checks](DOCUMENTATION-CHECKS.md) | Source-derived component counts, inventory synchronization and link validation |
 | [Integration Checklist](INTEGRATION-CHECKLIST.md) | Product adoption worksheet |
 | [Security policy](../SECURITY.md) | Private reporting and coordinated vulnerability handling |

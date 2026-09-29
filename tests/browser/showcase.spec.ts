@@ -1,3 +1,4 @@
+import { expectBadgeText } from './badge-text.js';
 import { expect, test, type Page } from '@playwright/test';
 import axe from 'axe-core';
 import { componentCatalog } from '../../examples/react/showcase-catalog.js';
@@ -21,6 +22,7 @@ async function approval(page: Page) {
   await proposal(page); await page.getByRole('button', { name: 'Review action', exact: true }).click();
 }
 async function noAxeViolations(page: Page) {
+  await expectBadgeText(page);
   await page.addScriptTag({ content: axe.source });
   expect(await page.evaluate(async () => (await (window as any).axe.run()).violations)).toEqual([]);
 }
@@ -116,6 +118,7 @@ test('all fourteen components offer two read-only specimens', async ({ page }) =
     for (const variant of ['standard', 'edge']) {
       await page.getByRole('combobox', { name: 'Example state', exact: true }).selectOption(variant);
       await expect(page.locator('.sc-specimen > .tun-component')).toHaveCount(1);
+      await expectBadgeText(page.locator('.sc-specimen'));
       for (const control of await page.locator('.sc-specimen button').all()) await expect(control).toBeDisabled();
     }
   }
@@ -170,3 +173,6 @@ test('static HTML contains sharing metadata and deployable assets', async ({ req
   const bytes = await image.body(); expect(bytes.subarray(1, 4).toString()).toBe('PNG');
   expect(bytes.readUInt32BE(16)).toBe(1200); expect(bytes.readUInt32BE(20)).toBe(630);
 });
+
+// Complement axe/contrast checks with the visible non-color badge contract.
+test.afterEach(async ({ page }) => { await expectBadgeText(page); });
