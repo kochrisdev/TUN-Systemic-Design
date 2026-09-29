@@ -2,6 +2,14 @@
 
 This records repository work, not published npm releases. Private package version 0.1.0 and document version 0.1 do not imply a stable public API, release tag, deployment or certification. PR history records merge state for an exact revision.
 
+## Unreleased
+
+### Documentation — September 29, 2026
+
+Added [An Introduction to TUN Systemic Design](docs/INTRODUCTION.md) as a shared entry point for developers and non-developers. It explains systemic design through a project-update example, the interaction model and eight principles, autonomy and consequences, memory and uncertainty, all fourteen components, visual tokens, role-specific adoption guidance, a display-only React example, and the current implementation boundaries. README and documentation reading paths now link to it.
+
+This is informative documentation, not a change to normative requirements, component APIs, application behavior, dependencies, deployment configuration, or historical validation evidence.
+
 ## September 28, 2026 — public showcase
 
 [PR 7](https://github.com/kochrisdev/TUN-Systemic-Design/pull/7) adds the public overview, a six-stage guided review task, a searchable fourteen-component explorer with two representative read-only states per component, and a separate Trust & Control Lab. Responsive navigation links the demos, documentation and repository. The original full technical lab remains at /?lab=1.

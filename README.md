@@ -6,6 +6,8 @@
 
 TUN designs the relationship between people, AI, agents, context, decisions, and actions—not only the screens around them. **Simplicity with Boldness. Consistency with Conciseness. Clarity with Confidence.**
 
+**New to TUN?** Read [An Introduction to TUN Systemic Design](docs/INTRODUCTION.md)—a shared starting point for developers and non-developers, with everyday examples, plain-language concepts, and a practical developer section.
+
 ## Explore the public showcase
 
 [Open the demo site](https://tun-systemic-design-demo.vercel.app/) · [Guided demo](https://tun-systemic-design-demo.vercel.app/#demo) · [14 components](https://tun-systemic-design-demo.vercel.app/#components) · [Trust & Control Lab](https://tun-systemic-design-demo.vercel.app/#trust)
@@ -33,6 +35,7 @@ See the [implementation matrix and roadmap](docs/STATUS-AND-ROADMAP.md) for exac
 
 | Goal | Documentation |
 |---|---|
+| Start without prior technical knowledge | [An Introduction to TUN Systemic Design](docs/INTRODUCTION.md) |
 | Understand TUN | [Concept Note](docs/CONCEPT-NOTE.md), [Manifesto](docs/MANIFESTO-v0.1.md) |
 | Explore or deploy the site | [Public Showcase](docs/PUBLIC-SHOWCASE-v0.1.md) |
 | Run the examples locally | [Getting Started](docs/GETTING-STARTED.md) |
