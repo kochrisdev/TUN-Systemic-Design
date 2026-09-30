@@ -4,6 +4,14 @@ Repository milestones and development history. See [Scope and non-claims](docs/S
 
 ## Unreleased
 
+### Server-backed adoption pilot — September 30, 2026
+
+Added [examples/host-integration](examples/host-integration/README.md): an actual Python HTTP host with local bearer principals, server-owned grants and immutable proposals, durable operation/event records, and a separate local sandbox-provider database. Authorization, dispatch and verification are separate transitions; the browser cannot construct a receipt from a successful callback. A matching server readback is required. The provider makes real local writes but contacts no external service.
+
+Added real-HTTP tests for scope/revision enforcement, concurrent replay, durable restart, lost acknowledgement, missing/mismatched readback, pre-dispatch cancellation and separately approved withdrawal. New browser journeys exercise the server without mocked fetch. A threat/specification evidence map records the local scope. The roadmap now prioritizes one named internal adoption, real identity/provider integration, operational recovery, adoption compatibility and a scoped conformance review; showcase work is ongoing maintenance rather than the primary milestone.
+
+The existing verify workflow runs the new backend/build/browser checks and retains their reports. No package dependency, lockfile, component API, React peer range, token, Vercel setting, live account or third-party system is changed. Unfinished runtime-schema and compatibility work remains separate.
+
 ### Threat model — September 29, 2026
 
 Added [TUN threat model](docs/THREAT-MODEL.md) as a security-review entry point: assets, adversaries, six trust boundaries, an eighteen-scenario STRIDE register, existing test pointers, twelve proposed adopter acceptance scenarios, and a residual-risk review packet. Every threat allocates presentation behavior and host enforcement separately and links applicable specification rule IDs. Three walkthroughs cover stale multi-tab review, lost acknowledgement, and stop/worker races.

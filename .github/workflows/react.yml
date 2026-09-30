@@ -42,6 +42,8 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Browser interaction and accessibility samples
         run: npm run test:browser
+      - name: Real local host authorization and verification journey
+        run: npm run test:host:browser
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: ${{ !cancelled() }}
         with:
@@ -51,5 +53,6 @@ jobs:
             test-results/
             artifacts/
             examples/react/dist/
+            examples/host-integration/dist/
             package-lock.json
           retention-days: 7

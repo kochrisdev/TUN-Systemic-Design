@@ -1,6 +1,6 @@
 # Scope and non-claims
 
-**Applies to:** TUN v0.1 reference system. **Updated:** September 29, 2026.
+**Applies to:** TUN v0.1 reference system. **Updated:** September 30, 2026.
 
 [Introduction](INTRODUCTION.md) · [Documentation index](README.md) · [Implementation status](STATUS-AND-ROADMAP.md) · [Integration checklist](INTEGRATION-CHECKLIST.md)
 
@@ -13,6 +13,8 @@ The repository includes fourteen reference React components, typed interaction c
 The [conformance layer](../conformance/README.md) connects mandatory specification statements to stable IDs, selected executable tests, and remaining assessment procedures. Its [generated matrix](../conformance/TRACEABILITY.md) shows current coverage and specific gaps.
 
 Figma, Tailwind and native adapters, complete runtime input schemas, and a design linter are future work. The documentation checker validates Markdown links, fences and component inventory; it is not a design linter. The specification's conceptual YAML is an illustration, not a supported runtime configuration format.
+
+The [local host integration](../examples/host-integration/README.md) supplies a runnable teaching host with real loopback HTTP, local bearer authorization, durable SQLite records and a separate sandbox-provider readback. It is an example application, not a backend shipped inside the React components or a production deployment profile. The static public showcase remains simulated.
 
 ## Where the application takes over
 
