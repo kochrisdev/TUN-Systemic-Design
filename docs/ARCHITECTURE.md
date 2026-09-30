@@ -1,6 +1,6 @@
 # TUN reference architecture
 
-**Scope:** Fourteen canonical React reference components and the visual foundation. Host services described here are responsibilities, not supplied implementations.
+**Scope:** Fourteen canonical React reference components and the visual foundation. Host services are application responsibilities; the separate local pilot demonstrates a bounded implementation.
 
 [Documentation index](README.md) · [Core API](REACT-COMPONENTS-v0.1.md) · [Review](REVIEW-WORKFLOW-v0.1.md) · [Evidence](EVIDENCE-AND-MEMORY-v0.1.md) · [Supervision](SUPERVISION-AND-RECOVERY-v0.1.md) · [Integration checklist](INTEGRATION-CHECKLIST.md)
 
@@ -35,7 +35,9 @@ AgentActivity / ToolActivity: host observations and known effects.
 HumanOverride / RecoveryControl: requests → host service → bound evidence.
 ```
 
-The repository examples simulate these relationships. The supervision fixture and publication-review lab are explicitly separate; the fixture's stop button does not govern the other demo.
+The original showcase and component-lab examples simulate these relationships. The supervision fixture and publication-review lab are explicitly separate; the fixture's stop button does not govern the other demo.
+
+The [server-backed local pilot](../examples/host-integration/README.md) instead implements real HTTP authorization, durable host/provider SQLite records and separate readback verification. Its provider is local and its identity is a fixture; it supplies no model or external publication service. Run `npm run demo:host` with Python 3.10+ to try the boundary. The default Vercel build remains the static showcase.
 
 ## Source and build ownership
 
@@ -100,7 +102,7 @@ InterventionOperation/RecoveryOperation bind control identity/version and run id
 
 Acknowledgement and promise resolution do not confirm stoppage or recovery. Terminal status requires ControlEvidence for the same control and run revisions, with matching outcome, valid timestamp and nonempty explanation. These checks cannot authenticate host assertions. A new revision is not a way to escape unresolved results; the host coordinates remounts, tabs and other controls.
 
-Unknown original outcomes permit reconciliation only. A known-outcome retry additionally needs a host-described duplicate-effect safeguard. Compensation is explicitly separate from undo. Applicable high-consequence recovery still requires action-specific approval. Real worker interruption, authorization, durable deduplication, compensation and audit services are not supplied.
+Unknown original outcomes permit reconciliation only. A known-outcome retry additionally needs a host-described duplicate-effect safeguard. Compensation is explicitly separate from undo. Applicable high-consequence recovery still requires action-specific approval. Real worker interruption, authorization, durable deduplication, compensation and audit services are not supplied by the component library.
 
 The stepped fixture keeps prior writes after stoppage, records compensation separately, and reads rather than repeats a write after lost acknowledgement. Buttons advancing the worker simulate observed service events. Its in-memory history is not trusted or durable infrastructure.
 
