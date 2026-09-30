@@ -7,3 +7,7 @@ artifacts/
 *.tgz
 packages/react/LICENSE
 .DS_Store
+
+# Local host pilot records and bootstrap credentials must never be committed.
+examples/host-integration/.data/
+.host-test-access.json

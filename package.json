@@ -4,8 +4,14 @@
   "private": true,
   "type": "module",
   "packageManager": "npm@12.1.0",
-  "workspaces": ["packages/react", "examples/react"],
-  "engines": { "node": "^22.22.2 || ^24.15.0 || >=26.0.0", "npm": ">=12.1.0 <13" },
+  "workspaces": [
+    "packages/react",
+    "examples/react"
+  ],
+  "engines": {
+    "node": "^22.22.2 || ^24.15.0 || >=26.0.0",
+    "npm": ">=12.1.0 <13"
+  },
   "scripts": {
     "build:library": "npm run build --workspace @tun-systemic/react",
     "build:demo": "npm run build --workspace tun-react-demo",
@@ -19,8 +25,13 @@
     "test:browser": "playwright test",
     "test:package": "node scripts/check-package.mjs",
     "test:consumer": "node scripts/check-consumer.mjs",
-    "check": "npm run typecheck && npm test && npm run build:demo && npm run test:package && npm run test:consumer",
-    "pack:react": "npm run build:library && npm pack --workspace @tun-systemic/react"
+    "check": "npm run typecheck && npm test && npm run build:demo && npm run test:package && npm run test:consumer && npm run test:host && npm run host:build",
+    "pack:react": "npm run build:library && npm pack --workspace @tun-systemic/react",
+    "host:build": "npm run build:library && tsc -p examples/host-integration/tsconfig.json --noEmit && vite build --config examples/host-integration/vite.config.ts",
+    "host:serve": "python3 examples/host-integration/server.py",
+    "demo:host": "npm run host:build && npm run host:serve",
+    "test:host": "python3 examples/host-integration/run_checks.py",
+    "test:host:browser": "playwright test --config examples/host-integration/playwright.config.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",
