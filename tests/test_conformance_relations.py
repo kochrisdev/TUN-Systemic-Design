@@ -32,8 +32,7 @@ class ConformanceRelations(unittest.TestCase):
         self.write('packages/react/src/index.ts', "export { ApprovalGate } from './ApprovalGate.js';\nexport { ActionReceipt } from './ActionReceipt.js';\n")
         for name in ['ApprovalGate', 'ActionReceipt']:
             self.write(f'packages/react/src/{name}.tsx', f'export function {name}() {{ return null; }}\n')
-        self.write('docs/THREAT-MODEL.md', '# Threat model\n\n## 4. STRIDE threat register\n\n| ID | Meaning |\n|---|---|\n| **TM-02 · T** | Changed version |\n')
-        self.write('docs/MISREPRESENTATION-THREATS.md', '# Misrepresentation\n\n| ID | Meaning |\n|---|---|\n| <a id="TM-M-7"></a>**TM-M-7** | Duplicate action |\n')
+        self.write('docs/THREAT-MODEL.md', '# Threat model\n\n## 4. STRIDE threat register\n\n| ID | Meaning |\n|---|---|\n| <a id="TM-02"></a>**TM-02 · T** | Changed version |\n| <a id="TM-M-7"></a>**TM-M-7** | Duplicate action |\n')
         self.relations = {'schema_version': 1, 'source': m.core.MANIFEST, 'rules': [
             {'id': 'SPEC-8-003', 'components': ['ApprovalGate'], 'threats': ['TM-02', 'TM-M-7'], 'note': 'Shared obligations.'},
             {'id': 'SPEC-8-004', 'components': [], 'threats': [], 'note': 'Host enforcement.'},
@@ -133,11 +132,11 @@ class ConformanceRelations(unittest.TestCase):
         self.reject('duplicate threat definition')
 
     def test_threat_must_have_its_actual_target(self):
-        self.write('docs/MISREPRESENTATION-THREATS.md', '# M\n\n| **TM-M-7** | Missing anchor |\n')
+        self.write('docs/THREAT-MODEL.md', (self.root/'docs/THREAT-MODEL.md').read_text().replace('<a id="TM-M-7"></a>', ''))
         self.reject('missing explicit threat anchor')
 
     def test_wrong_explicit_anchor(self):
-        self.write('docs/MISREPRESENTATION-THREATS.md', '# M\n\n| <a id="TM-M-1"></a>**TM-M-7** | Wrong anchor |\n')
+        self.write('docs/THREAT-MODEL.md', (self.root/'docs/THREAT-MODEL.md').read_text().replace('<a id="TM-M-7"></a>', '<a id="TM-M-1"></a>'))
         self.reject('mismatched threat anchor')
 
     def test_canonical_source_drift_still_fails(self):
@@ -213,6 +212,49 @@ class ConformanceRelations(unittest.TestCase):
         self.assertEqual(self.invoke(), 1)
         self.assertEqual(self.invoke('build'), 0)
 
+
+    def test_single_register_resolves_both_id_families(self):
+        self.assertEqual(m.threat_targets(self.root), {
+            'TM-02': 'docs/THREAT-MODEL.md#TM-02',
+            'TM-M-7': 'docs/THREAT-MODEL.md#TM-M-7',
+        })
+        self.assertFalse((self.root/'docs/MISREPRESENTATION-THREATS.md').exists())
+        self.assertEqual(self.invoke(), 0)
+
+    def test_legacy_companion_cannot_supply_a_missing_row(self):
+        row = '| <a id="TM-M-7"></a>**TM-M-7** | Duplicate action |\n'
+        path = self.root/'docs/THREAT-MODEL.md'
+        path.write_text(path.read_text().replace(row, ''), encoding='utf-8')
+        self.write('docs/MISREPRESENTATION-THREATS.md', '# Legacy\n\n' + row)
+        self.reject('unknown threat definition')
+
+    def test_duplicate_misrepresentation_definition(self):
+        path = self.root/'docs/THREAT-MODEL.md'
+        path.write_text(path.read_text() + '| <a id="TM-M-7"></a>**TM-M-7** | Again |\n', encoding='utf-8')
+        self.reject('duplicate threat definition')
+
+    def test_standard_threat_requires_a_direct_anchor(self):
+        path = self.root/'docs/THREAT-MODEL.md'
+        path.write_text(path.read_text().replace('<a id="TM-02"></a>', ''), encoding='utf-8')
+        self.reject('missing explicit threat anchor')
+
+    def test_register_heading_is_still_required(self):
+        path = self.root/'docs/THREAT-MODEL.md'
+        path.write_text(path.read_text().replace('## 4. STRIDE threat register', '## Unrelated table'), encoding='utf-8')
+        self.reject('missing threat-register heading')
+
+    def test_all_seven_misrepresentation_ids_link_to_the_main_model(self):
+        path = self.root/'docs/THREAT-MODEL.md'
+        extra = ''.join(f'| <a id="TM-M-{n}"></a>**TM-M-{n}** | Synthetic scenario |\n' for n in range(1, 7))
+        path.write_text(path.read_text() + extra, encoding='utf-8')
+        self.relations['rules'][0]['threats'] = ['TM-02'] + [f'TM-M-{n}' for n in range(1, 8)]
+        self.save()
+        output = m.render(*m.load(self.root))
+        for n in range(1, 8):
+            self.assertIn(f'[TM-M-{n}](THREAT-MODEL.md#TM-M-{n})', output)
+        self.assertNotIn('MISREPRESENTATION-THREATS.md', output)
+        self.assertNotIn('ATTACHMENT-RECONCILIATION.md', output)
+        self.assertNotIn('decisions/', output)
 
 if __name__ == '__main__':
     unittest.main()

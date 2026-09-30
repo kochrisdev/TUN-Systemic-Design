@@ -10,9 +10,9 @@
 
 **Product and design:** Introduction → Concept Note → Manifesto → Specification → Components → Visual System → Integration Checklist → [Conformance assessment](../conformance/README.md).
 
-**Engineering:** Introduction → [Real local host pilot](../examples/host-integration/README.md) → Getting Started → Architecture → React Components → Review Workflow → Evidence and Memory → Supervision and Recovery → [Requirement traceability](../conformance/TRACEABILITY.md) → Validation → Contributing.
+**Engineering:** Introduction → [Real local host pilot](../examples/host-integration/README.md) → Getting Started → Architecture → React Components → Review Workflow → Evidence and Memory → Supervision and Recovery → [Conformance assessment](../conformance/README.md) → Validation → Contributing.
 
-**Security reviewers:** [Threat model](THREAT-MODEL.md) → [Misrepresentation threats](MISREPRESENTATION-THREATS.md) → [Component/threat conformance view](CONFORMANCE-MATRIX.md) → Architecture → Integration Checklist → Conformance assessment → [Security maintenance](SECURITY-MAINTENANCE.md).
+**Security reviewers:** [Threat model](THREAT-MODEL.md) → [Conformance assessment](../conformance/README.md) → [Integration checklist](INTEGRATION-CHECKLIST.md). The threat model includes the misrepresentation register; generated tables below are lookups, not additional reading prerequisites.
 
 **AI coding agents:** Check the implementation matrix, public exports, source contracts, and [application responsibilities](SCOPE.md#where-the-application-takes-over). Keep generated tokens reproducible and validation claims tied to executed checks. Preserve controller state across showcase navigation and enforce authority in the host application.
 
@@ -32,10 +32,6 @@
 | [Manifesto](MANIFESTO-v0.1.md) | Philosophy and TUN terminology |
 | [Specification](SPECIFICATION-v0.1.md) | Draft behavioral requirements and conformance vocabulary |
 | [Conformance assessment](../conformance/README.md) | Stable rule IDs, executable test mappings, fresh evidence reports and remaining assessment procedures |
-| [Component/threat conformance view](CONFORMANCE-MATRIX.md) | Generated associations using canonical rule IDs, owners and test mappings; reverse lookup by public component |
-| [Misrepresentation threats](MISREPRESENTATION-THREATS.md) | Seven human-understanding failure scenarios, linked to existing STRIDE threats and scoped evidence |
-| [Attachment reconciliation](ATTACHMENT-RECONCILIATION.md) | Review decisions, requirement/threat ID crosswalks and preserved source boundaries for the contributed drafts |
-| [Requirement traceability](../conformance/TRACEABILITY.md) | Generated requirement-to-test matrix and coverage inventory |
 | [Components](COMPONENTS-v0.1.md) | Fourteen design patterns and implementation guidance |
 | [Visual System](DESIGN-TOKENS-AND-VISUAL-SYSTEM-v0.1.md) | Tokens, styling and exporter behavior |
 | [React Components](REACT-COMPONENTS-v0.1.md) | Package overview and core API |
@@ -43,7 +39,7 @@
 | [Evidence and Memory](EVIDENCE-AND-MEMORY-v0.1.md) | Memory, sources and qualitative uncertainty |
 | [Supervision and Recovery](SUPERVISION-AND-RECOVERY-v0.1.md) | Observations, intervention/recovery requests, evidence and simulation |
 | [Getting Started](GETTING-STARTED.md) | Setup, commands, examples and package consumption |
-| [Threat model](THREAT-MODEL.md) | STRIDE register, trust boundaries, component safeguards, host controls and adoption acceptance scenarios |
+| [Threat model](THREAT-MODEL.md) | STRIDE and misrepresentation register, trust boundaries, host controls and adoption acceptance scenarios |
 | [Architecture](ARCHITECTURE.md) | Data flow, source ownership and host services |
 | [Status and Roadmap](STATUS-AND-ROADMAP.md) | Available capabilities and next milestones |
 | [Badge accessibility](BADGE-ACCESSIBILITY.md) | Visible non-color badge labels, component/state coverage and browser regression checks |
@@ -53,6 +49,13 @@
 | [Security maintenance](SECURITY-MAINTENANCE.md) | Dependency audit gate, update automation, code ownership and required-check activation |
 | [Contributing](../CONTRIBUTING.md) | Change and review process |
 | [Changelog](../CHANGELOG.md) | Repository milestones |
+
+<details>
+<summary>Generated lookup tables</summary>
+
+[Component/threat matrix](CONFORMANCE-MATRIX.md) finds requirements by component and links directly to threat rows. [Canonical traceability](../conformance/TRACEABILITY.md) finds mandatory statements, qualified test IDs, and remaining assessment procedures. Start with the assessment guide before using either table.
+
+</details>
 
 ## Evidence and historical records
 
