@@ -12,7 +12,7 @@
 
 **Engineering:** Introduction → [Real local host pilot](../examples/host-integration/README.md) → Getting Started → Architecture → React Components → Review Workflow → Evidence and Memory → Supervision and Recovery → [Requirement traceability](../conformance/TRACEABILITY.md) → Validation → Contributing.
 
-**Security reviewers:** [Threat model](THREAT-MODEL.md) → Architecture → Integration Checklist → Conformance assessment → [Security maintenance](SECURITY-MAINTENANCE.md).
+**Security reviewers:** [Threat model](THREAT-MODEL.md) → [Misrepresentation threats](MISREPRESENTATION-THREATS.md) → [Component/threat conformance view](CONFORMANCE-MATRIX.md) → Architecture → Integration Checklist → Conformance assessment → [Security maintenance](SECURITY-MAINTENANCE.md).
 
 **AI coding agents:** Check the implementation matrix, public exports, source contracts, and [application responsibilities](SCOPE.md#where-the-application-takes-over). Keep generated tokens reproducible and validation claims tied to executed checks. Preserve controller state across showcase navigation and enforce authority in the host application.
 
@@ -32,6 +32,9 @@
 | [Manifesto](MANIFESTO-v0.1.md) | Philosophy and TUN terminology |
 | [Specification](SPECIFICATION-v0.1.md) | Draft behavioral requirements and conformance vocabulary |
 | [Conformance assessment](../conformance/README.md) | Stable rule IDs, executable test mappings, fresh evidence reports and remaining assessment procedures |
+| [Component/threat conformance view](CONFORMANCE-MATRIX.md) | Generated associations using canonical rule IDs, owners and test mappings; reverse lookup by public component |
+| [Misrepresentation threats](MISREPRESENTATION-THREATS.md) | Seven human-understanding failure scenarios, linked to existing STRIDE threats and scoped evidence |
+| [Attachment reconciliation](ATTACHMENT-RECONCILIATION.md) | Review decisions, requirement/threat ID crosswalks and preserved source boundaries for the contributed drafts |
 | [Requirement traceability](../conformance/TRACEABILITY.md) | Generated requirement-to-test matrix and coverage inventory |
 | [Components](COMPONENTS-v0.1.md) | Fourteen design patterns and implementation guidance |
 | [Visual System](DESIGN-TOKENS-AND-VISUAL-SYSTEM-v0.1.md) | Tokens, styling and exporter behavior |
@@ -73,6 +76,8 @@ Read the Introduction for orientation, and Specification and Components for inte
 Current implementation counts and the roadmap matrix are checked against the public exports by [the documentation checker](DOCUMENTATION-CHECKS.md). Use its explicit synchronization command after changing exports; retain historical snapshot counts.
 
 The [conformance manifest](../conformance/spec-v0.1.json) maps mandatory specification statements to stable rule IDs, real test titles and explicit review procedures. Run `python scripts/check_conformance.py` to check traceability and add `--run` to collect fresh mapped-test results. Generated counts live in the traceability matrix rather than repeated prose.
+
+The [component/threat view](CONFORMANCE-MATRIX.md) joins that same manifest with [relations.json](../conformance/relations.json). Relations add component and threat associations, not a second set of requirement text, owners, coverage statuses or test results. `python scripts/conformance.py check` validates the join and generated view; `build` regenerates the view after review.
 
 [Showcase](../examples/react/Showcase.tsx) defines public navigation, [Guided Demo](../examples/react/GuidedDemo.tsx) presents the local model, and [the explorer catalog](../examples/react/showcase-catalog.ts) links actual components. The full technical lab is selected by `?lab=1` in the [application entry](../examples/react/main.tsx).
 

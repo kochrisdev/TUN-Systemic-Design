@@ -4,6 +4,12 @@ Repository milestones and development history. See [Scope and non-claims](docs/S
 
 ## Unreleased
 
+### Contributed threat/conformance reconciliation — September 30, 2026
+
+Integrated the contributed drafts as additive [component/threat relations](conformance/relations.json), a [generated component-first conformance view](docs/CONFORMANCE-MATRIX.md), and a [misrepresentation threat companion](docs/MISREPRESENTATION-THREATS.md). The [reconciliation record](docs/ATTACHMENT-RECONCILIATION.md) identifies the supplied inputs and explains the 49-to-46 clause/sentence crosswalk, legacy threat identifiers, stale evidence statements and retained host/design responsibilities.
+
+The adapted `scripts/conformance.py check/build` interface reuses the existing strict canonical checker and public-export parser, validates actual threat definitions and complete relation coverage, detects generated-view drift and writes only the new view after validation. Added offline regression tests and documentation-CI checks. Canonical requirement IDs, normative text, ownership, coverage, existing test bindings and execution-evidence collection remain unchanged; no source draft is installed verbatim as a competing authority.
+
 ### Governance, citation and related approaches — September 30, 2026
 
 Added [GOVERNANCE.md](GOVERNANCE.md), identifying Christopher Tun as creator and current sole maintainer, with open contributions, recorded decisions, explicit merge/release authority, AI-assistance disclosure and a path to additional maintainers. The README now states the stewardship model without moving the value proposition, diagram or code sample.
