@@ -4,9 +4,15 @@ Repository milestones and development history. See [Scope and non-claims](docs/S
 
 ## Unreleased
 
+### Consolidated threat guidance and decision history — September 30, 2026
+
+Folded the seven `TM-M-*` scenarios into [Threat Model 0.2](docs/THREAT-MODEL.md#41-misrepresentation-and-human-understanding), retaining their meanings, evidence and residual-risk cells. All threat rows now have stable direct anchors in one document. Retired the separate misrepresentation page and moved the reconciliation process record to [ADR 0001](docs/decisions/0001-conformance-attachment-reconciliation.md), preserving the original decisions, full crosswalks and input hashes.
+
+The documentation index leads security reviewers through the threat model, assessment guide and integration checklist; generated matrices are optional lookups and the ADR is not indexed as adopter guidance. Updated the relation checker, generated links and regression fixtures for the single register. Existing requirement IDs, canonical evidence mappings, runtime code, dependencies and workflows are unchanged.
+
 ### Contributed threat/conformance reconciliation — September 30, 2026
 
-Integrated the contributed drafts as additive [component/threat relations](conformance/relations.json), a [generated component-first conformance view](docs/CONFORMANCE-MATRIX.md), and a [misrepresentation threat companion](docs/MISREPRESENTATION-THREATS.md). The [reconciliation record](docs/ATTACHMENT-RECONCILIATION.md) identifies the supplied inputs and explains the 49-to-46 clause/sentence crosswalk, legacy threat identifiers, stale evidence statements and retained host/design responsibilities.
+Integrated the contributed drafts as additive [component/threat relations](conformance/relations.json), a [generated component-first conformance view](docs/CONFORMANCE-MATRIX.md), and a [misrepresentation threat companion](docs/THREAT-MODEL.md#41-misrepresentation-and-human-understanding). The [reconciliation record](docs/decisions/0001-conformance-attachment-reconciliation.md) identifies the supplied inputs and explains the 49-to-46 clause/sentence crosswalk, legacy threat identifiers, stale evidence statements and retained host/design responsibilities.
 
 The adapted `scripts/conformance.py check/build` interface reuses the existing strict canonical checker and public-export parser, validates actual threat definitions and complete relation coverage, detects generated-view drift and writes only the new view after validation. Added offline regression tests and documentation-CI checks. Canonical requirement IDs, normative text, ownership, coverage, existing test bindings and execution-evidence collection remain unchanged; no source draft is installed verbatim as a competing authority.
 

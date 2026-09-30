@@ -1,19 +1,25 @@
-# Contributed threat and conformance drafts: reconciliation record
+# ADR 0001: Reconcile contributed threat and conformance drafts
+
+**Status:** Accepted in [PR #21](https://github.com/kochrisdev/TUN-Systemic-Design/pull/21). **Decision owner:** `@kochrisdev`.
+
+This is a historical architecture decision record, not adopter guidance. The body records the original integration decision and its dated implementation observations. The seven misrepresentation rows now live in the [main threat register](../THREAT-MODEL.md#41-misrepresentation-and-human-understanding); links below follow their current locations.
+
+## Context
 
 **Decision: enrich the existing system; do not replace its canonical rules or evidence checker.** This review incorporates the useful structure from the supplied `THREAT-MODEL.md`, `conformance.py`, `requirements.json` and `CONFORMANCE-MATRIX.md` while preserving established meanings and evidence boundaries.
 
 **Repository baseline:** [64e7ce6](https://github.com/kochrisdev/TUN-Systemic-Design/tree/64e7ce6eb864deac1f0513a5d040a318116c959a). **Reviewed:** September 30, 2026. This is an AI-assisted integration review, not independent security certification. The supplied drafts are identified by their hashes below; their statements are distinguished from this review's decisions.
 
-[Generated view](CONFORMANCE-MATRIX.md) · [Misrepresentation threats](MISREPRESENTATION-THREATS.md) · [Canonical manifest](../conformance/spec-v0.1.json) · [Existing assessment workflow](../conformance/README.md)
+[Generated view](../CONFORMANCE-MATRIX.md) · [Misrepresentation threats](../THREAT-MODEL.md#41-misrepresentation-and-human-understanding) · [Canonical manifest](../../conformance/spec-v0.1.json) · [Existing assessment workflow](../../conformance/README.md)
 
-## What fits
+## Decision
 
 | Supplied material | Contribution retained | Integration decision |
 |---|---|---|
 | Threat model | Human understanding as a protected asset; explicit misrepresentation scenarios; presentation/host/evidence/residual columns; error-boundary guidance | Add the seven stable `TM-M-*` scenarios as a companion to the current STRIDE register. Preserve current `TM-01`–`TM-18` meanings and broader boundaries. |
-| Requirements JSON | Component associations, responsibility vocabulary and threat references | Store reviewed associations in [relations.json](../conformance/relations.json). Obtain complete text, ownership, coverage and file-qualified tests from the existing canonical manifest. Do not maintain a second normative inventory. |
-| Matrix document | A scan-friendly requirement/component/threat table and product-assessment framing | Generate [CONFORMANCE-MATRIX.md](CONFORMANCE-MATRIX.md), with a reverse lookup by component. Include shared P/H ownership and retain D obligations in product review. |
-| Python tool | Offline standard-library `check` and `build` commands | Adapt the interface in [scripts/conformance.py](../scripts/conformance.py), reusing the existing strict conformance and public-export parsers. The existing execution-evidence runner remains untouched. |
+| Requirements JSON | Component associations, responsibility vocabulary and threat references | Store reviewed associations in [relations.json](../../conformance/relations.json). Obtain complete text, ownership, coverage and file-qualified tests from the existing canonical manifest. Do not maintain a second normative inventory. |
+| Matrix document | A scan-friendly requirement/component/threat table and product-assessment framing | Generate [CONFORMANCE-MATRIX.md](../CONFORMANCE-MATRIX.md), with a reverse lookup by component. Include shared P/H ownership and retain D obligations in product review. |
+| Python tool | Offline standard-library `check` and `build` commands | Adapt the interface in [scripts/conformance.py](../../scripts/conformance.py), reusing the existing strict conformance and public-export parsers. The existing execution-evidence runner remains untouched. |
 
 The attachment's `mapped` terminology correctly distinguishes test presence from a passed run. The repository's `partial`/`manual`/`gap` coverage and separately recorded run outcome remain authoritative, however: their scope cannot be inferred from a title-only list or automatically changed by the new view.
 
@@ -61,15 +67,15 @@ The supplied threat draft has **28 rows**: six STRIDE groups plus seven misrepre
 | TM-E-2 | TM-02, TM-07 | Plan review is not blanket action authorization. |
 | TM-E-3 | TM-03, TM-05, TM-14 | Retry, deduplication and unknown original outcomes. |
 | TM-E-4 | TM-17 | Misclassified or misleading consequential controls. |
-| TM-M-1 | TM-06, TM-12 | Retained as [TM-M-1](MISREPRESENTATION-THREATS.md#TM-M-1): full progress is not completion. |
-| TM-M-2 | TM-13 | Retained as [TM-M-2](MISREPRESENTATION-THREATS.md#TM-M-2): stop requested is not stopped. |
-| TM-M-3 | TM-14 | Retained as [TM-M-3](MISREPRESENTATION-THREATS.md#TM-M-3): compensation is not undo. |
-| TM-M-4 | TM-05 | Retained as [TM-M-4](MISREPRESENTATION-THREATS.md#TM-M-4): network failure is not proof of no effect. |
-| TM-M-5 | TM-17 | Retained as [TM-M-5](MISREPRESENTATION-THREATS.md#TM-M-5): color-only meaning. |
-| TM-M-6 | TM-12 | Retained as [TM-M-6](MISREPRESENTATION-THREATS.md#TM-M-6): false precision. |
-| TM-M-7 | TM-03 | Retained as [TM-M-7](MISREPRESENTATION-THREATS.md#TM-M-7): remounts/tabs do not create fresh authority. |
+| TM-M-1 | TM-06, TM-12 | Retained as [TM-M-1](../THREAT-MODEL.md#TM-M-1): full progress is not completion. |
+| TM-M-2 | TM-13 | Retained as [TM-M-2](../THREAT-MODEL.md#TM-M-2): stop requested is not stopped. |
+| TM-M-3 | TM-14 | Retained as [TM-M-3](../THREAT-MODEL.md#TM-M-3): compensation is not undo. |
+| TM-M-4 | TM-05 | Retained as [TM-M-4](../THREAT-MODEL.md#TM-M-4): network failure is not proof of no effect. |
+| TM-M-5 | TM-17 | Retained as [TM-M-5](../THREAT-MODEL.md#TM-M-5): color-only meaning. |
+| TM-M-6 | TM-12 | Retained as [TM-M-6](../THREAT-MODEL.md#TM-M-6): false precision. |
+| TM-M-7 | TM-03 | Retained as [TM-M-7](../THREAT-MODEL.md#TM-M-7): remounts/tabs do not create fresh authority. |
 
-See the complete [current STRIDE register](THREAT-MODEL.md#4-stride-threat-register). Associations in relations.json were reviewed against each rule's full meaning; the draft threat IDs were not translated mechanically and treated as proof.
+See the complete [current STRIDE register](../THREAT-MODEL.md#4-stride-threat-register). Associations in relations.json were reviewed against each rule's full meaning; the draft threat IDs were not translated mechanically and treated as proof.
 
 ## Checker review
 
@@ -83,15 +89,15 @@ The supplied Python script is candid that it checks references rather than execu
 | Reads `TM-[A-Z]-n` occurrences anywhere in the supplied threat document | It does not recognize current sequential IDs and a mere mention can count as a threat. | Resolve actual table definitions in the fixed primary/companion documents; reject missing/duplicate definitions and invalid anchors. |
 | Uses `json.loads` defaults and required-key indexing | Duplicate object keys are silently replaced, and malformed structures can raise an uncaught exception. | Reuse duplicate-key rejection and exact-shape validation; reject stale/unknown IDs and component exports with a failing exit. |
 
-The adapted tool does not add another test runner or redefine a passing rule. `python scripts/check_conformance.py --run` remains the fresh Vitest collector. Badge and host tests retain their separate reports, as described in [badge accessibility](BADGE-ACCESSIBILITY.md) and the [host evidence map](../examples/host-integration/TRACEABILITY.md).
+The adapted tool does not add another test runner or redefine a passing rule. `python scripts/check_conformance.py --run` remains the fresh Vitest collector. Badge and host tests retain their separate reports, as described in [badge accessibility](../BADGE-ACCESSIBILITY.md) and the [host evidence map](../../examples/host-integration/TRACEABILITY.md).
 
 ## Statements reconciled rather than copied
 
 **Design/product requirements are not automatically exempt.** The attachment labels seven D rows `n/a` and its declaration instructions focus on P/H rows. The current assessment process includes every applicable rule, including product review and the declaration itself. Lack of a code artifact is not non-applicability, and an exception does not make an unmet applicable MUST pass.
 
-**Some stated gaps have already been addressed.** The draft calls the badge assertion unmapped, describes multi-tab deduplication as only planned, and says no conformance connection exists. Current source includes [badge regressions](BADGE-ACCESSIBILITY.md), a [real local host pilot](../examples/host-integration/README.md), and [canonical traceability](../conformance/README.md). These have different evidence scopes; none is silently converted into a product-wide pass.
+**Some stated gaps have already been addressed.** The draft calls the badge assertion unmapped, describes multi-tab deduplication as only planned, and says no conformance connection exists. Current source includes [badge regressions](../BADGE-ACCESSIBILITY.md), a [real local host pilot](../../examples/host-integration/README.md), and [canonical traceability](../../conformance/README.md). These have different evidence scopes; none is silently converted into a product-wide pass.
 
-**Security housekeeping is not absent.** The draft's table says audit never fails and ownership/reporting guidance is missing. Current source has an explicit blocking [audit policy](SECURITY-MAINTENANCE.md), [CODEOWNERS](../.github/CODEOWNERS), [Dependabot configuration](../.github/dependabot.yml) and [SECURITY.md](../SECURITY.md). Actual private-reporting and required-check activation remain owner settings; this review does not change or infer their live state.
+**Security housekeeping is not absent.** The draft's table says audit never fails and ownership/reporting guidance is missing. Current source has an explicit blocking [audit policy](../SECURITY-MAINTENANCE.md), [CODEOWNERS](../../.github/CODEOWNERS), [Dependabot configuration](../../.github/dependabot.yml) and [SECURITY.md](../../SECURITY.md). Actual private-reporting and required-check activation remain owner settings; this review does not change or infer their live state.
 
 **Runtime schemas do not replace authorization or every semantic helper.** Arbitrary malformed nested JSON may still throw before a typed helper reaches a fail-closed label. The broad claim that all contracts fail closed is therefore not adopted. The draft-schema branch is not credited as merged input protection. The new companion carries forward isolated error-fallback guidance without promising a working stop service after a render crash.
 
@@ -99,7 +105,7 @@ The adapted tool does not add another test runner or redefine a passing rule. `p
 
 **New policy ideas remain proposals.** Expiry linting for C3/C4, generic-label deny-lists, typed confirmation and tighter recovery classification require separate specification/API review. No new normative requirements or runtime behavior are introduced by this reconciliation.
 
-## Maintenance boundary
+## Consequences and maintenance
 
 Edit canonical rule text/strength/owner/test mappings only in the existing manifest through its review process. Edit component/threat associations in relations.json and run the new check/build commands. A new canonical rule needs an explicit relation row; a removed component or threat makes stale references fail. A D requirement remains in the generated view and the adopter's assessment packet.
 
