@@ -4,6 +4,14 @@ Repository milestones and development history. See [Scope and non-claims](docs/S
 
 ## Unreleased
 
+### Governance, citation and related approaches — September 30, 2026
+
+Added [GOVERNANCE.md](GOVERNANCE.md), identifying Christopher Tun as creator and current sole maintainer, with open contributions, recorded decisions, explicit merge/release authority, AI-assistance disclosure and a path to additional maintainers. The README now states the stewardship model without moving the value proposition, diagram or code sample.
+
+Added root [CITATION.cff](CITATION.cff) for the framework and reference implementation, with exact-revision citation guidance in governance. No DOI, paper, release date or published package version is invented. The existing CC0-1.0 license is unchanged.
+
+Added [TUN and existing approaches](docs/EXISTING-APPROACHES.md), a short, primary-source comparison with Jakob Nielsen's agentic UX guidance, Anthropic's agent architecture guidance, OpenAI's agent/UI guidance and Microsoft HAX. It explains overlap and composition without claiming endorsement, superiority or untested SDK compatibility. Contribution guidance and the documentation index link the new materials. No runtime, dependency, workflow, deployment, or repository-access setting changes.
+
 ### Server-backed adoption pilot — September 30, 2026
 
 Added [examples/host-integration](examples/host-integration/README.md): an actual Python HTTP host with local bearer principals, server-owned grants and immutable proposals, durable operation/event records, and a separate local sandbox-provider database. Authorization, dispatch and verification are separate transitions; the browser cannot construct a receipt from a successful callback. A matching server readback is required. The provider makes real local writes but contacts no external service.

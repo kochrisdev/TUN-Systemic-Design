@@ -1,0 +1,27 @@
+cff-version: "1.2.0"
+message: >-
+  Please cite TUN Systemic Design using this metadata when using the framework,
+  documentation, or reference implementation. Include the exact repository
+  commit, document or package scope, and access date; see GOVERNANCE.md.
+type: software
+title: "TUN Systemic Design"
+authors:
+  - family-names: "Tun"
+    given-names: "Christopher"
+    website: "https://github.com/kochrisdev"
+repository-code: "https://github.com/kochrisdev/TUN-Systemic-Design"
+url: "https://github.com/kochrisdev/TUN-Systemic-Design"
+abstract: >-
+  A design framework and reference implementation for human-AI products.
+  TUN connects explicit intent, visible context, version-bound approval,
+  application-owned authorization, execution, verification, and recovery
+  through behavioral guidance, React components, requirement traceability,
+  and a runnable local host-integration example.
+keywords:
+  - design systems
+  - human-AI interaction
+  - agent interfaces
+  - approval workflows
+  - verification
+  - conformance
+license: "CC0-1.0"

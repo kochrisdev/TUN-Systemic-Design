@@ -1,8 +1,10 @@
 # Contributing to TUN Systemic Design
 
-[Documentation index](docs/README.md) · [Getting started](docs/GETTING-STARTED.md) · [Status and roadmap](docs/STATUS-AND-ROADMAP.md)
+[Documentation index](docs/README.md) · [Getting started](docs/GETTING-STARTED.md) · [Status and roadmap](docs/STATUS-AND-ROADMAP.md) · [Governance](GOVERNANCE.md)
 
 TUN is a draft design framework and reference implementation. Contributions should preserve human intent, visible agency, explicit authority, honest uncertainty, recoverability, and calm interaction.
+
+The [governance model](GOVERNANCE.md) identifies the current maintainer, decision process, review expectations, attribution and succession. Contributions are welcome; merge and release authority are explicit rather than inferred from activity counts.
 
 ## Before editing
 
@@ -53,4 +55,4 @@ Use repository issues for non-sensitive documentation defects, reproducible bugs
 
 ## Scope of automation
 
-AI-assisted changes receive the same review as human-authored changes. An agent may propose an implementation; it must not invent permissions, test results, citations, or release status. Keep execution, approval, verification, and recovery separate throughout examples and documentation.
+AI-assisted changes receive the same review as human-authored changes. Identify material AI assistance and the validation performed in the PR; AI output and passing checks are not independent human review. An agent may propose an implementation; it must not invent permissions, test results, citations, or release status. Keep execution, approval, verification, and recovery separate throughout examples and documentation.
