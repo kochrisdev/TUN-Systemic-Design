@@ -44,6 +44,8 @@ The gate shows the actor, target, effect, and recovery limits, then emits `{ pro
 
 **Try it:** [Guided demo](https://tun-systemic-design-demo.vercel.app/#demo) · [14-component explorer](https://tun-systemic-design-demo.vercel.app/#components) · [Trust & Control Lab](https://tun-systemic-design-demo.vercel.app/#trust)
 
+**Integrate a real host:** [Run the local Python/SQLite pilot](examples/host-integration/README.md) — real authorization and durable effects; no success receipt until server readback verifies the result.
+
 **Start here:** [Introduction for everyone](docs/INTRODUCTION.md) · [Install and run](docs/GETTING-STARTED.md) · [Approval Gate API](docs/REACT-COMPONENTS-v0.1.md#6-approval-gate)
 
 **Design and integrate:** [Specification](docs/SPECIFICATION-v0.1.md) · [Visual system](docs/DESIGN-TOKENS-AND-VISUAL-SYSTEM-v0.1.md) · [Architecture](docs/ARCHITECTURE.md) · [Integration checklist](docs/INTEGRATION-CHECKLIST.md) · [Threat model](docs/THREAT-MODEL.md)

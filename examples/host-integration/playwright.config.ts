@@ -13,5 +13,5 @@ export default defineConfig({
     cwd: fileURLToPath(new URL('../..', import.meta.url)),
     url: 'http://127.0.0.1:4180/health', reuseExistingServer: false,
   },
-  reporter: [['list'], ['json', { outputFile: 'artifacts/host-browser-results.json' }]],
+  reporter: [['list'], ['json', { outputFile: fileURLToPath(new URL('../../artifacts/host-browser-results.json', import.meta.url)) }]],
 });
