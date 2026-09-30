@@ -28,3 +28,7 @@ jobs:
         run: python3 -m unittest discover -s tests -p 'test_conformance.py' -v
       - name: Test dependency audit failure policy and security configuration
         run: python3 -m unittest discover -s tests -p 'test_security.py' -v
+      - name: Check component and threat conformance relations
+        run: python3 scripts/conformance.py check
+      - name: Test component and threat conformance relations
+        run: python3 -m unittest discover -s tests -p 'test_conformance_relations.py' -v
