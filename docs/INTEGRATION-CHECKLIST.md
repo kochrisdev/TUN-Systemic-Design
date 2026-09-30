@@ -32,6 +32,16 @@ A rejected callback can mean an acknowledgement was lost after execution. Query 
 
 The current gate disables both decision controls for invalid or expired reviews. Provide a separate safe dismissal/escalation path where needed. Rejection is not cancellation of work already in flight. HumanOverride now provides a reference request interface; actual cancellation and verification remain host responsibilities.
 
+## Degraded UI and error recovery
+
+Validate unknown records and bound input sizes before passing them to typed components. An error boundary is a last-resort rendering safeguard, not a runtime schema or permission check. Isolate failure-prone TUN regions so a minimal host-owned status and escalation path remains available outside the failed subtree. Build that fallback from trusted run identifiers and validated server observations, not from the record that crashed rendering.
+
+If current status cannot be obtained, show **Status unavailable — outcome unknown**, retain the last observation with its timestamp where authorized, and offer inspection or escalation. Offer a stop request only through an independently functioning, authorized host control path; do not promise confirmed stoppage or fabricate a replacement control from invalid data. Reloading, dismissing an error, or remounting a component must not clear the durable operation or retry its effect.
+
+Handle request/async failures separately: React's [error-boundary guidance](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary) distinguishes caught rendering errors from event handlers and general asynchronous code. Sanitize telemetry; do not log raw records or credentials.
+
+Test a render exception during pending/unknown work, a failed status request, and recovery through remount/reconnect. Verify accessible fallback focus, truthful outcome text, retained run identity, and no repeated effect. This is host implementation guidance for [TM-08](THREAT-MODEL.md#TM-08) and [TM-16](THREAT-MODEL.md#TM-16), not a newly supplied boundary component or a claimed completed acceptance test.
+
 ## Privacy and memory review
 
 Specify retention separately for session context, reusable user memory, operational state, logs, analytics, backups, and training data. Explain deletion limits without promising deletion that has not occurred. Show only authorized evidence to the client; a collapsed panel is not an access-control mechanism.
@@ -55,6 +65,8 @@ Record source SHA, dependency/toolchain versions, commands, test counts, skipped
 ## Threat-model review
 
 Use the [STRIDE threat register](THREAT-MODEL.md#4-stride-threat-register) to identify applicable assets, boundaries and failure scenarios. Assign a service owner to each relevant threat and execute the [adopter acceptance scenarios](THREAT-MODEL.md#7-adopter-acceptance-scenarios), including concurrent replay, lost acknowledgements, revocation races, tenant isolation and worker stopping. Record the threat ID, linked SPEC IDs, evidence, residual risk and approver in the [review packet](THREAT-MODEL.md#8-review-packet-and-residual-risk-decisions). Keep proposed integration tests separate from existing local component/model evidence.
+
+Review the [misrepresentation scenarios](THREAT-MODEL.md#misrepresentation) with users: a full counter is not completion, acknowledgement is not stoppage, compensation is not undo, and an unavailable response is not proof of no effect. Preserve descriptive badge text in custom themes. Evaluate bounded approval expiry and actual restoration evidence for C3/C4 operations; a universal expiry/category lint rule remains a [proposal](THREAT-MODEL-REVIEW.md#structural-recommendations), not an added specification obligation.
 
 ## Decision record
 
