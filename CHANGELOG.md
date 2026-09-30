@@ -4,6 +4,12 @@ Repository milestones and development history. See [Scope and non-claims](docs/S
 
 ## Unreleased
 
+### Threat-model review incorporation — September 30, 2026
+
+Incorporated the supplied threat-model draft into [revision 0.2](docs/THREAT-MODEL.md): human understanding, authorization integrity, outcome truth, recovery correctness, context/memory transparency and control efficacy are explicit protected assets. Added the seven submitted misrepresentation scenarios with presentation safeguards, host controls, existing evidence and residual risk, while retaining TM-01–TM-18, B1–B6, AT-01–AT-12 and existing section links.
+
+The [incorporation record](docs/THREAT-MODEL-REVIEW.md) maps all 28 submitted IDs and records source-to-repository reconciliation. It updates stale URL, restricted-context, badge, host-pilot and security-housekeeping claims; separates a TUN-specific M lens from standard STRIDE; and retains runtime schemas and consequence linting as explicit follow-up proposals. Added host-owned degraded-UI/error-boundary guidance and comprehension checks to the integration checklist. No runtime code, normative specification, conformance mapping, dependencies, workflows, release or live administration settings changed.
+
 ### Governance, citation and related approaches — September 30, 2026
 
 Added [GOVERNANCE.md](GOVERNANCE.md), identifying Christopher Tun as creator and current sole maintainer, with open contributions, recorded decisions, explicit merge/release authority, AI-assistance disclosure and a path to additional maintainers. The README now states the stewardship model without moving the value proposition, diagram or code sample.
