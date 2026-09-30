@@ -6,6 +6,8 @@
 
 **New visitors:** [An Introduction to TUN Systemic Design](INTRODUCTION.md) → Public Showcase → Guided Demo → Component Explorer → Concept Note.
 
+**Positioning and stewardship:** [TUN and existing approaches](EXISTING-APPROACHES.md) → [Governance](../GOVERNANCE.md) → [Citation metadata](../CITATION.cff).
+
 **Product and design:** Introduction → Concept Note → Manifesto → Specification → Components → Visual System → Integration Checklist → [Conformance assessment](../conformance/README.md).
 
 **Engineering:** Introduction → [Real local host pilot](../examples/host-integration/README.md) → Getting Started → Architecture → React Components → Review Workflow → Evidence and Memory → Supervision and Recovery → [Requirement traceability](../conformance/TRACEABILITY.md) → Validation → Contributing.
@@ -19,6 +21,9 @@
 | Document | Role |
 |---|---|
 | [An Introduction to TUN Systemic Design](INTRODUCTION.md) | Shared starting point for developers and non-developers: concepts, examples, components and adoption |
+| [TUN and existing approaches](EXISTING-APPROACHES.md) | A sourced comparison with Nielsen, Anthropic, OpenAI and Microsoft HAX guidance |
+| [Governance](../GOVERNANCE.md) | Founder-led stewardship, decision authority, contribution credit and succession |
+| [Citation metadata](../CITATION.cff) | Machine-readable framework/reference-implementation attribution; cite the exact revision |
 | [Scope and non-claims](SCOPE.md) | Central reference for application responsibilities, demo boundaries, validation coverage, release status and conformance |
 | [Real host integration](../examples/host-integration/README.md) | Python HTTP authorization, durable SQLite effects, separate server verification and end-to-end tests |
 | [Host evidence map](../examples/host-integration/TRACEABILITY.md) | Threat/specification links to local HTTP, persistence, concurrency and browser evidence |
