@@ -15,3 +15,6 @@ examples/host-integration/.data/
 # Python local-host bytecode.
 __pycache__/
 *.py[cod]
+
+# Personal Claude Code overrides.
+.claude/settings.local.json
