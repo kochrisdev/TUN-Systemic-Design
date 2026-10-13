@@ -80,7 +80,11 @@ Declared React/React DOM peer range remains >=19.2.0 <20. The isolated test targ
 
 Empty or over-limit input is blocked. Length uses JavaScript string code units, not grapheme clusters; UI wording currently calls these characters. Invalid maxLength uses 4000. Submission trims outside whitespace without clearing the host value. The lab overrides submitLabel to Prepare plan.
 
+Visible guidance explains empty/whitespace-only and over-limit values and is associated with both the text field and submit button. A controlled value that exceeds a reduced limit remains editable so the user can shorten it. Validation feedback is separate from submission status, preserving an unconfirmed-outcome warning while the input changes. A disabled composer without another status or supplied `blockedReason` displays a generic unavailable message; provide `blockedReason` when the host can explain the cause.
+
 Enter inserts a line; Ctrl/Command + Enter submits except during IME composition. A synchronous latch blocks duplicate in-flight submissions in the mounted instance. Rejected callbacks show sanitized unconfirmed outcomes; the composer then unlocks, so the host must reconcile and deduplicate before retrying effectful work. This is not durable idempotency or the stricter approval latch.
+
+Composition lifecycle events and IME key code 229 also suppress the shortcut when a key event does not report `isComposing`. Holding the shortcut does not resubmit after a callback completes; a fresh key press is required.
 
 Local-only example:
 

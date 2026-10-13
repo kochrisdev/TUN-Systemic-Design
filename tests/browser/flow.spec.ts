@@ -10,6 +10,19 @@ async function openReview(page: Page) {
   await page.getByRole('button', { name: 'Review action', exact: true }).click();
 }
 test.beforeEach(async ({ page }) => { await page.goto('/?lab=1'); });
+test('composer explains blank input and prepares a plan with the keyboard', async ({ page }) => {
+  const input = page.getByRole('textbox');
+  const submit = page.getByRole('button', { name: 'Prepare plan', exact: true });
+  await input.fill('   ');
+  await expect(submit).toBeDisabled();
+  await expect(input).toHaveAccessibleDescription(/Whitespace alone is not enough/);
+  await input.fill('Prepare an update for review');
+  await expect(submit).toBeEnabled();
+  await expect(input).not.toHaveAccessibleDescription(/Enter a request/);
+  await input.press('Control+Enter');
+  await expect(page.getByRole('button', { name: 'Review approach', exact: true })).toBeEnabled();
+  await expect(page.getByText('No action receipt.')).toBeVisible();
+});
 test('approval produces only a simulated verified receipt', async ({ page }) => {
   await expect(page.getByText('Local simulation only.')).toBeVisible();
   await openReview(page);
