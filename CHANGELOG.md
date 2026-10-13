@@ -4,6 +4,12 @@ Repository milestones and development history. See [Scope and non-claims](docs/S
 
 ## Unreleased
 
+### Source-map dependency security fix — October 13, 2026
+
+Updated the locked development dependency `source-map-js` from 1.2.1 to 1.2.2 for [GHSA-68fv-2mgg-jv7q](https://github.com/advisories/GHSA-68fv-2mgg-jv7q), affecting indexed source-map offsets. PostCSS already permits the patched version; manifest ranges and audit policy are unchanged. Added PostCSS regressions for oversized, nested, string and fractional offsets through previous maps and inline annotations, with valid flat/indexed map controls. The eight unsafe-input assertions fail on 1.2.1 and all ten tests pass on 1.2.2.
+
+Validation on October 13, 2026 (Node 22.23.2, npm 12.2.0): a clean locked install preserved `package-lock.json`; `python scripts/audit_dependencies.py` reported zero findings and exit code 0 for both full and runtime graphs. Timestamped raw reports and the aggregate summary are generated under ignored `artifacts/` and retained by CI. This finding concerns the build dependency graph; no remotely exploitable application path is claimed.
+
 ### Intent Composer feedback and keyboard handling — October 13, 2026
 
 Added visible, accessible explanations for blank and over-limit intent text, plus a fallback explanation when preparation is disabled. Validation stays separate from submission status so editing does not erase an unconfirmed-outcome warning. Keyboard submission now tracks composition events, handles IME key code 229, and ignores repeated shortcut keydowns after a request completes. Props, length counting, and host authorization responsibilities are unchanged. Added component regressions and a browser keyboard journey; updated the React API guide.
