@@ -63,6 +63,74 @@ describe('IntentComposer', () => {
     render(<><IntentComposer {...props} /><IntentComposer {...props} /></>);
     const inputs = screen.getAllByRole('textbox'); expect(inputs[0].id).not.toBe(inputs[1].id);
   });
+  it('explains blank input and removes the guidance when text is entered', async () => {
+    const submit = vi.fn(); composer(submit, '   ');
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveAccessibleDescription(/Whitespace alone is not enough/);
+    expect(screen.getByRole('button')).toHaveAccessibleDescription(/Enter a request/);
+    fireEvent.submit(input.closest('form')!);
+    expect(submit).not.toHaveBeenCalled();
+    await userEvent.type(input, 'Draft');
+    expect(input).not.toHaveAccessibleDescription(/Enter a request/);
+    expect(screen.getByRole('button')).toBeEnabled();
+  });
+  it('explains a reduced length limit and lets the user correct the existing value', async () => {
+    const submit = vi.fn();
+    function Harness({ limit }: { limit: number }) {
+      const [value, setValue] = useState('Draft');
+      return <IntentComposer value={value} onValueChange={setValue} onSubmit={submit} scope="Draft only" maxLength={limit} />;
+    }
+    const { rerender } = render(<Harness limit={10} />);
+    rerender(<Harness limit={4} />);
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveAttribute('aria-invalid', 'true');
+    expect(input).toHaveAccessibleDescription(/over the 4-character limit/);
+    expect(screen.getByRole('button')).toBeDisabled();
+    fireEvent.submit(input.closest('form')!);
+    expect(submit).not.toHaveBeenCalled();
+    await userEvent.clear(input);
+    await userEvent.type(input, 'Plan');
+    expect(input).not.toHaveAttribute('aria-invalid');
+    expect(input).not.toHaveAccessibleDescription(/over the/);
+    await userEvent.click(screen.getByRole('button'));
+    expect(submit).toHaveBeenCalledWith('Plan');
+  });
+  it('keeps unconfirmed outcome guidance visible alongside validation feedback', async () => {
+    composer(async () => { throw new Error('private details'); }, 'Draft');
+    await userEvent.click(screen.getByRole('button'));
+    await userEvent.clear(screen.getByRole('textbox'));
+    expect(screen.getByRole('textbox')).toHaveAccessibleDescription(/Enter a request.*Submission was not confirmed/);
+  });
+  it('describes disabled preparation and gives a supplied blocker priority', () => {
+    const props = { value: 'Draft', onValueChange: vi.fn(), onSubmit: vi.fn(), scope: 'Draft only', disabled: true };
+    const { rerender } = render(<IntentComposer {...props} />);
+    expect(screen.getByRole('button')).toHaveAccessibleDescription(/Request preparation is unavailable/);
+    rerender(<IntentComposer {...props} blockedReason="Connect to the host first." />);
+    expect(screen.getByRole('button')).toHaveAccessibleDescription('Connect to the host first.');
+  });
+  it('tracks composition even when a key event omits isComposing', async () => {
+    const submit = vi.fn(); composer(submit, 'Draft');
+    const input = screen.getByRole('textbox');
+    fireEvent.compositionStart(input);
+    fireEvent.keyDown(input, { key: 'Enter', metaKey: true });
+    expect(submit).not.toHaveBeenCalled();
+    fireEvent.compositionEnd(input);
+    fireEvent.keyDown(input, { key: 'Enter', metaKey: true });
+    await waitFor(() => expect(submit).toHaveBeenCalledTimes(1));
+  });
+  it('ignores IME key code 229 when composition has already ended', () => {
+    const submit = vi.fn(); composer(submit, 'Draft');
+    fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter', ctrlKey: true, keyCode: 229 });
+    expect(submit).not.toHaveBeenCalled();
+  });
+  it('does not resubmit a completed request when the shortcut key repeats', async () => {
+    const submit = vi.fn(); composer(submit, 'Draft');
+    const input = screen.getByRole('textbox');
+    fireEvent.keyDown(input, { key: 'Enter', ctrlKey: true });
+    await waitFor(() => expect(screen.getByRole('button')).toBeEnabled());
+    fireEvent.keyDown(input, { key: 'Enter', ctrlKey: true, repeat: true });
+    expect(submit).toHaveBeenCalledTimes(1);
+  });
 });
 describe('AgentCard', () => {
   it('separates capability from permission', () => {

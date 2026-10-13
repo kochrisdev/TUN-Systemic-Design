@@ -4,6 +4,10 @@ Repository milestones and development history. See [Scope and non-claims](docs/S
 
 ## Unreleased
 
+### Intent Composer feedback and keyboard handling — October 13, 2026
+
+Added visible, accessible explanations for blank and over-limit intent text, plus a fallback explanation when preparation is disabled. Validation stays separate from submission status so editing does not erase an unconfirmed-outcome warning. Keyboard submission now tracks composition events, handles IME key code 229, and ignores repeated shortcut keydowns after a request completes. Props, length counting, and host authorization responsibilities are unchanged. Added component regressions and a browser keyboard journey; updated the React API guide.
+
 ### Consolidated threat guidance and decision history — September 30, 2026
 
 Folded the seven `TM-M-*` scenarios into [Threat Model 0.2](docs/THREAT-MODEL.md#41-misrepresentation-and-human-understanding), retaining their meanings, evidence and residual-risk cells. All threat rows now have stable direct anchors in one document. Retired the separate misrepresentation page and moved the reconciliation process record to [ADR 0001](docs/decisions/0001-conformance-attachment-reconciliation.md), preserving the original decisions, full crosswalks and input hashes.
